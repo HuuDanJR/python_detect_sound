@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "551431577143",
+    "firebase_url": "https://toilet-info-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "toilet-info",
+    "storage_bucket": "toilet-info.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:551431577143:android:5aee9625784e48ca7669b2",
+        "android_client_info": {
+          "package_name": "com.example.toilet_info_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "551431577143-ur2olcr0t51j7shj3l13rl7f7duqsqt9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDe9Fdxa2hWD6_Dfd4cFSKQGPt-6S3j_xY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "551431577143-ur2olcr0t51j7shj3l13rl7f7duqsqt9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "551431577143-30f4qt3l9rgi1ob62quo2oh5iaidt90e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.toiletInfoAdmin.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
