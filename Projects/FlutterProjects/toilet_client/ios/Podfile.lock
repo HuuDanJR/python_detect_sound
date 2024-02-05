@@ -25,6 +25,9 @@ PODS:
     - leveldb-library (~> 1.22)
   - FirebaseSharedSwift (10.19.0)
   - Flutter (1.0.0)
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
   - GoogleUtilities/Environment (7.12.0):
     - PromisesObjC (< 3.0, >= 1.2)
   - GoogleUtilities/Logger (7.12.0):
@@ -35,12 +38,16 @@ PODS:
     - Flutter
     - FlutterMacOS
   - PromisesObjC (2.3.1)
+  - sqflite (0.0.3):
+    - Flutter
+    - FMDB (>= 2.7.5)
 
 DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - Flutter (from `Flutter`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+  - sqflite (from `.symlinks/plugins/sqflite/ios`)
 
 SPEC REPOS:
   trunk:
@@ -50,6 +57,7 @@ SPEC REPOS:
     - FirebaseCoreInternal
     - FirebaseDatabase
     - FirebaseSharedSwift
+    - FMDB
     - GoogleUtilities
     - leveldb-library
     - PromisesObjC
@@ -63,6 +71,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
+  sqflite:
+    :path: ".symlinks/plugins/sqflite/ios"
 
 SPEC CHECKSUMS:
   Firebase: 414ad272f8d02dfbf12662a9d43f4bba9bec2a06
@@ -74,10 +84,12 @@ SPEC CHECKSUMS:
   FirebaseDatabase: ac770bf7525ff0340b105166037036c0e46c2c7e
   FirebaseSharedSwift: f34eeb7d3ea87a34497629b6ca41657beadef76a
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GoogleUtilities: 0759d1a57ebb953965c2dfe0ba4c82e95ccc2e34
   leveldb-library: f03246171cce0484482ec291f88b6d563699ee06
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
+  sqflite: 50a33e1d72bd59ee092a519a35d107502757ebed
 
 PODFILE CHECKSUM: 70d9d25280d0dd177a5f637cdb0f0b0b12c6a189
 

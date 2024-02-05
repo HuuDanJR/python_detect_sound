@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toilet_client/animation/background_animation.dart';
 import 'package:toilet_client/utils/mycolors.dart';
 import 'package:toilet_client/utils/padding.dart';
 import 'package:toilet_client/utils/text.dart';
@@ -81,15 +82,29 @@ Widget tempItem({height, width, tempurature, humid}) {
   );
 }
 
-Widget mainItem({width, height, width_item, height_item, padding_item,isUseMen1,isUseMen2,isUseWoman1}) {
+Widget mainItem(
+    {width,
+    height,
+    width_item,
+    height_item,
+    padding_item,
+    isUseMen1,
+    isUseMen2,
+    isUseWoman1}) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
-      Container(
+      AnimatedGradient(
         width: width / 2,
         height: height * 4 / 5,
-        color: MyColor.blueBG,
-        child: Column(
+        colorList: [
+          MyColor.blueBG,
+          MyColor.blueBG2,
+          MyColor.blueBG3,
+          MyColor.blueBG4,
+          MyColor.blueBG5,
+        ],
+        widget: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -114,12 +129,22 @@ Widget mainItem({width, height, width_item, height_item, padding_item,isUseMen1,
             )
           ],
         ),
+        // ),
       ),
-      Container(
+      AnimatedGradient(
         width: width / 2,
         height: height * 4 / 5,
-        color: MyColor.pinkBG,
-        child: Column(
+        colorList: [
+          MyColor.pinkBG,
+          MyColor.pinkBG2,
+          MyColor.pinkBG3,
+          MyColor.pinkBG4,
+          MyColor.pinkBG5,
+         
+       
+        ],
+        widget:
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -161,9 +186,10 @@ Widget toiletItem({isUsed}) {
                   top: PaddingDefault.pading08,
                   child: Image.asset(
                       isUsed == null
-                          ? 'assets/information.png' : isUsed == false
-                          ? 'assets/check.png'
-                          : "assets/check2.png",
+                          ? 'assets/information.png'
+                          : isUsed == false
+                              ? 'assets/check.png'
+                              : "assets/check2.png",
                       width: 42.5,
                       height: 42.5)),
               Image.asset(isUsed == false

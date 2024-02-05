@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:toilet_client/api/my_api_service.dart';
-
 import 'package:toilet_client/getx/my_getx_controller.dart';
+import 'package:toilet_client/utils/button_close.dart';
 import 'package:toilet_client/utils/button_deboucer.dart';
-import 'package:toilet_client/utils/dialog_loading.dart';
 import 'package:toilet_client/utils/dialog_sucess.dart';
 import 'package:toilet_client/utils/dialog_waiting.dart';
 import 'package:toilet_client/utils/function.dart';
@@ -12,7 +11,6 @@ import 'package:toilet_client/utils/mycolors.dart';
 import 'package:toilet_client/utils/padding.dart';
 import 'package:toilet_client/utils/text.dart';
 import 'package:toilet_client/widget/button.dart';
-import 'package:toilet_client/widget/button_custom.dart';
 import 'package:toilet_client/widget/custom_snackbar.dart';
 
 class DialogPage extends StatefulWidget {
@@ -26,14 +24,13 @@ class _DialogPageState extends State<DialogPage> {
   final controller_getx = Get.put(MyGetXController());
   final MyAPIService service_api = MyAPIService();
   bool isShowDialog = false;
-  final _debouncer =
-      Debouncer(milliseconds: 500, delay: Duration(milliseconds: 500));
+  final _debouncer = Debouncer(milliseconds: 500, delay: const Duration(milliseconds: 500));
 
   @override
   void initState() {
     controller_getx.startCountdown(() {
       print('count down finished! - INIT ');
-      // createFBAPIs(context: context, controller: controller_getx);
+      createFBAPIs(context: context, controller: controller_getx);
     });
     super.initState();
   }
@@ -69,13 +66,13 @@ class _DialogPageState extends State<DialogPage> {
         controller!.resetForm();
       }
     }).whenComplete(() {
-      // serviceApi.sendNotification(
-      //     registrationToken:"dYJY5dTjE0Ujg1t6vVvjNT:APA91bHiFJaOHpmmQ1-QJWnj1vZUHlep1DAqvpOvBwTsG-Iv_A2dpS44U8Y5gASgqLTbw-HgWNviVjnLuWdVa5JXM_JFEK3LoOegJRnICg5sG8NRe-xTf5omGkNgwKaVUCJLfcr8MXs6",
-      //     title: 'New feedback has arrived',
-      // body: getRandomString(),
-      //     body: 'Kindly review and process the feedback. Thank you 👉👌',
-      //     star: '${controller.starCount.value}' ?? 0,
-      //     feedback: removeDuplicates(controller.selectedItemNames.value));
+      serviceApi.sendNotification(
+          registrationToken:"dYJY5dTjE0Ujg1t6vVvjNT:APA91bHiFJaOHpmmQ1-QJWnj1vZUHlep1DAqvpOvBwTsG-Iv_A2dpS44U8Y5gASgqLTbw-HgWNviVjnLuWdVa5JXM_JFEK3LoOegJRnICg5sG8NRe-xTf5omGkNgwKaVUCJLfcr8MXs6",
+          title: 'New feedback has arrived',
+          body: getRandomString(),
+          // body: 'Kindly review and process the feedback. Thank you 👉👌',
+          star: '${controller.starCount.value}' ?? 0,
+          feedback: removeDuplicates(controller.selectedItemNames.value));
       // when complete then create notification
       controller!.resetForm();
     });
@@ -123,18 +120,17 @@ class _DialogPageState extends State<DialogPage> {
                     // var item = controller_getx.items[index];
                     return GestureDetector(
                         onTap: () {
-                          print(
-                              'ontap $index ${controller_getx.items[index].name} ${controller_getx.items[index].isSelect} ');
+                          print('ontap $index ${controller_getx.items[index].name} ${controller_getx.items[index].isSelect} ');
                           controller_getx.toggleSelection(
                               index: index,
                               function: () {
                                 print('reach 0 - reset count down  = 0 ');
-                                // createFBAPIs(
-                                //     function: () {
-                                //       print('function button submit evoke');
-                                //     },
-                                //     context: context,
-                                //     controller: controller_getx);
+                                createFBAPIs(
+                                    function: () {
+                                      print('function button submit evoke');
+                                    },
+                                    context: context,
+                                    controller: controller_getx);
                               });
                         },
                         child: Column(
@@ -166,8 +162,7 @@ class _DialogPageState extends State<DialogPage> {
                                   width: 100.0,
                                   decoration: BoxDecoration(
                                       image: DecorationImage(
-                                          image: AssetImage(controller_getx
-                                              .items[index].image),
+                                          image: AssetImage(controller_getx.items[index].image),
                                           fit: BoxFit.contain,
                                           filterQuality: FilterQuality.high)),
                                 ),
@@ -204,7 +199,7 @@ class _DialogPageState extends State<DialogPage> {
                               controller: controller,
                               function: () {
                                 print('function button submit evoke');
-                          });
+                              });
                         } catch (e) {
                           print(e);
                         }
@@ -233,23 +228,7 @@ class _DialogPageState extends State<DialogPage> {
                 print('close');
                 controller_getx.resetForm();
               },
-              child: Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: PaddingDefault.padding24,
-                      vertical: PaddingDefault.pading08),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(PaddingDefault.padding32),
-                      bottomLeft: Radius.circular(PaddingDefault.padding32),
-                    ),
-                    color: MyColor.red,
-                  ),
-                  child: text_custom(
-                      text: "CLOSE",
-                      color: MyColor.white,
-                      weight: FontWeight.bold,
-                      size: TextSizeDefault.text16)),
+              child: buttonClose()
             )),
       ],
     );

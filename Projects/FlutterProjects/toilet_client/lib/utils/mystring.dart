@@ -1,24 +1,27 @@
 class MyString{
     static const int DEFAULTNUMBER = 111111;
     static const String ADRESS_LOCAL = "localhost";
-		static const String ADRESS_SERVER = "30.0.0.53";
-    static const String BASE = 'http://$ADRESS_LOCAL:8090/api/';
-    static const String BASEURL = 'http://localhost:8090';
-    // static const String BASEURL = 'http://30.0.0.53:8090';
+		// static const String ADRESS = "localhost";
+		static const String ADRESS = "192.168.101.58";
+		static const String PORT = "8095";
+    static const String BASE = 'http://$ADRESS:$PORT';
 
-     static const String list_ranking = '${BASE}list_ranking';
-     static const String create_ranking = '${BASE}add_ranking';
-     static const String update_ranking = '${BASE}update_ranking';
-     static const String delete_ranking = '${BASE}delete_ranking';
-     static const String delete_ranking_all_and_add = '${BASE}delete_ranking_all_create_default';
 
-    //RENDER: vegas-toilet-app.onrender.com
+    // //RENDER: vegas-toilet-app.onrender.com
+    // static const CREATE_FEEDBACK = '$BASE/create_feedback';
+    static const CREATE_FEEDBACK_STATUS = '$BASE/create_feedback_status';
+    static const LIST_FEEDBACK = '$BASE/list_feedback';
+    static const CREATE_NOTI_ALL = '$BASE/firebase/notification/all';
+    static const CREATE_NOTI = '$BASE/firebase/notification';
+    static const CREATE_FEEDBACK = '$BASE/create_feedback';
 
-    // static const CREATE_FEEDBACK = 'http://192.168.101.58:8095/create_feedback';
-    static const CREATE_FEEDBACK_STATUS = 'http://192.168.101.58:8095/create_feedback_status';
-    static const LIST_FEEDBACK = 'http://192.168.101.58:8095/list_feedback';
-    static const CREATE_NOTI_ALL = 'http://192.168.101.58:8095/firebase/notification/all';
-    static const CREATE_NOTI = 'http://192.168.101.58:8095/firebase/notification';
+
+    
+     static const LIST_USER= '$BASE/user/list';
+     static const CREATE_USER= '$BASE/user/register';
+     static const DELETE_USER= '$BASE/user/delete/';
+     static const UPDATE_USER= '$BASE/user/update/';
+     static const CREATE_CHECKLIST= '$BASE/checklist/create';
 
      static const String FIREBASE_APP_NAME = 'toilet-info';
      static const String FIREBASE_apiKey = 'AIzaSyAw_HIIX23VppjgRlWsaOUfULgeCGIWUg8';

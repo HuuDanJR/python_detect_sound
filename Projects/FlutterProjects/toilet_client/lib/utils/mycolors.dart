@@ -3,7 +3,16 @@ import 'package:flutter/material.dart';
 class MyColor {
   //MAIN COLOR
   static const Color blueBG = Color(0xFFC2DEF4);
+  static const Color blueBG2 = Color(0xFF00ffff);
+  static const Color blueBG3 = Color(0xFF00E5FF);
+  static const Color blueBG4 = Color(0xFF81D4FA);
+  static const Color blueBG5 = Color(0xFF80D8FF);
+  static const Color bedge_light = Color(0xFFFFF8F0);
   static const Color pinkBG = Color(0xFFFCB3CE);
+  static const Color pinkBG2 = Color(0xFFF48FB1);
+  static const Color pinkBG3 = Color(0xFFFCE4EC);
+  static const Color pinkBG4 = Color(0xFFFFCDD2);
+  static const Color pinkBG5 = Color(0xFFFF80AB);
   static const Color yellowBG = Color(0xFFE6B953);
   static const Color greenBG = Color(0xFF4EC061);
   static const Color greenBG2 = Color(0xFFdefabb);

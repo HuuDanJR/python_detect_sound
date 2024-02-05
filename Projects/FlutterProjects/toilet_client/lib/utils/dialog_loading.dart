@@ -9,7 +9,7 @@ showLoaderDialog(BuildContext context){
       content: new Row(
         children: [
           CircularProgressIndicator(),
-          Container(margin: EdgeInsets.only(left: PaddingDefault.pading08),child:text_custom(text:"Loading..." )),
+          Container(margin: EdgeInsets.only(left: PaddingDefault.pading08),child:text_custom(text:"Loading, Please wait for a moment" )),
         ],),
     );
     showDialog(barrierDismissible: false,
