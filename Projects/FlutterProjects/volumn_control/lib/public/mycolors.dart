@@ -27,7 +27,8 @@ class MyColor {
   // ignore: constant_identifier_names
   static const Color green_araconda = Color(0xFF04CB49);
 
-  static const Color white = Color(0xFFFFFFFF);
+  static const Color white = Colors.white70;
+  static const Color whiteAbsolute = Color(0xFFFFFFFF);
   // ignore: constant_identifier_names
   static const Color yellow_gradient1 = Color(0xFFFFFDE7);
   static const Color bedge = Color(0xFFDFCCBC);
@@ -58,10 +59,12 @@ class MyColor {
   // ignore: constant_identifier_names
   static const Color green_accent = Color(0xFF598066);
   static const Color green2 = Color(0xFF1ECB59);
+  static const Color green_slider = Color(0xFF18D410);
   // ignore: constant_identifier_names
   static const Color white_text = Color(0xFFFFFFFF);
   // ignore: constant_identifier_names
   static const Color black_text = Color(0xFF2D2D2D);
+  static const Color black_text_light = Colors.black38;
   // ignore: constant_identifier_names
   static const Color grey_text = Color(0xFF8F8F8F);
   // ignore: constant_identifier_names

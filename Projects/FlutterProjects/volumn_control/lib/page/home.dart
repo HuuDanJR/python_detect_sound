@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:volumn_control/page/control.dart';
 import 'package:volumn_control/public/myassets.dart';
 import 'package:volumn_control/public/mypadding.dart';
 import 'package:volumn_control/public/mywidths.dart';
@@ -16,8 +17,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final width_padding = width / 8;
-    final width_item = (width  / 2)-width_padding-PaddingD.padding16;
+    final widthPadding = width / 8;
+    final widthItem = (width / 2) - widthPadding - PaddingD.padding16;
     return Scaffold(
         backgroundColor: Colors.transparent,
         body: Container(
@@ -29,7 +30,7 @@ class HomePage extends StatelessWidget {
           height: height,
           child: SafeArea(
               child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: width_padding),
+            padding: EdgeInsets.symmetric(horizontal: widthPadding),
             child: customColumn(children: [
               customRow(children: [
                 text_custom(
@@ -52,48 +53,59 @@ class HomePage extends StatelessWidget {
                     text_icon_item(
                         onTap: () {
                           debugPrint('floor plan');
+                          navigateToPage(context: context, index: 0);
                         },
                         paddingVer: PaddingD.padding24,
                         pathAsset: MyAssets.floor,
                         text: "FLOOR\nPLAN",
                         hasWidth: true,
-                        width: width_item),
-                     text_icon_item(
+                        width: widthItem),
+                    text_icon_item(
                         onTap: () {
                           debugPrint('zone');
+                          navigateToPage(context: context, index: 1);
                         },
                         paddingVer: PaddingD.padding24,
                         pathAsset: MyAssets.zone,
                         text: "BY\nZONE",
                         hasWidth: true,
-                        width: width_item),
+                        width: widthItem),
                   ]),
-                  const SizedBox(height: PaddingD.padding32,),
+                  const SizedBox(
+                    height: PaddingD.padding32,
+                  ),
                   customRow(children: [
                     text_icon_item(
                         onTap: () {
                           debugPrint('by floor');
+                          navigateToPage(context: context, index: 2);
                         },
                         paddingVer: PaddingD.padding24,
                         pathAsset: MyAssets.zone,
                         text: "BY\nFLOOR",
                         hasWidth: true,
-                        width: width_item),
-                     text_icon_item(
+                        width: widthItem),
+                    text_icon_item(
                         onTap: () {
                           debugPrint('preset');
+                          navigateToPage(context: context, index: 3);
                         },
                         paddingVer: PaddingD.padding24,
                         pathAsset: MyAssets.preset,
                         text: "PRESET",
                         hasWidth: true,
                         hasWidthAssetDiff: true,
-                        width: width_item),
+                        width: widthItem),
                   ])
                 ]),
               )
             ]),
           )),
         ));
+  }
+
+  navigateToPage({index, context}) {
+    Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => ControlPage(indexPageView: index)));
   }
 }

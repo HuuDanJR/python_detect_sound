@@ -12,4 +12,10 @@ class MyAssets {
   static const String bg2 = "assets/bg2.png";
   static const String bg3 = "assets/bg3.png";
   static const String bg4 = "assets/bg4.png";
+  static const String map = "assets/map.png";
+  static const String map_volume = "assets/map_volume.png";
+  static const String volume = "assets/volume.png";
+  static const String bookmark = "assets/bookmark.png";
+
+  
 }

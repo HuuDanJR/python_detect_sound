@@ -1,38 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:volumn_control/public/mystring.dart';
-
+import 'package:volumn_control/model/volume_list_model.dart';
+import 'package:volumn_control/public/myAPIstring.dart';
 
 class MyAPIService {
   Dio dio = Dio();
   final myDio = Dio();
-  //create checklist
-  Future createCheckList(
-      { 
-      title,
-      body,
-      username,
-      usernameEn,
-      is_finish,
-      required String? createAt,
-      updateAt}) async {
-    Map<String, dynamic> mybody = {
-      "title": "$title",
-      "body": "$body",
-      "username": "$username",
-      "username_en": "$usernameEn",
-      "is_finish": "$is_finish",
-      "createAt": createAt,
-      "updateAt": "$updateAt"
-    };
-    dio.options = BaseOptions(
-      validateStatus: (status) {
-        return status! < 500; // Adjust this condition as needed
-      },
-    );
-    final response = await dio.post(
-      MyString.CREATE_CHECKLIST,
-      data: mybody,
+
+  Future runDevice({deviceName, position}) async {
+    final myString = MyString.GET_DEVICE_API(
+        deviceName: deviceName, position: position.toString());
+    print('runDevice string ${myString}');
+    debugPrint(myString);
+    final response = await dio.get(
+      myString,
       options: Options(
         contentType: Headers.jsonContentType,
         headers: {
@@ -40,14 +21,47 @@ class MyAPIService {
         },
       ),
     );
-    debugPrint("${response.data}");
+    print('runDevice ${response.data}');
     return response.data;
   }
 
-  //get list user
-  Future<dynamic> listUsers() async {
+  Future runDeviceFullURL({required url}) async {
+    final myString = MyString.GET_DEVICE_API_FULLURL(url);
+    print('runDeviceFullURL $myString');
     final response = await dio.get(
-      MyString.LIST_USER,
+      MyString.GET_DEVICE_API_FULLURL(url),
+      options: Options(
+        contentType: Headers.jsonContentType,
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      ),
+    );
+    print('runDeviceFullURL ${response.data}');
+    return response.data;
+  }
+
+  Future<VolumeListModel> listVolme({endpoint}) async {
+    final response = await dio.get(
+      MyString.GET_LIST_VOLUME('list_volume'),
+      options: Options(
+        contentType: Headers.jsonContentType,
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      ),
+    );
+    // print(response.data);
+    return VolumeListModel.fromJson(response.data);
+  }
+
+  Future<dynamic> updateVolumeValue({value, id}) async {
+    final Map<String, dynamic> body = {
+      "currentValue": value,
+    };
+    final response = await dio.post(
+      MyString.UPDATE_VOLUME_VALUE(endpoint: 'update_volume_value', id: id),
+      data: body,
       options: Options(
         contentType: Headers.jsonContentType,
         headers: {
@@ -56,91 +70,5 @@ class MyAPIService {
       ),
     );
     return (response.data);
-  }
-
-  //send notification
-  Future<dynamic> sendNotification(
-      {registrationToken, title, body, star, List<String>? feedback}) async {
-    Map<String, dynamic> mybody = {
-      "registrationToken": "$registrationToken",
-      "title": "$title",
-      "body": "$body",
-      "message": "message",
-      "star": "$star",
-      "feedback": feedback
-    };
-    final response = await dio.post(
-      MyString.CREATE_NOTI_ALL,
-      data: mybody,
-      options: Options(
-        contentType: Headers.jsonContentType,
-      ),
-    );
-    return response.data;
-  }
-  //send notification
-  Future<dynamic> sendNotificationOneDevice(
-      {registrationToken, title, body, star, List<String>? feedback}) async {
-    Map<String, dynamic> mybody = {
-      "registrationToken": "$registrationToken",
-      "title": "$title",
-      "body": "$body",
-      "message": "message",
-      "star": "$star",
-      "feedback": feedback
-    };
-    final response = await dio.post(
-      MyString.CREATE_NOTI,
-      data: mybody,
-      options: Options(
-        contentType: Headers.jsonContentType,
-      ),
-    );
-    return response.data;
-  }
-
-  Future createFeedBack({
-    driver,
-    star,
-    content,
-    List<String>? experience,
-  }) async {
-    try {
-      Map<String, dynamic> body = {
-        "driver": "$driver" ?? "DEFAUTL DRIVER",
-        "star": star ?? 5,
-        "content": "$content" ?? "DEFAULT CONTENT",
-        "experience": experience ?? [],
-        "createdAt": DateTime.now().toString(),
-        "isprocess": false,
-        "processcreateAt": DateTime.now().toString(),
-      };
-      final response = await dio.post(
-        MyString.CREATE_FEEDBACK_STATUS,
-        data: body,
-        options: Options(
-            contentType: Headers.jsonContentType,
-            sendTimeout: const Duration(seconds: 10)),
-      );
-      // print('response: ${response.data}');
-      return response.data;
-    } catch (e) {
-      // Handle DioError or other exceptions
-      print('Error: $e');
-      rethrow; // You can throw the error again if needed
-    }
-  }
-
-  Future<dynamic> fetchFeedBack() async {
-    final response = await dio.get(
-      MyString.LIST_FEEDBACK,
-      options: Options(
-        contentType: Headers.jsonContentType,
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-        },
-      ),
-    );
-    return response.data;
   }
 }

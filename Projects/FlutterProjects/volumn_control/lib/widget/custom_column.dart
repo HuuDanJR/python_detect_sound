@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-Widget customColumn({List<Widget>? children}) {
+Widget customColumn({List<Widget>? children,isTop=false}) {
   return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
+    mainAxisAlignment:isTop==true?MainAxisAlignment.start: MainAxisAlignment.center,
     children: children!);
 }
