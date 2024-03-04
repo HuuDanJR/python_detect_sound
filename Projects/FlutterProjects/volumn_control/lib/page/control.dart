@@ -37,24 +37,21 @@ class _ControlPageState extends State<ControlPage> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final double itemWidth =
-        (width - (MyWidths.tab_padding(width / 25) * 2)) / 4 -
-            PaddingD.padding16;
+    final double itemWidth = (width - (MyWidths.tab_padding(width / 25) * 2)) / 4 - PaddingD.padding16;
     return Scaffold(
         backgroundColor: Colors.transparent,
         body: SafeArea(
           child: Container(
             alignment: Alignment.topCenter,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(MyAssets.bg), fit: BoxFit.cover)),
+            decoration: const BoxDecoration( image: DecorationImage(image: AssetImage(MyAssets.bg), fit: BoxFit.cover)),
             width: width,
             height: height,
             child: Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: MyWidths.tab_padding(width / 25),
                     vertical: MyWidths.tab_padding(width / 50)),
-                child: customColumn(isTop: true, children: [
+                child: 
+                  customColumn(isTop: true, children: [
                   SizedBox(
                     height: MyWidths.tab_item_height(height),
                     child: customRow(children: [
@@ -68,7 +65,7 @@ class _ControlPageState extends State<ControlPage> {
                           paddingVer: PaddingD.pading08,
                           width: itemWidth,
                           onTap: () {
-                            goToPage(0);
+                            goToPageView(0);
                           },
                           pathAsset: MyAssets.floor,
                           text: "FLOOR\nPLAN"
@@ -84,7 +81,7 @@ class _ControlPageState extends State<ControlPage> {
                           paddingVer: PaddingD.pading08,
                           width: itemWidth,
                           onTap: () {
-                            goToPage(1);
+                            goToPageView(1);
                           },
                           pathAsset: MyAssets.zone,
                           text: "BY\nZONE"),
@@ -98,7 +95,7 @@ class _ControlPageState extends State<ControlPage> {
                           paddingVer: PaddingD.pading08,
                           width: itemWidth,
                           onTap: () {
-                            goToPage(2);
+                            goToPageView(2);
                           },
                           pathAsset: MyAssets.zone,
                           text: "BY\nFLOOR"),
@@ -112,7 +109,7 @@ class _ControlPageState extends State<ControlPage> {
                           paddingVer: PaddingD.pading08,
                           width: itemWidth,
                           onTap: () {
-                            goToPage(3);
+                            goToPageView(3);
                           },
                           pathAsset: MyAssets.preset,
                           text: "PRESET"),
@@ -149,7 +146,7 @@ class _ControlPageState extends State<ControlPage> {
         ));
   }
 
-  void goToPage(int targetPageIndex) {
+  void goToPageView(int targetPageIndex) {
     setState(() {
       _pageController.animateToPage(
         targetPageIndex,

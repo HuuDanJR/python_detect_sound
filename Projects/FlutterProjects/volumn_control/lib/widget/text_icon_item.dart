@@ -14,6 +14,8 @@ Widget text_icon_item(
     hasWidth = false,
     smallText =false,
     smallAsset =false,
+    hasAsset =true,
+    isTextBold =false,
     smallBorder =false,
     hasWidthAssetDiff,
     isActive =false,
@@ -30,21 +32,21 @@ Widget text_icon_item(
         child: Container(
           width: hasWidth == true ? width : null,
           alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(
-              horizontal: PaddingD.padding32, vertical: paddingVer),
+          padding: EdgeInsets.symmetric(horizontal: PaddingD.padding32, vertical: paddingVer),
           decoration: BoxDecoration(
+            border: Border.all(color:isActive?MyColor.green : Colors.transparent),
             color:isActive? MyColor.white :  MyColor.bedgeLight.withOpacity(.75),
             borderRadius: BorderRadius.circular(smallBorder==true ? MyWidths.width_borderRadiusSmall : MyWidths.width_borderRadius),
           ),
           child: customRow(isCenter: true, children: [
-             customImageAsset(
+            hasAsset==true? customImageAsset(
               width:smallAsset ==true ? MyWidths.width_asset_small :  hasWidthAssetDiff!=null?MyWidths.width_asset*.8 : MyWidths.width_asset,
               path: pathAsset,
-            ),
-            SizedBox(
+            ):Container(),
+            hasAsset==true ?  SizedBox(
               width: spacingHor,
-            ),
-            text_custom(text: text, size: smallText==true?TextSize.text20    :  TextSize.text42)
+            ) : Container(),
+            text_custom(text: text, size: smallText==true?TextSize.text20    :  TextSize.text42,weight: isActive ? FontWeight.bold :FontWeight.normal,color:isActive?MyColor.black_text:MyColor.grey)
           ]),
         ),
       ),

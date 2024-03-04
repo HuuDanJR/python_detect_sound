@@ -16,7 +16,7 @@ Widget zoneListSync({required MyAPIService serviceAPIs,height,}){
                         }
                         if (snapshot.hasError) {
                           return Center(
-                            child: text_custom(text: "An Error Orcur"),
+                            child: text_custom(text: "An Error Orcur."),
                           );
                         }
                         return ListView.builder(

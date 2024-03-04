@@ -11,7 +11,7 @@ String volumeListModelToJson(VolumeListModel data) => json.encode(data.toJson())
 class VolumeListModel {
     final bool status;
     final String message;
-    final List<Datum> data;
+    final List<Volume> data;
 
     VolumeListModel({
         required this.status,
@@ -22,7 +22,7 @@ class VolumeListModel {
     factory VolumeListModel.fromJson(Map<String, dynamic> json) => VolumeListModel(
         status: json["status"],
         message: json["message"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        data: List<Volume>.from(json["data"].map((x) => Volume.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -32,9 +32,9 @@ class VolumeListModel {
     };
 }
 
-class Datum {
+class Volume {
     final String id;
-    final String datumId;
+    final String VolumeId;
     final String name;
     final String deviceName;
     final bool isSync;
@@ -46,9 +46,9 @@ class Datum {
     final String presetId;
     final int v;
 
-    Datum({
+    Volume({
         required this.id,
-        required this.datumId,
+        required this.VolumeId,
         required this.name,
         required this.deviceName,
         required this.isSync,
@@ -61,9 +61,9 @@ class Datum {
         required this.v,
     });
 
-    factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+    factory Volume.fromJson(Map<String, dynamic> json) => Volume(
         id: json["_id"] ?? 0,
-        datumId: json["id"] ?? "default",
+        VolumeId: json["id"] ?? "default",
         name: json["name"] ?? 'name',
         deviceName: json["deviceName"] ??"deviceName",
         isSync: json["isSync"]??false,
@@ -78,7 +78,7 @@ class Datum {
 
     Map<String, dynamic> toJson() => {
         "_id": id,
-        "id": datumId,
+        "id": VolumeId,
         "name": name,
         "deviceName": deviceName,
         "isSync": isSync,

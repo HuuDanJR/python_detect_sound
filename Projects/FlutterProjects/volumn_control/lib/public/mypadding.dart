@@ -11,5 +11,6 @@ class PaddingD{
     static const double pading02 = 2.0;
     static const double pading12 = 12.0;
     static const double padding04 = 04.0;
+    static const double padding0 = 0.0;
    
 }

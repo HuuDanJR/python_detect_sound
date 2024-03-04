@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-Widget text_custom({color,double? size, weight, text,textAlign}) {
+Widget text_custom({color,double? size, weight, text,}) {
   return Text(
-    '$text',textAlign: textAlign??TextAlign.center,
+    '$text',
+    style: GoogleFonts.montserrat(fontSize: size, color: color, fontWeight: weight),
+  );
+}
+Widget text_custom_center({color,double? size, weight, text,}) {
+  return Text(
+    '$text',
+    textAlign: TextAlign.center,
     style: GoogleFonts.montserrat(fontSize: size, color: color, fontWeight: weight),
   );
 }

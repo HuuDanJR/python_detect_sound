@@ -171,10 +171,10 @@ Widget customSliderFit({required double item_width, height, String? text, onChan
       text_custom(
           // text: '100',
           text: '${controller.valueSliderAll.value.round()}',
-          size: TextSize.text28,
+          size: TextSize.text22,
           weight: FontWeight.normal),
       const SizedBox(
-        height: PaddingD.pading08,
+        height: PaddingD.padding04,
       ),
       Container(
         width: item_width,
@@ -212,7 +212,7 @@ Widget customSliderFit({required double item_width, height, String? text, onChan
                 ))),
       ),
       const SizedBox(
-        height: PaddingD.padding16,
+        height: PaddingD.pading08,
       ),
      
       customImageAsset(
@@ -221,14 +221,14 @@ Widget customSliderFit({required double item_width, height, String? text, onChan
               : MyAssets.volumn_off,
           width: MyWidths.slider_image_asset),
       const SizedBox(
-        height: PaddingD.pading08,
+        height: PaddingD.padding04,
       ),
       Container(
         alignment: Alignment.center,
         width: item_width*1.5,
-        child: text_custom(
+        child: text_custom_center(
             text: text!.toUpperCase(),
-            size: TextSize.text20,
+            size: TextSize.text16,
             weight:isTextNormal==false? FontWeight.bold:FontWeight.normal),
       ),
     ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:volumn_control/page/control.dart';
+import 'package:volumn_control/page/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,10 +15,10 @@ class MyApp extends StatelessWidget {
       title: 'Volumn Control',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.greenAccent),
       ),
       // home: HomePage()
-      home: const ControlPage(indexPageView: 1,)
+      home: const ControlPage(indexPageView: 3,)
     );
   }
 }

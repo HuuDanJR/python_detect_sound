@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:volumn_control/model/preset_list_model.dart';
 import 'package:volumn_control/model/volume_list_model.dart';
 import 'package:volumn_control/public/myAPIstring.dart';
 
@@ -70,5 +71,48 @@ class MyAPIService {
       ),
     );
     return (response.data);
+  }
+
+  Future<PresetListModel> listPreset({value, id}) async {
+    final Map<String, dynamic> body = {
+      "currentValue": value,
+    };
+    final response = await dio.get(
+      MyString.GET_PRESET_LIST(endpoint: 'list_preset'),
+      data: body,
+      options: Options(
+        contentType: Headers.jsonContentType,
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      ),
+    );
+    return PresetListModel.fromJson(response.data);
+  }
+
+  //CREATE PRESET 
+  Future createPreset({
+    required String presetID,
+    required String  presetName,
+    List<Volume>? volumes,
+  }) async {
+    try {
+      Map<String, dynamic> body = {
+        "presetId":presetID,
+        "presetName":presetName,
+        "volumes": volumes,
+      };
+      final response = await dio.post(
+        MyString.CREATE_PRESET(endpoint: 'create_preset'),
+        data: body,
+        options: Options(
+            contentType: Headers.jsonContentType,
+            sendTimeout: const Duration(seconds: 10)),
+      );
+      return response.data;
+    } catch (e) {
+      print('Error: $e');
+      rethrow; 
+    }
   }
 }

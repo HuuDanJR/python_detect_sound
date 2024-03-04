@@ -41,17 +41,17 @@ class CustomSliderPage extends StatefulWidget {
 class _CustomSliderPageState extends State<CustomSliderPage> {
   final serviceAPIs = MyAPIService();
   final debouncer =
-      Debouncer(milliseconds: 100, delay: const Duration(milliseconds: 100));
+  Debouncer(milliseconds: 100, delay: const Duration(milliseconds: 100));
 
   @override
   Widget build(BuildContext context) {
     return customColumn(isTop: true, children: [
       text_custom(
           text: '${widget.valueSlider.round()}',
-          size: TextSize.text28,
+          size: TextSize.text22,
           weight: FontWeight.normal),
       const SizedBox(
-        height: PaddingD.pading08,
+        height: PaddingD.padding04,
       ),
       Container(
         margin: EdgeInsets.only(
@@ -105,7 +105,7 @@ class _CustomSliderPageState extends State<CustomSliderPage> {
                 ))),
       ),
       const SizedBox(
-        height: PaddingD.padding16,
+        height: PaddingD.pading08,
       ),
       customImageAsset(
           path: widget.valueSlider != 0
@@ -113,14 +113,14 @@ class _CustomSliderPageState extends State<CustomSliderPage> {
               : MyAssets.volumn_off,
           width: MyWidths.slider_image_asset),
       const SizedBox(
-        height: PaddingD.pading08,
+        height: PaddingD.padding04,
       ),
       Container(
         alignment: Alignment.center,
         width: widget.item_width * 1.5,
-        child: text_custom(
+        child: text_custom_center(
             text: widget.text.toUpperCase(),
-            size: TextSize.text20,
+            size: TextSize.text16,
             weight: widget.isTextNormal == false
                 ? FontWeight.bold
                 : FontWeight.normal),

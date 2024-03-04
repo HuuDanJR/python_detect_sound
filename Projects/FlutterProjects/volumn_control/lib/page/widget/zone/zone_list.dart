@@ -16,7 +16,7 @@ Widget zoneList({required MyAPIService serviceAPIs, height}) {
       }
       if (snapshot.hasError) {
         return Center(
-          child: text_custom(text: "An Error Orcur ${snapshot.error}"),
+          child: text_custom(text: "An Error Orcur "),
         );
       }
       return 

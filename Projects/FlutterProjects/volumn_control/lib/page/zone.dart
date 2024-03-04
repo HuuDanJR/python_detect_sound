@@ -13,7 +13,9 @@ import 'package:volumn_control/widget/custom_button.dart';
 import 'package:volumn_control/widget/custom_row.dart';
 import 'package:volumn_control/widget/custom_slider.dart';
 import 'package:volumn_control/widget/custom_switch.dart';
+import 'package:volumn_control/widget/custom_text.dart';
 import 'package:volumn_control/widget/divider_vertical.dart';
+import 'package:uuid/uuid.dart';
 
 class ZonePage extends StatefulWidget {
   const ZonePage({super.key});
@@ -24,8 +26,10 @@ class ZonePage extends StatefulWidget {
 
 class _ZonePageState extends State<ZonePage> {
   late final bool _switchValue = false;
+  final uuid = Uuid();
   final controllerGetX = Get.put(MyGetXController());
   final serviceAPIs = MyAPIService();
+  final TextEditingController controllerTextPreset = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +49,7 @@ class _ZonePageState extends State<ZonePage> {
           width: width,
           height: height,
           // child: text_custom(text:"zone")
-          child: customRow(
-            children: [
+          child: customRow(children: [
             SizedBox(
                 width: itemWidthSlider,
                 height: height,
@@ -67,50 +70,80 @@ class _ZonePageState extends State<ZonePage> {
                         }
                       }),
                 )),
-            Align(
-              alignment: Alignment.center,
-              child: dividerVer(height)),
+            Align(alignment: Alignment.center, child: dividerVer(height)),
             Expanded(
                 child: SizedBox(
                     width: width - itemWidthSlider,
                     height: height,
                     child: Obx(() => controllerGetX.isSwitch.value == true
-                        ?  zoneListSync(height: height, serviceAPIs: serviceAPIs,) 
+                        ? zoneListSync(
+                            height: height,
+                            serviceAPIs: serviceAPIs,
+                          )
                         : zoneList(height: height, serviceAPIs: serviceAPIs))))
           ]),
         ),
         //Switch button
         Positioned(
-            bottom: PaddingD.padding16,
+            bottom: PaddingD.pading08,
             left: 0,
             child: SizedBox(
               // alignment: Alignment.center,
               width: MyWidths.width_screen_padding(width),
               child: customRow(isCenter: true, children: [
+                // custom_button(
+                //     spacingHor: PaddingD.padding16,
+                //     paddingVer: PaddingD.padding04,
+                //     onTap: () {
+                //       debugPrint('click home');
+                //     },
+                //     pathAsset: MyAssets.home,
+                //     text: "HOME"),
+                // const SizedBox(
+                //   width: PaddingD.padding16,
+                // ),
                 custom_button(
                     spacingHor: PaddingD.padding16,
-                    paddingVer: PaddingD.pading08,
-                    onTap: () {
-                      debugPrint('click home');
-                    },
-                    pathAsset: MyAssets.home,
-                    text: "HOME"),
-                const SizedBox(
-                  width: PaddingD.padding16,
-                ),
-                custom_button(
-                    spacingHor: PaddingD.padding16,
-                    paddingVer: PaddingD.pading08,
+                    paddingVer: PaddingD.padding04,
                     onTap: () {
                       debugPrint('click savepreset');
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: text_custom(
+                            text: "ENTER PRESET NAME",
+                          ),
+                          content: TextField(
+                            controller: controllerTextPreset,
+                            decoration: const InputDecoration(
+                                hintText: 'preset name ###'),
+                          ),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: text_custom(
+                                    text: "CANCEL", color: MyColor.black_text)),
+                            TextButton(
+                                onPressed: () {
+                                  serviceAPIs.createPreset(
+                                      presetID: '${uuid.v1()}',
+                                      presetName:'${controllerTextPreset.text}',
+                                      volumes: []);
+                                },
+                                child: text_custom(text: "CONFIRM")),
+                          ],
+                        ),
+                      );
                     },
                     pathAsset: MyAssets.bookmark,
                     text: "SAVE PRESET")
               ]),
             )),
         Positioned(
-            bottom: PaddingD.padding16,
-            left: PaddingD.padding16,
+            bottom: PaddingD.pading08,
+            left: PaddingD.pading08,
             child: Obx(
               () => CustomSwitch(
                 value: controllerGetX.isSwitch.value,
