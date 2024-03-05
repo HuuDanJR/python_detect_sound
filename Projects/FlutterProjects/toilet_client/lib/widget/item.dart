@@ -97,7 +97,7 @@ Widget mainItem(
       AnimatedGradient(
         width: width / 2,
         height: height * 4 / 5,
-        colorList: [
+        colorList: const [
           MyColor.blueBG,
           MyColor.blueBG2,
           MyColor.blueBG3,
@@ -134,7 +134,7 @@ Widget mainItem(
       AnimatedGradient(
         width: width / 2,
         height: height * 4 / 5,
-        colorList: [
+        colorList: const [
           MyColor.pinkBG,
           MyColor.pinkBG2,
           MyColor.pinkBG3,

@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:toilet_client/api/my_api_service.dart';
 import 'package:toilet_client/getx/my_getx_controller.dart';
-import 'package:toilet_client/model/user_model.dart';
 import 'package:toilet_client/utils/button_close.dart';
-import 'package:toilet_client/utils/button_deboucer.dart';
 import 'package:toilet_client/utils/dialog_loading.dart';
 import 'package:toilet_client/utils/format.factory.dart';
 import 'package:toilet_client/utils/mycolors.dart';
@@ -67,7 +65,7 @@ class _DialogConfirmState extends State<DialogConfirm> {
       children: [
         Container(
           width: width,
-          padding: EdgeInsets.only(
+          padding: const EdgeInsets.only(
             left: PaddingDefault.padding16,
             right: PaddingDefault.padding16,
             top: PaddingDefault.padding48,
@@ -83,11 +81,11 @@ class _DialogConfirmState extends State<DialogConfirm> {
             children: [
               //gridview builder
                text_custom_2line(
-                text: "$title",
-                textSecond: "$title_vi",
+                text: title,
+                textSecond: title_vi,
                 weight: FontWeight.bold,
                 size: 22.0),
-              Divider(),
+              const Divider(),
               Row(
                 children: [
                   Container(
@@ -101,11 +99,11 @@ class _DialogConfirmState extends State<DialogConfirm> {
                           BorderRadius.circular(PaddingDefault.padding16),
                       child: CachedNetworkImage(
                         imageUrl: "${widget.image_url}",
-                        placeholder: (context, url) => SizedBox(
+                        placeholder: (context, url) => const SizedBox(
                             width: PaddingDefault.padding16,
                             height: PaddingDefault.padding16,
-                            child: new CircularProgressIndicator()),
-                        errorWidget: (context, url, error) => new Icon(
+                            child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) => const Icon(
                           Icons.error,
                           color: MyColor.grey_tab,
                         ),
@@ -120,7 +118,7 @@ class _DialogConfirmState extends State<DialogConfirm> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       text_custom(
-                          text: "${widget.usernameEn!.toUpperCase()}",
+                          text: widget.usernameEn!.toUpperCase(),
                           size: TextSizeDefault.text18,
                           weight: FontWeight.bold),
                       const SizedBox(
@@ -134,24 +132,24 @@ class _DialogConfirmState extends State<DialogConfirm> {
                   )
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: PaddingDefault.pading12,
               ),
               Align(
                   alignment: Alignment.centerLeft,
                   child: Row(
                     children: [
-                      text_custom_2line(text: "$text",size: 18,textSecond: "$text_vi"),
+                      text_custom_2line(text: text,size: 18,textSecond: text_vi),
                       text_custom(
                           text: isVisible ? "✅" : "",
                           color: MyColor.green,
                           size: TextSizeDefault.text24)
                     ],
                   )),
-              SizedBox(
+              const SizedBox(
                 height: PaddingDefault.pading12,
               ),
-              Divider(),
+              const Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -163,7 +161,7 @@ class _DialogConfirmState extends State<DialogConfirm> {
                       // Navigator.of(context).pop();
                       Navigator.of(context).popUntil((route) => route.isFirst);
                     },
-                    text: "$buttonText",
+                    text: buttonText,
                     hasText: isVisible,
                     secondText: "Click OK to finish (Nhấn OK để kết thúc)"
                   ),

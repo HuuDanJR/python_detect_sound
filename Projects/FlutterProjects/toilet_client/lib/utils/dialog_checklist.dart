@@ -5,7 +5,6 @@ import 'package:toilet_client/api/my_api_service.dart';
 import 'package:toilet_client/getx/my_getx_controller.dart';
 import 'package:toilet_client/model/user_model.dart';
 import 'package:toilet_client/utils/button_close.dart';
-import 'package:toilet_client/utils/button_deboucer.dart';
 import 'package:toilet_client/utils/dialog_confirm.dart';
 import 'package:toilet_client/utils/mycolors.dart';
 import 'package:toilet_client/utils/padding.dart';
@@ -22,7 +21,7 @@ class _DialogCheckListState extends State<DialogCheckList> {
   final controller_getx = Get.put(MyGetXController());
   final MyAPIService service_api = MyAPIService();
   bool isShowDialog = false;
-  final double width_item = 117.5;
+  final double width_item = 135;
 
   @override
   void initState() {
@@ -51,6 +50,7 @@ class _DialogCheckListState extends State<DialogCheckList> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const SizedBox(height: PaddingDefault.padding16,),
               //gridview builder
               Container(
                 height: height * .6,
@@ -63,11 +63,9 @@ class _DialogCheckListState extends State<DialogCheckList> {
                   builder: (context, snapshot) {
                     late UserModel model = snapshot.data as UserModel;
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     }
-                    if (snapshot.hasError ||
-                        model.data == null ||
-                        model == null) {
+                    if (snapshot.hasError) {
                       return Center(child: text_custom(text: "An error orcur"));
                     }
 
@@ -119,21 +117,6 @@ class _DialogCheckListState extends State<DialogCheckList> {
                                   Container(
                                     height: width_item,
                                     width: width_item,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(width_item),
-                                      child: CachedNetworkImage(
-                                        imageUrl:"${model.data[index].imageUrl}",
-                                        placeholder: (context, url) => SizedBox(
-                                            width: PaddingDefault.padding16,
-                                            height: PaddingDefault.padding16,
-                                            child: CircularProgressIndicator()),
-                                        errorWidget: (context, url, error) =>
-                                            new Icon(
-                                          Icons.error,
-                                          color: MyColor.grey_tab,
-                                        ),
-                                      ),
-                                    ),
                                     decoration: BoxDecoration(
                                       color: MyColor.white,
                                       border: Border.all(
@@ -148,14 +131,29 @@ class _DialogCheckListState extends State<DialogCheckList> {
                                       //     fit: BoxFit.cover,
                                       //     filterQuality: FilterQuality.low)
                                     ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(width_item),
+                                      child: CachedNetworkImage(
+                                        imageUrl:"${model.data[index].imageUrl}",
+                                        placeholder: (context, url) => const SizedBox(
+                                            width: PaddingDefault.padding16,
+                                            height: PaddingDefault.padding16,
+                                            child: CircularProgressIndicator()),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(
+                                          Icons.error,
+                                          color: MyColor.grey_tab,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                   text_custom(
                                       text:
-                                          "${model.data[index].usernameEn!.toUpperCase()}",
+                                          model.data[index].usernameEn!.toUpperCase(),
                                       weight: FontWeight.bold,
                                       size: TextSizeDefault.text18),
                                   text_custom(
-                                      text: "${model.data[index].username!}",
+                                      text: model.data[index].username!,
                                       weight: FontWeight.normal,
                                       size: TextSizeDefault.text16)
                                 ],
@@ -176,7 +174,7 @@ class _DialogCheckListState extends State<DialogCheckList> {
         //TEXT TITLE
         Positioned(
             left: PaddingDefault.padding16,
-            top: PaddingDefault.pading08,
+            top: PaddingDefault.padding16,
             child: text_custom(
                 text: "CHECKLIST FOR STAFF",
                 // textSecond: "DANH SÁCH NHÂN VIÊN",

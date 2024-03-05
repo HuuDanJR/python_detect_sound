@@ -19,7 +19,7 @@ Widget text_custom_2line({ double? size, FontWeight? weight, String? text,String
         ),
         
         TextSpan(
-          text: '(${textSecond})', // Second line of text
+          text: '($textSecond)', // Second line of text
           style: GoogleFonts.montserrat(fontSize: size, color: Colors.black54, fontWeight: weight),
         ),
       ],

@@ -17,6 +17,7 @@ class PaddingDefault{
 
 class TextSizeDefault{
 static const double text08 = 08.0;
+static const double text04 = 04.0;
 static const double text12 = 12.0;
 static const double text16 = 16.0;
 static const double text18 = 18.0;

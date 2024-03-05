@@ -1,16 +1,12 @@
-import 'dart:async';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:toilet_client/animation/inifinite_animation.dart';
+import 'package:toilet_client/api/my_api_service.dart';
 import 'package:toilet_client/body_home.dart';
 import 'package:toilet_client/getx/my_getx_controller.dart';
 import 'package:toilet_client/utils/button_deboucer.dart';
 import 'package:toilet_client/utils/dialog_checklist.dart';
 import 'package:toilet_client/utils/dialog_page.dart';
 import 'package:toilet_client/utils/mycolors.dart';
-import 'package:toilet_client/utils/mystring.dart';
 import 'package:toilet_client/utils/padding.dart';
 import 'package:toilet_client/utils/showsnackbar.dart';
 import 'package:toilet_client/utils/text.dart';
@@ -36,7 +32,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   final controllerGetx = Get.put(MyGetXController());
-  final debouncer = Debouncer(milliseconds: 500, delay: const Duration(milliseconds: 2500));
+  final service_api = MyAPIService();
+  final debouncer =
+      Debouncer(milliseconds: 500, delay: const Duration(milliseconds: 2500));
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +63,92 @@ class _HomePageState extends State<HomePage> {
                 alignment: Alignment.center,
                 children: [
                   BodyToiletPage(),
+                  Positioned(
+                      bottom: PaddingDefault.pading12,
+                      right: PaddingDefault.pading12,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: buttonColorFullCustom(
+                            hasIcon: true,
+                            borderRadios: PaddingDefault.padding24,
+                            icon: const Icon(Icons.woman_rounded,
+                                size: PaddingDefault.padding48,
+                                color: MyColor.white),
+                            paddingVertical: PaddingDefault.padding04,
+                            textSize: TextSizeDefault.text24,
+                            text: "Call Service",
+                            hasText: true,
+                            secondText: "* Send a request to our staff",
+                            color: MyColor.yellow3,
+                            onPressed: () {
+                              debouncer.run(() {
+                                print('click button woman');
+                                service_api.sendNotification(
+                                    title: 'Call Service - Woman 👩',
+                                    body:
+                                        "[Urgent] Please contact the cleaner immediately to check the toilet problem. Thank you.",
+                                    star: 5,
+                                    registrationToken: "",
+                                    feedback: [
+                                      "Feedback from 'Call Service' button click in 👩 woman area"
+                                    ]).whenComplete(() =>
+                                    debugPrint('complete send notifcation'));
+                                //finish call a notificaiton
+                                showSnackBar(
+                                    message: "Your request has been sent to our staff, thank you!",
+                                    context: context);
+                                service_api.createFeedBack(
+                                  driver: 'FEEDBACK FROM CALL SERVICE - WOMAN 👩 AREA',
+                                  star: 5,
+                                  content: 'FEEDBACK FROM CALL SERVICE - WOMAN 👩 AREA',
+                                  experience: ["CALL SERVICE (WOMAN 👩)"],
+                                ).then((value) => print(value));
+                              });
+                            }),
+                      )),
+
+                  Positioned(
+                      bottom: PaddingDefault.pading12,
+                      left: PaddingDefault.pading12,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: buttonColorFullCustom(
+                            hasIcon: true,
+                            borderRadios: PaddingDefault.padding24,
+                            icon: const Icon(Icons.man_3_rounded,
+                                size: PaddingDefault.padding48,
+                                color: MyColor.white),
+                            paddingVertical: PaddingDefault.padding04,
+                            textSize: TextSizeDefault.text24,
+                            text: "Call Service",
+                            hasText: true,
+                            secondText: "* Send a request to our staff",
+                            color: MyColor.yellow3,
+                            onPressed: () {
+                              debouncer.run(() {
+                                debugPrint('click button');
+                                service_api.sendNotification(
+                                    title: 'Call Service - Man 👨',
+                                    body:"[Urgent] Please contact the cleaner immediately to check the toilet problem. Thank you.",
+                                    star: 5,
+                                    registrationToken: "",
+                                    feedback: [
+                                      "Feedback from 'Call Service' button click in 👨 man area"
+                                    ]).whenComplete(() =>
+                                    debugPrint('complete send notifcation'));
+                                //finish call a notificaiton
+                                showSnackBar(
+                                    message:"Your request has been sent to our staff, thank you!",
+                                    context: context);
+                                service_api.createFeedBack(
+                                  driver: 'FEEDBACK FROM CALL SERVICE - MAN 👨 AREA',
+                                  star: 5,
+                                  content: 'FEEDBACK FROM CALL SERVICE - MAN 👨 AREA',
+                                  experience: ["ALL SERVICE (MAN 👨)"],
+                                ).then((value) => print(value));
+                              });
+                            }),
+                      )),
                   Obx(() => Visibility(
                       visible: controllerGetx.visible.value,
                       child: const DialogPage())),
@@ -97,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                       rowStar(
                           controllerGetx: controllerGetx,
                           onPress: () {
-                            print('open dialog');
+                            debugPrint('open dialog');
                             // controllerGetx.toggleVisible();
                             // controllerGetx.startCountdown();
                             controllerGetx.turnOnVisible();
@@ -105,7 +189,8 @@ class _HomePageState extends State<HomePage> {
                       const SizedBox(
                         height: PaddingDefault.padding04,
                       ),
-                      text_custom(text:"* Choose stars 🌟 to rating our service")
+                      text_custom(
+                          text: "* Choose stars 🌟 to rating our service")
                     ],
                   ),
                   Positioned(
@@ -113,11 +198,14 @@ class _HomePageState extends State<HomePage> {
                       top: 0,
                       child: InkWell(
                         onDoubleTap: () {
-                          print('open checklist');
+                          debugPrint('open checklist');
                           showDialog(
                             context: context,
                             builder: (context) {
-                              return Dialog(
+                              return const Dialog(
+                                backgroundColor: MyColor.black_text,
+                                shadowColor: Colors.transparent,
+                                elevation: 1.0,
                                 child: DialogCheckList(),
                               );
                             },
@@ -129,44 +217,49 @@ class _HomePageState extends State<HomePage> {
                           height: 250.0,
                         ),
                       )),
-                  Positioned(
-                      top: PaddingDefault.padding54,
-                      right: PaddingDefault.padding16,
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: InkWell(
-                            onDoubleTap: () {
-                              print('call service');
-                            },
-                            child: buttonColorFullCustom(
-                                hasIcon: true,
-                                icon: InfiniteAnimation(
-                                  durationInSeconds: 10,
-                                  child: Icon(
-                                    Icons.phone,
-                                    color: MyColor.white,
-                                    size: TextSizeDefault.text32,
-                                  ),
-                                ),
-                                width: 225.0,
-                                paddingVertical: TextSizeDefault.text12,
-                                textSize: TextSizeDefault.text24,
-                                text: "Call Service",
-                                hasText: true,
-                                secondText: "* Send a request to our staff",
-                                color: MyColor.yellow3,
-                                onPressed: () {
-                                  debouncer.run(() {
-                                    print('click button');
-                                    //call a notification
-
-                                    //finish call a notificaiton
-                                    showSnackBar(
-                                        message:"Your request has been sent to our staff, thank you!",
-                                        context: context);
-                                  });
-                                })),
-                      )),
+                  // Positioned(
+                  //     top: PaddingDefault.padding54,
+                  //     right: PaddingDefault.padding16,
+                  //     child: Align(
+                  //       alignment: Alignment.bottomCenter,
+                  //       child: InkWell(
+                  //           onDoubleTap: () {
+                  //             debugPrint('call service');
+                  //           },
+                  //           child: buttonColorFullCustom(
+                  //               hasIcon: true,
+                  //               icon: const InfiniteAnimation(
+                  //                 durationInSeconds: 10,
+                  //                 child: Icon(
+                  //                   Icons.phone,
+                  //                   color: MyColor.white,
+                  //                   size: TextSizeDefault.text32,
+                  //                 ),
+                  //               ),
+                  //               width: 225.0,
+                  //               paddingVertical: TextSizeDefault.text12,
+                  //               textSize: TextSizeDefault.text24,
+                  //               text: "Call Service",
+                  //               hasText: true,
+                  //               secondText: "* Send a request to our staff",
+                  //               color: MyColor.yellow3,
+                  //               onPressed: () {
+                  //                 debouncer.run(() {
+                  //                   print('click button');
+                  //                   service_api.sendNotification(
+                  //                     title: '[Call Service]',
+                  //                     body:"[Urgent] Please contact the cleaner immediately to check the toilet problem. Thank you.",
+                  //                     star: 5,
+                  //                     registrationToken: "",
+                  //                     feedback: ["Feedback from 'Call Service' button click "]
+                  //                   ).whenComplete(() => print('complete send notifcation'));
+                  //                   //finish call a notificaiton
+                  //                   showSnackBar(
+                  //                       message:"Your request has been sent to our staff, thank you!",
+                  //                       context: context);
+                  //                 });
+                  //               })),
+                  //     )),
                 ],
               )),
         ],

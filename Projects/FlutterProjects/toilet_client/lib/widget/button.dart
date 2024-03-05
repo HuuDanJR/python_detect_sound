@@ -7,7 +7,9 @@ Widget button({onPressed, text}) {
   return ClipRRect(
     borderRadius: BorderRadius.circular(PaddingDefault.padding24),
     child: Container(
+      color: MyColor.yellow3,
       child: Material(
+        color: Colors.transparent,
         child: InkWell(
           onTap: () {
             onPressed();
@@ -27,9 +29,7 @@ Widget button({onPressed, text}) {
             ),
           ),
         ),
-        color: Colors.transparent,
       ),
-      color: MyColor.yellow3,
     ),
   );
 }
@@ -42,13 +42,15 @@ Widget buttonColor({onPressed, text,color,hasText=false,secondText}) {
       ClipRRect(
         borderRadius: BorderRadius.circular(PaddingDefault.padding24),
         child: Container(
+          color: color,
           child: Material(
+            color: Colors.transparent,
             child: InkWell(
               onTap: () {
                 onPressed();
               },
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: PaddingDefault.padding04),
+                padding: const EdgeInsets.symmetric(vertical: PaddingDefault.padding04),
                 decoration: BoxDecoration(
                     border: Border.all(color: MyColor.white),
                     borderRadius: BorderRadius.circular(PaddingDefault.pading08)),
@@ -62,9 +64,7 @@ Widget buttonColor({onPressed, text,color,hasText=false,secondText}) {
                 ),
               ),
             ),
-            color: Colors.transparent,
           ),
-          color: color,
         ),
       ),
       
@@ -74,22 +74,27 @@ Widget buttonColor({onPressed, text,color,hasText=false,secondText}) {
 }
 
 
-Widget buttonColorFullCustom({required bool? hasIcon ,required icon, required double paddingVertical,onPressed, text,color,hasText=false,secondText,required double  width,required double textSize}) {
+Widget buttonColorFullCustom({required double? borderRadios, required bool? hasIcon ,required icon, required double paddingVertical,onPressed, text,color,hasText=false,secondText, double?  width,required double textSize}) {
   return Column(
+    mainAxisSize: MainAxisSize.min,
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.center,
     children: [
       ClipRRect(
-        borderRadius: BorderRadius.circular(PaddingDefault.padding24),
+        borderRadius: BorderRadius.circular(borderRadios!),
         child: Container(
+          color: color,
           child: Material(
+            color: Colors.transparent,
             child: InkWell(
               onTap: () {
                 onPressed();
               },
               child: Container(
-                padding: EdgeInsets.symmetric(vertical:paddingVertical ?? PaddingDefault.padding04),
+                padding: EdgeInsets.symmetric(vertical:paddingVertical ?? PaddingDefault.padding04,horizontal: PaddingDefault.pading08),
                 decoration: BoxDecoration(
                     border: Border.all(color: MyColor.white),
-                    borderRadius: BorderRadius.circular(PaddingDefault.pading08)),
+                    borderRadius: BorderRadius.circular(borderRadios)),
                 alignment: Alignment.center,
                 width: width,
                 child: Row(
@@ -97,7 +102,7 @@ Widget buttonColorFullCustom({required bool? hasIcon ,required icon, required do
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     hasIcon==true? icon : Container(),
-                    hasIcon==true? SizedBox(width: TextSizeDefault.text08,) : Container(),
+                    hasIcon==true? const SizedBox(width: TextSizeDefault.text04,) : Container(),
                     text_custom(
                       text: '$text',
                       color:MyColor.white,
@@ -108,9 +113,7 @@ Widget buttonColorFullCustom({required bool? hasIcon ,required icon, required do
                 ),
               ),
             ),
-            color: Colors.transparent,
           ),
-          color: color,
         ),
       ),
       

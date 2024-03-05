@@ -4,7 +4,7 @@ class InfiniteAnimation extends StatefulWidget {
   final Widget? child;
   final int durationInSeconds;
 
-  InfiniteAnimation({@required this.child, this.durationInSeconds = 2,});
+  const InfiniteAnimation({super.key, @required this.child, this.durationInSeconds = 2,});
 
   @override
   _InfiniteAnimationState createState() => _InfiniteAnimationState();

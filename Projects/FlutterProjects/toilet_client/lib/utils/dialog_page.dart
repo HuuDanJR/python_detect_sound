@@ -56,14 +56,14 @@ class _DialogPageState extends State<DialogPage> {
           isShowDialog = true;
         });
         isShowDialog == false
-            ? showDialogWaiting(context: context, dismissDuration: Duration(seconds: 5))
-            : showDialogSucess(context: context, dismissDuration: Duration(seconds: 2));
+            ? showDialogWaiting(context: context, dismissDuration: const Duration(seconds: 5))
+            : showDialogSucess(context: context, dismissDuration: const Duration(seconds: 2));
         function!();
         controller.resetForm();
       } else if (value == null || value.isBlank) {
         print('value is blank');
         function!();
-        controller!.resetForm();
+        controller.resetForm();
       }
     }).whenComplete(() {
       serviceApi.sendNotification(
@@ -74,7 +74,7 @@ class _DialogPageState extends State<DialogPage> {
           star: '${controller.starCount.value}' ?? 0,
           feedback: removeDuplicates(controller.selectedItemNames.value));
       // when complete then create notification
-      controller!.resetForm();
+      controller.resetForm();
     });
     } catch (e) {
        controller!.resetForm();

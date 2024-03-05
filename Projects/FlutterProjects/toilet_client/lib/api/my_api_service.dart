@@ -72,7 +72,27 @@ class MyAPIService {
       "feedback": feedback
     };
     final response = await dio.post(
-      '${MyString.CREATE_NOTI_ALL}',
+      MyString.CREATE_NOTI_ALL,
+      data: mybody,
+      options: Options(
+        contentType: Headers.jsonContentType,
+      ),
+    );
+    return response.data;
+  }
+  //send notification
+  Future<dynamic> sendNotificationOneDevice(
+      {registrationToken, title, body, star, List<String>? feedback}) async {
+    Map<String, dynamic> mybody = {
+      "registrationToken": "$registrationToken",
+      "title": "$title",
+      "body": "$body",
+      "message": "message",
+      "star": "$star",
+      "feedback": feedback
+    };
+    final response = await dio.post(
+      MyString.CREATE_NOTI,
       data: mybody,
       options: Options(
         contentType: Headers.jsonContentType,
@@ -109,7 +129,7 @@ class MyAPIService {
     } catch (e) {
       // Handle DioError or other exceptions
       print('Error: $e');
-      throw e; // You can throw the error again if needed
+      rethrow; // You can throw the error again if needed
     }
   }
 
@@ -125,4 +145,7 @@ class MyAPIService {
     );
     return FeedbackModel.fromJson(response.data);
   }
+
+
+  
 }

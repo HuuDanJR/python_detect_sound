@@ -9,7 +9,7 @@ Widget buttonClose() {
           horizontal: PaddingDefault.padding24,
           vertical: PaddingDefault.pading08),
       alignment: Alignment.center,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(PaddingDefault.padding32),
           bottomLeft: Radius.circular(PaddingDefault.padding32),

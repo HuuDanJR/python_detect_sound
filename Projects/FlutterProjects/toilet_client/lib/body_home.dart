@@ -12,7 +12,7 @@ class BodyToiletPage extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     const double heightItem = 135.0;
     const double widthItem = 165.0;
-    const double paddingItem = 64.0;
+    const double paddingItem = 34.0;
     const double padding08 = 8.0;
     return StreamBuilder<Map<String, dynamic>>(
       stream: _firebaseDataController.dataStream,

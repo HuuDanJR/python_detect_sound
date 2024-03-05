@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:toilet_client/utils/mycolors.dart';
 
 class AnimatedGradient extends StatefulWidget {
   final Widget? widget;
@@ -7,7 +6,7 @@ class AnimatedGradient extends StatefulWidget {
   final double? height;
   final List<dynamic>? colorList;
 
-  AnimatedGradient({
+  const AnimatedGradient({super.key, 
     required this.widget,
     required this.width,
     required this.height,
@@ -56,8 +55,7 @@ class _AnimatedGradientState extends State<AnimatedGradient> {
     return AnimatedContainer(
       width: widget.width,
       height: widget.height,
-      child: widget.widget,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.bottomLeft,
@@ -65,6 +63,7 @@ class _AnimatedGradientState extends State<AnimatedGradient> {
           colors: [bottomColor, topColor],
         ),
       ),
+      child: widget.widget,
     );
   }
 }
