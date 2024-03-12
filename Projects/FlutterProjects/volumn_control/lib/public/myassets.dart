@@ -4,7 +4,10 @@ class MyAssets {
   static const String floor = "assets/floor.png";
   static const String zone = "assets/zone.png";
   static const String preset = "assets/preset.png";
+  static const String delete = "assets/delete.png";
+  static const String edit = "assets/edit.png";
   static const String home = "assets/home.png";
+  static const String use = "assets/use.png";
   static const String save = "assets/save.png";
   static const String volumn_on = "assets/volumn_on.png";
   static const String volumn_off = "assets/volumn_off.png";
@@ -16,6 +19,7 @@ class MyAssets {
   static const String map_volume = "assets/map_volume.png";
   static const String volume = "assets/volume.png";
   static const String bookmark = "assets/bookmark.png";
+  static const String gear = "assets/gear.png";
 
   
 }

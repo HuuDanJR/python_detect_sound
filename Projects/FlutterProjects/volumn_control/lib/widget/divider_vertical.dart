@@ -6,8 +6,8 @@ Widget dividerVer(height) {
   return Container(
     alignment: Alignment.topCenter,
     // padding: const EdgeInsets.symmetric(horizontal: PaddingD.pading08),
-    width: 2,
+    width: 1,
     height:(height-PaddingD.padding16),
-    color:MyColor.black_text
+    color:MyColor.grey_tab
   );
 }

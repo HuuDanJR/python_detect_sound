@@ -41,9 +41,8 @@ class _FloorPlanPageState extends State<FloorPlanPage> {
           ),
           width: width,
           height: height,
-          child: PhotoView(
-            imageProvider: const AssetImage(MyAssets
-                .map), // Replace 'assets/image.jpg' with your image path
+          child:PhotoView(
+            imageProvider: const AssetImage(MyAssets.map), // Replace 'assets/image.jpg' with your image path
             backgroundDecoration: const BoxDecoration(
               color: Colors.transparent,
               // borderRadius: BorderRadius.circular(MyWidths.width_borderRadiusSmall)

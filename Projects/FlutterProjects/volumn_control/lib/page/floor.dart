@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:volumn_control/public/myassets.dart';
 import 'package:volumn_control/public/mycolors.dart';
+import 'package:volumn_control/public/mypadding.dart';
 import 'package:volumn_control/public/mywidths.dart';
+import 'package:volumn_control/widget/custom_column.dart';
+import 'package:volumn_control/widget/custom_image_asset.dart';
 import 'package:volumn_control/widget/custom_text.dart';
 
 class FloorPage extends StatelessWidget {
@@ -18,7 +22,17 @@ class FloorPage extends StatelessWidget {
             ),
             width: width,
             height: height,
-            child: text_custom(text:"by floor"),
+            child:
+            
+             customColumn(
+              children: [
+                customImageAsset(
+                  path: MyAssets.gear,width: MyWidths.width_asset_small
+                ),
+                const SizedBox(height: PaddingD.pading08,),
+                text_custom(text:"on going"),
+              ]
+             )
     );
   }
 }

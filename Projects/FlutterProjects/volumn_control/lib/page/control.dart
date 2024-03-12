@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:volumn_control/page/floor.dart';
 import 'package:volumn_control/page/floorplan.dart';
+import 'package:volumn_control/page/floorplan_list.dart';
 import 'package:volumn_control/page/preset.dart';
 import 'package:volumn_control/page/zone.dart';
 import 'package:volumn_control/public/myassets.dart';
@@ -49,7 +50,8 @@ class _ControlPageState extends State<ControlPage> {
             child: Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: MyWidths.tab_padding(width / 25),
-                    vertical: MyWidths.tab_padding(width / 50)),
+                    vertical: MyWidths.tab_padding(height / 50)
+                ),
                 child: 
                   customColumn(isTop: true, children: [
                   SizedBox(
@@ -121,8 +123,7 @@ class _ControlPageState extends State<ControlPage> {
                   //body
                   Expanded(
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(
-                          MyWidths.width_borderRadiusSmall),
+                      borderRadius: BorderRadius.circular(MyWidths.width_borderRadiusSmall),
                       child: PageView(
                         physics: const NeverScrollableScrollPhysics(),
                         controller: _pageController,
@@ -133,7 +134,8 @@ class _ControlPageState extends State<ControlPage> {
                           });
                         },
                         children: const [
-                          FloorPlanPage(),
+                          FloorPlanList(),
+                          // FloorPlanPage(),
                           ZonePage(),
                           FloorPage(),
                           PresetPage(),

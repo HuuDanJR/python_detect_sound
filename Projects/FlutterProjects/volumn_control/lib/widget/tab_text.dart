@@ -3,8 +3,6 @@ import 'package:volumn_control/public/mycolors.dart';
 import 'package:volumn_control/public/mypadding.dart';
 import 'package:volumn_control/public/mytextsize.dart';
 import 'package:volumn_control/public/mywidths.dart';
-import 'package:volumn_control/widget/custom_image_asset.dart';
-import 'package:volumn_control/widget/custom_row.dart';
 import 'package:volumn_control/widget/custom_text.dart';
 
 Widget tab_text(

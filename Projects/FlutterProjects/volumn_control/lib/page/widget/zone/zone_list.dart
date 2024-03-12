@@ -19,21 +19,19 @@ Widget zoneList({required MyAPIService serviceAPIs, height}) {
           child: text_custom(text: "An Error Orcur "),
         );
       }
-      return 
-      ListView.builder(
+      return ListView.builder(
         itemCount: model!.data.length,
-        padding: const EdgeInsets.symmetric(
-        horizontal: PaddingD.padding24),
+        padding: const EdgeInsets.symmetric(horizontal: PaddingD.padding24),
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) => Padding(
-          padding: const EdgeInsets.only(left:PaddingD.padding24),
+          padding: const EdgeInsets.only(left: PaddingD.padding24),
           child: CustomSliderPage(
             text: model.data[index].name,
-            isTextNormal:true,
+            isTextNormal: true,
             id: model.data[index].id,
             // paddingLeft: PaddingD.padding24,
             deviceName: model.data[index].deviceName,
-            url:model.data[index].url,
+            url: model.data[index].url,
             valueSlider: model.data[index].currentValue.toDouble(),
             item_width: MyWidths.slider_item_width,
             height: MyWidths.height_slider(height),

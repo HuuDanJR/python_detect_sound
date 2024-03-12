@@ -2,7 +2,6 @@
 //
 //     final presetListModel = presetListModelFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 import 'package:volumn_control/model/volume_list_model.dart';
@@ -13,7 +12,7 @@ PresetListModel presetListModelFromJson(String str) => PresetListModel.fromJson(
 class PresetListModel {
     final bool status;
     final String message;
-    final List<Datum> data;
+    final List<Preset> data;
 
     PresetListModel({
         required this.status,
@@ -24,13 +23,13 @@ class PresetListModel {
     factory PresetListModel.fromJson(Map<String, dynamic> json) => PresetListModel(
         status: json["status"],
         message: json["message"],
-        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        data: List<Preset>.from(json["data"].map((x) => Preset.fromJson(x))),
     );
 
    
 }
 
-class Datum {
+class Preset {
     final String id;
     final String presetId;
     final String presetName;
@@ -38,7 +37,7 @@ class Datum {
     final List<Volume> volumes;
     final int v;
 
-    Datum({
+    Preset({
         required this.id,
         required this.presetId,
         required this.presetName,
@@ -47,7 +46,7 @@ class Datum {
         required this.v,
     });
 
-    factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+    factory Preset.fromJson(Map<String, dynamic> json) => Preset(
         id: json["_id"],
         presetId: json["presetId"],
         presetName: json["presetName"],

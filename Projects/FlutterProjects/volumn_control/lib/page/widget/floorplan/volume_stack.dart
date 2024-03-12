@@ -75,8 +75,8 @@ Widget volumeStack({required MyGetXController controller,required width,required
             ));
           },
           name: 'V5',
-          top: MyWidths.height_center_point(height)*1.2  + controller.dy.value,
-          left: MyWidths.width_center_point(width)*.95 + controller.dx.value,
+          // top: MyWidths.height_center_point(height)*1.2  + controller.dy.value,
+          // left: MyWidths.width_center_point(width)*.95 + controller.dx.value,
         ),
         // volumeImageAsset(
         //   onTap: () {

@@ -23,6 +23,7 @@ class MyWidths {
   static double tab_item_height(double height) {
     return height / 13;
   }
+
   static double tab_item_height_small(double height) {
     return height / 18;
   }
@@ -31,18 +32,23 @@ class MyWidths {
   static const double slider_item_width = 54.5;
   static const double slider_item_width_small = 42.5;
   static double height_center_point(double height) {
-    return height / 2 -
-        (MyWidths.tab_padding(height / 50) * 2) -
-        MyWidths.tab_item_height(height / 13) -
-        PaddingD.pading08;
+    return height_child(height)/2 - MyWidths.tab_padding(height / 50);
+  }
+
+  static double height_child(double height) {
+    double height_left =((MyWidths.tab_padding(height / 50)*2) +
+            MyWidths.tab_item_height(height) +
+            PaddingD.padding16
+    );
+    return height- height_left;
   }
 
   static double height_slider(double height) {
-    return height / 2 ;
+    return height / 2;
   }
 
   static double width_center_point(double width) {
-    return width / 2 - (MyWidths.tab_padding(width / 25) * 2);
+    return width / 2 - (MyWidths.tab_padding(width / 25));
   }
 
   static double width_item_tab(double value) {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:volumn_control/api/api_service.dart';
 import 'package:volumn_control/public/deboucer.dart';
-import 'package:volumn_control/public/myAPIstring.dart';
 import 'package:volumn_control/public/myassets.dart';
 import 'package:volumn_control/public/mycolors.dart';
 import 'package:volumn_control/public/mypadding.dart';
@@ -12,8 +11,8 @@ import 'package:volumn_control/widget/custom_image_asset.dart';
 import 'package:volumn_control/widget/custom_slider.dart';
 import 'package:volumn_control/widget/custom_text.dart';
 
-class CustomSliderPage extends StatefulWidget {
-  CustomSliderPage(
+class CustomSliderPageNoData extends StatefulWidget {
+  CustomSliderPageNoData(
       {super.key,
       required this.url,
       this.paddingLeft,
@@ -22,6 +21,7 @@ class CustomSliderPage extends StatefulWidget {
       required this.deviceName,
       required this.height,
       required this.id,
+      required this.function,
       this.isTextNormal,
       required this.text});
   double valueSlider;
@@ -32,13 +32,14 @@ class CustomSliderPage extends StatefulWidget {
   final String text;
   final bool? isTextNormal;
   final String deviceName;
+  final Function function;
   final String id;
 
   @override
-  State<CustomSliderPage> createState() => _CustomSliderPageState();
+  State<CustomSliderPageNoData> createState() => _CustomSliderPageState();
 }
 
-class _CustomSliderPageState extends State<CustomSliderPage> {
+class _CustomSliderPageState extends State<CustomSliderPageNoData> {
   final serviceAPIs = MyAPIService();
   final debouncer =Debouncer(milliseconds: 100, delay: const Duration(milliseconds: 100));
 
@@ -90,13 +91,7 @@ class _CustomSliderPageState extends State<CustomSliderPage> {
                       widget.valueSlider = value;
                     });
                     debouncer.run(() {
-                      debugPrint('value: ${widget.valueSlider}');
-                      serviceAPIs.runDeviceFullURL(url: MyString.GET_DEVICE_API(
-                                  deviceName: widget.deviceName,
-                                  position: '${widget.valueSlider}'))
-                          .then((value) {})
-                          .whenComplete(() => null);
-                      serviceAPIs.updateVolumeValue(id: widget.id, value: widget.valueSlider);
+                      widget.function(value);
                     });
                   },
                 ))),
@@ -114,7 +109,7 @@ class _CustomSliderPageState extends State<CustomSliderPage> {
       ),
       Container(
         alignment: Alignment.center,
-        width: widget.item_width * 1.75,
+        width: widget.item_width *2,
         child: text_custom_center(
             text: widget.text.toUpperCase(),
             size: TextSize.text16,
