@@ -4,7 +4,7 @@ class MyWidths {
   static const double width_asset = 115.0;
   static const double width_asset_small = 55.0;
   static const double width_asset_button = 35.0;
-  static const double width_asset_smalest = 47.5;
+  static const double width_asset_smalest = 35.0;
   static const double width_logo = 150.0;
   static const double width_borderRadius = 45.0;
   static const double width_borderRadiusSmall = 25.0;
@@ -36,15 +36,18 @@ class MyWidths {
   }
 
   static double height_child(double height) {
-    double height_left =((MyWidths.tab_padding(height / 50)*2) +
+    double heightLeft =((MyWidths.tab_padding(height / 50)*2) +
             MyWidths.tab_item_height(height) +
             PaddingD.padding16
     );
-    return height- height_left;
+    return height- heightLeft;
   }
 
   static double height_slider(double height) {
     return height / 2;
+  }
+  static double height_slider_preset(double height) {
+    return height / 2.35;
   }
 
   static double width_center_point(double width) {

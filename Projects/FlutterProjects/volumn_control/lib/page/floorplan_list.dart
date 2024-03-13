@@ -4,16 +4,13 @@ import 'package:photo_view/photo_view.dart';
 import 'package:volumn_control/api/api_service.dart';
 import 'package:volumn_control/getx/getx_controller.dart';
 import 'package:volumn_control/model/volume_list_model.dart';
-import 'package:volumn_control/page/widget/floorplan/volume_stack.dart';
 import 'package:volumn_control/public/deboucer.dart';
 import 'package:volumn_control/public/myAPIstring.dart';
 import 'package:volumn_control/public/myassets.dart';
 import 'package:volumn_control/public/mycolors.dart';
-import 'package:volumn_control/public/mypadding.dart';
 import 'package:volumn_control/public/mywidths.dart';
 import 'package:volumn_control/widget/custom_slider.dart';
 import 'package:volumn_control/widget/custom_text.dart';
-import 'package:volumn_control/widget/volume_image_asset.dart';
 import 'package:volumn_control/widget/volume_image_asset_focus.dart';
 
 class FloorPlanList extends StatefulWidget {
@@ -26,8 +23,7 @@ class FloorPlanList extends StatefulWidget {
 class _FloorPlanListState extends State<FloorPlanList> {
   final controllerGetX = Get.put(MyGetXController());
   final serviceAPIs = MyAPIService();
-  final debouncer =
-      Debouncer(milliseconds: 100, delay: const Duration(milliseconds: 100));
+  final debouncer =  Debouncer(milliseconds: 1000, delay: const Duration(milliseconds: 1000));
 
   @override
   void initState() {
@@ -55,8 +51,8 @@ class _FloorPlanListState extends State<FloorPlanList> {
           color: Colors.white,
           // borderRadius: BorderRadius.circular(MyWidths.width_borderRadiusSmall)
         ),
-        minScale: PhotoViewComputedScale.contained * 1.15,
-        maxScale: PhotoViewComputedScale.contained * 1.15,
+        minScale: PhotoViewComputedScale.contained * 1,
+        maxScale: PhotoViewComputedScale.contained * 1,
       ),
       Container(
         padding: const EdgeInsets.all(0),
@@ -93,8 +89,8 @@ class _FloorPlanListState extends State<FloorPlanList> {
                       controllerGetX.saveValueSlider(volume.currentValue);
                     },
                     name: volume.name,
-                    top: volume.dy,
-                    left: volume.dx,
+                    top: volume.dy * 1.2,
+                    left: volume.dx * 1.2,
                   ),
                 );
               }).toList());
@@ -126,7 +122,7 @@ class _FloorPlanListState extends State<FloorPlanList> {
                   ),
                   child: controllerGetX.volume.value != null
                       ? customSlider(
-                          text: '${controllerGetX.volume.value!.name}',
+                          text: controllerGetX.volume.value!.name,
                           width: MyWidths.slider_item_width,
                           height: height * .5,
                           onClose: () {

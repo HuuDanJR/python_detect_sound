@@ -63,7 +63,7 @@ Widget customSliderFitNoData(
                 ))),
       ),
       const SizedBox(
-        height: PaddingD.pading08,
+        height: PaddingD.padding04,
       ),
       customImageAsset(
           path: currentValue != 0
@@ -76,10 +76,10 @@ Widget customSliderFitNoData(
       Container(
         alignment: Alignment.center,
         height: MyWidths.tab_item_height(height),
-        width: item_width * 2,
+        width: item_width * 1.75,
         child: text_custom_center(
             text: text!.toUpperCase(),
-            size: TextSize.text16,
+            size: TextSize.text14,
             weight:isTextNormal == false ? FontWeight.bold : FontWeight.normal),
       ),
     ],

@@ -1,10 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:volumn_control/api/api_service.dart';
 import 'package:volumn_control/model/preset_list_model.dart';
 import 'package:volumn_control/model/volume.dart';
 import 'package:volumn_control/model/volume_list_model.dart';
+import 'package:volumn_control/public/loader_dialog.dart';
 import 'package:volumn_control/public/myAPIstring.dart';
 import 'package:dio/dio.dart';
+
+import 'package:volumn_control/public/deboucer.dart';
 
 class MyGetXController extends GetxController {
   RxBool visible = false.obs;
@@ -85,6 +89,7 @@ class MyGetXController extends GetxController {
 
   void toggleVisible() {
     visible.toggle();
+    resetVolumeIndex();
   }
 
   void toggleSwitch() {
@@ -127,26 +132,79 @@ class MyGetXController extends GetxController {
   }
 
   //save value slider
-  void saveValueSliderAll(double value) {
+  void saveValueSliderAll({
+    required double value,
+    
+  }) async {
     valueSliderAll.value = value;
-    serviceAPIs.listVolme().then((value) {
+    serviceAPIs.listVolme().then((value) async {
       for (int i = 0; i < value.data.length; i++) {
         print('volume item: ${value.data[i].currentValue}');
         print('value slider current: ${valueSliderAll.value}');
-        serviceAPIs
-            .runDeviceFullURL(
-                url: MyString.GET_DEVICE_API(
-                    deviceName: value.data[i].deviceName,
-                    position: '${valueSliderAll.value}'))
-            .whenComplete(() {
-          serviceAPIs.updateVolumeValue(
-              value: valueSliderAll.value, id: value.data[i].id);
-          updateVolumesCurrentValue(value.data, valueSliderAll.value);
-        });
+        updateVolumesCurrentValue(value.data, valueSliderAll.value);
+        await serviceAPIs.updateVolumeValue(value: valueSliderAll.value, id: value.data[i].id);
+        serviceAPIs.runDeviceFullURL(
+            url: MyString.GET_DEVICE_API(
+                deviceName: value.data[i].deviceName,
+                position: '${valueSliderAll.value}'));
       }
-      //then update volume current value
     });
   }
+
+  void updateValueSliderAll( double value,){
+    serviceAPIs.listVolme().then((value) async {
+      for (int i = 0; i < value.data.length; i++) {
+        serviceAPIs.runDeviceFullURL(
+            url: MyString.GET_DEVICE_API(
+                deviceName: value.data[i].deviceName,
+                position: '${valueSliderAll.value}'));
+      }
+    });
+  }
+
+  // void saveValueSliderAll({
+  //   required double value,
+  //   required context,
+  // }) async {
+  //   valueSliderAll.value = value;
+  //   final volumeList = (await serviceAPIs.listVolme()).data;
+  //   await Future.forEach(volumeList, (volume) async {
+  //     print('volume item: ${volume.currentValue}');
+  //     print('value slider current: ${valueSliderAll.value}');
+  //     await serviceAPIs.runDeviceFullURL(
+  //       url: MyString.GET_DEVICE_API(
+  //         deviceName: volume.deviceName,
+  //         position: '$value',
+  //       ),
+  //     );
+  //     await serviceAPIs.updateVolumeValue(
+  //         value: valueSliderAll.value, id: volume.id);
+  //     updateVolumesCurrentValue(volumeList, valueSliderAll.value);
+  //   });
+  // }
+
+  // void saveValueSliderAll({
+  //   required double value,
+  //   required context,
+  // }) async {
+  //   valueSliderAll.value = value;
+  //   final volumeList = (await serviceAPIs.listVolme()).data;
+  //   print('volumn list: ${volumeList.length}');
+
+  //   for (final volume in volumeList) {
+  //     print('volume item: ${volume.currentValue}');
+  //     print('value slider current: ${valueSliderAll.value}');
+  //     await serviceAPIs.runDeviceFullURL(
+  //       url: MyString.GET_DEVICE_API(
+  //         deviceName: volume.deviceName,
+  //         position: '$value',
+  //       ),
+  //     );
+  //     await serviceAPIs.updateVolumeValue(
+  //         value: valueSliderAll.value, id: volume.id);
+  //   }
+  //   // updateVolumesCurrentValue(volumeList, valueSliderAll.value);
+  // }
 
   //save all id to a list<String>
   void saveStringToList(Rx<String> stringRx) {
@@ -269,6 +327,7 @@ class MyGetXController extends GetxController {
 
   void resetVolumeIndex() {
     volumeIndex.value = 0;
+    update();
   }
 
   void deleteVolumeMap() {

@@ -51,10 +51,10 @@ class _PresetDetailSaveState extends State<PresetDetailSave> {
                   child: customColumn(isTop: true, children: [
                     text_custom_center(
                       text: controllerGetX.isEditingPreset.value == true
-                          ? "${controllerGetX.preset.value!.presetName.toUpperCase()} (adjust value of slider and it will be saved)"
-                          : controllerGetX.preset.value!.presetName
-                              .toUpperCase(),
+                          ? "${controllerGetX.preset.value!.presetName.toUpperCase()} [ Adjust value of slider and it will be saved. ]"
+                          : controllerGetX.preset.value!.presetName.toUpperCase(),
                       size: TextSize.text22,
+                      // weight: FontWeight.bold
                     ),
                     const Divider(),
                     SizedBox(
@@ -142,7 +142,7 @@ class _PresetDetailSaveState extends State<PresetDetailSave> {
                               print('tap loading in controller page: child page');
                               widget.onTapLoading();
                             },
-                            pathAsset: MyAssets.use,
+                            pathAsset: 'assets/use.png',
                             text: "LOADING PRESET"),
                         const SizedBox(
                           width: PaddingD.padding24,
@@ -155,7 +155,7 @@ class _PresetDetailSaveState extends State<PresetDetailSave> {
                               controllerGetX.toggleEditingPreset();
                               widget.onTapEdit();
                             },
-                            pathAsset: MyAssets.edit,
+                            pathAsset: 'assets/edit.png',
                             text: controllerGetX.isEditingPreset.value == true
                                 ? "EDIT PRESET (ON GOING)"
                                 : "EDIT PRESET"),
@@ -186,7 +186,7 @@ class _PresetDetailSaveState extends State<PresetDetailSave> {
                                     });
                                   });
                             },
-                            pathAsset: MyAssets.delete,
+                            pathAsset: 'assets/delete.png',
                             text: "DELETE PRESET"),
                       ]),
                     )

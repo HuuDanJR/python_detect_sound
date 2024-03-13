@@ -74,9 +74,9 @@ class _VolumeImageAssetFocusState extends State<VolumeImageAssetFocus> {
                 child: text_custom(
                     text: widget.name,
                     // text:widget.index == controllerGetX.volumeIndex.value  ? '${widget.name}' : widget.name,
-                    weight: FontWeight.bold,
+                    weight: FontWeight.normal,
                     color:widget.index == controllerGetX.volumeIndex.value ? MyColor.green:  MyColor.orange_accent,
-                    size: TextSize.text20),
+                    size: TextSize.text16),
               )
             ]),
             // )

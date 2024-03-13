@@ -20,6 +20,7 @@ Widget zoneListSync({required MyAPIService serviceAPIs,height,}){
                           );
                         }
                         return ListView.builder(
+                          addAutomaticKeepAlives: false,
                           itemCount: model!.data.length,
                           padding: const EdgeInsets.symmetric(
                               horizontal: PaddingD.padding24),

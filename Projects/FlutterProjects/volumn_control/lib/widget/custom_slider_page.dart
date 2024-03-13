@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:volumn_control/api/api_service.dart';
 import 'package:volumn_control/public/deboucer.dart';
+import 'package:volumn_control/public/loader_dialog.dart';
 import 'package:volumn_control/public/myAPIstring.dart';
 import 'package:volumn_control/public/myassets.dart';
 import 'package:volumn_control/public/mycolors.dart';
 import 'package:volumn_control/public/mypadding.dart';
 import 'package:volumn_control/public/mytextsize.dart';
 import 'package:volumn_control/public/mywidths.dart';
+import 'package:volumn_control/widget/alert_dialog.dart';
 import 'package:volumn_control/widget/custom_column.dart';
 import 'package:volumn_control/widget/custom_image_asset.dart';
 import 'package:volumn_control/widget/custom_slider.dart';
@@ -38,12 +40,15 @@ class CustomSliderPage extends StatefulWidget {
   State<CustomSliderPage> createState() => _CustomSliderPageState();
 }
 
-class _CustomSliderPageState extends State<CustomSliderPage> {
+class _CustomSliderPageState extends State<CustomSliderPage>
+    with AutomaticKeepAliveClientMixin {
   final serviceAPIs = MyAPIService();
-  final debouncer =Debouncer(milliseconds: 100, delay: const Duration(milliseconds: 100));
+  final debouncer =
+      Debouncer(milliseconds: 1000, delay: const Duration(milliseconds: 1000));
 
   @override
   Widget build(BuildContext context) {
+    super.build(context); //this line is needed
     return customColumn(isTop: true, children: [
       text_custom(
           text: '${widget.valueSlider.round()}',
@@ -90,13 +95,38 @@ class _CustomSliderPageState extends State<CustomSliderPage> {
                       widget.valueSlider = value;
                     });
                     debouncer.run(() {
+                      // showLoaderDialog(context);
                       debugPrint('value: ${widget.valueSlider}');
-                      serviceAPIs.runDeviceFullURL(url: MyString.GET_DEVICE_API(
+                      serviceAPIs
+                          .runDeviceFullURL(
+                              url: MyString.GET_DEVICE_API(
                                   deviceName: widget.deviceName,
                                   position: '${widget.valueSlider}'))
                           .then((value) {})
                           .whenComplete(() => null);
-                      serviceAPIs.updateVolumeValue(id: widget.id, value: widget.valueSlider);
+                      serviceAPIs
+                          .updateVolumeValue(
+                              id: widget.id, value: widget.valueSlider)
+                          .then((value) {
+                        // showCustomAlertDialog2Fun(
+                        //     context: context,
+                        //     textbutton: 'CONTINUE',
+                        //     function: () {
+                        //       debugPrint('click functionFinish');
+                        //       Navigator.of(context).pop();
+                        //       Navigator.of(context).pop();
+                        //       setState(() {});
+                        //     },
+                        //     functionCancel: () {
+                        //       debugPrint('click function cancel');
+                        //       Navigator.of(context).pop();
+                        //       Navigator.of(context).pop();
+                        //       setState(() {});
+                        //     },
+                        //     text: '${value['message']}');
+                      }).whenComplete(() {
+                        // Navigator.of(context).pop();
+                      });
                     });
                   },
                 ))),
@@ -114,7 +144,7 @@ class _CustomSliderPageState extends State<CustomSliderPage> {
       ),
       Container(
         alignment: Alignment.center,
-        width: widget.item_width * 1.75,
+        width: widget.item_width * 1.35,
         child: text_custom_center(
             text: widget.text.toUpperCase(),
             size: TextSize.text16,
@@ -124,4 +154,8 @@ class _CustomSliderPageState extends State<CustomSliderPage> {
       ),
     ]);
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

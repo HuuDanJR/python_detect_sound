@@ -15,7 +15,7 @@ class MyColor {
   static const Color pinkBG5 = Color(0xFFFF80AB);
   static const Color yellowBG = Color(0xFFE6B953);
   static const Color greenBG = Color(0xFF4EC061);
-  static  Color greenOpa = Color(0xFF4EC061).withOpacity(.75);
+  static  Color greenOpa = const Color(0xFF4EC061).withOpacity(.75);
   static const Color greenBG2 = Color(0xFFdefabb);
   static const Color yellowBG2 = Color(0xFFE6BC5C);
   static const Color yellowBG3 = Color(0xFFE65100);

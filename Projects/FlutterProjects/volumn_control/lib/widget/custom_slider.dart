@@ -215,15 +215,15 @@ Widget customSliderFit({required double item_width, height, String? text, onChan
      
       customImageAsset(
           path: controller.valueSliderAll.value != 0
-              ? MyAssets.volumn_on
-              : MyAssets.volumn_off,
+              ? 'assets/volumn_on.png'
+              : 'assets/volumn_off.png',
           width: MyWidths.slider_image_asset),
       const SizedBox(
         height: PaddingD.padding04,
       ),
       Container(
         alignment: Alignment.center,
-        width: item_width*1.75,
+        width: item_width*1.35,
         child: text_custom_center(
             text: text!.toUpperCase(),
             size: TextSize.text16,

@@ -66,7 +66,7 @@ Widget customSliderData({width, height, String? text, onChange, onClose}) {
                 : MyAssets.volumn_off,
             width: MyWidths.slider_image_asset),
         const SizedBox(
-          height: PaddingD.pading08,
+          height: PaddingD.padding04,
         ),
         text_custom(
             text: text!.toUpperCase(),
@@ -147,7 +147,7 @@ Widget customSliderFit({required double item_width, height, String? text, onChan
       ),
       Container(
         alignment: Alignment.center,
-        width: item_width*2,
+        width: item_width*1.75,
         child: text_custom_center(
             text: text!.toUpperCase(),
             size: TextSize.text16,

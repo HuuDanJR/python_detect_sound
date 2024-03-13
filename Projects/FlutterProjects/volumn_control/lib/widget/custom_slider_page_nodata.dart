@@ -97,7 +97,7 @@ class _CustomSliderPageState extends State<CustomSliderPageNoData> {
                 ))),
       ),
       const SizedBox(
-        height: PaddingD.pading08,
+        height: PaddingD.padding04,
       ),
       customImageAsset(
           path: widget.valueSlider != 0
@@ -109,7 +109,7 @@ class _CustomSliderPageState extends State<CustomSliderPageNoData> {
       ),
       Container(
         alignment: Alignment.center,
-        width: widget.item_width *2,
+        width: widget.item_width *1.75,
         child: text_custom_center(
             text: widget.text.toUpperCase(),
             size: TextSize.text16,

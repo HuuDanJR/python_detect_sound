@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:volumn_control/getx/getx_controller.dart';
 import 'package:volumn_control/page/floor.dart';
-import 'package:volumn_control/page/floorplan.dart';
 import 'package:volumn_control/page/floorplan_list.dart';
 import 'package:volumn_control/page/preset.dart';
 import 'package:volumn_control/page/zone.dart';
@@ -22,6 +23,7 @@ class ControlPage extends StatefulWidget {
 class _ControlPageState extends State<ControlPage> {
   int _currentPageIndex = 0;
   late PageController _pageController;
+  final controllerGetX = Get.put(MyGetXController());
   @override
   void initState() {
     super.initState();
@@ -38,22 +40,26 @@ class _ControlPageState extends State<ControlPage> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    final double itemWidth = (width - (MyWidths.tab_padding(width / 25) * 2)) / 4 - PaddingD.padding16;
+    final double itemWidth =
+        (width - (MyWidths.tab_padding(width / 25) * 2)) / 4 -
+            PaddingD.padding16;
     return Scaffold(
         backgroundColor: Colors.transparent,
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
-          child: Container(
+            child: GetBuilder<MyGetXController>(
+          builder: (controller) => Container(
             alignment: Alignment.topCenter,
-            decoration: const BoxDecoration( image: DecorationImage(image: AssetImage(MyAssets.bg), fit: BoxFit.cover)),
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage(MyAssets.bg), fit: BoxFit.cover)),
             width: width,
             height: height,
             child: Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: MyWidths.tab_padding(width / 25),
-                    vertical: MyWidths.tab_padding(height / 50)
-                ),
-                child: 
-                  customColumn(isTop: true, children: [
+                    vertical: MyWidths.tab_padding(height / 50)),
+                child: customColumn(isTop: true, children: [
                   SizedBox(
                     height: MyWidths.tab_item_height(height),
                     child: customRow(children: [
@@ -68,6 +74,8 @@ class _ControlPageState extends State<ControlPage> {
                           width: itemWidth,
                           onTap: () {
                             goToPageView(0);
+                            controller.turnOffVisible();
+                            controllerGetX.resetVolumeIndex();
                           },
                           pathAsset: MyAssets.floor,
                           text: "FLOOR\nPLAN"
@@ -123,7 +131,8 @@ class _ControlPageState extends State<ControlPage> {
                   //body
                   Expanded(
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(MyWidths.width_borderRadiusSmall),
+                      borderRadius: BorderRadius.circular(
+                          MyWidths.width_borderRadiusSmall),
                       child: PageView(
                         physics: const NeverScrollableScrollPhysics(),
                         controller: _pageController,
@@ -145,7 +154,7 @@ class _ControlPageState extends State<ControlPage> {
                   )
                 ])),
           ),
-        ));
+        )));
   }
 
   void goToPageView(int targetPageIndex) {

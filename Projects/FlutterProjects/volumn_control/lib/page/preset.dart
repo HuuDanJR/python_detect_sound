@@ -10,6 +10,7 @@ import 'package:volumn_control/public/mypadding.dart';
 import 'package:volumn_control/public/mywidths.dart';
 import 'package:volumn_control/widget/alert_dialog.dart';
 import 'package:volumn_control/widget/custom_column.dart';
+import 'package:volumn_control/widget/custom_snackbar.dart';
 import 'package:volumn_control/widget/tab_text.dart';
 
 class PresetPage extends StatefulWidget {
@@ -105,17 +106,26 @@ class _PresetPageState extends State<PresetPage> {
                     debugPrint('tap edit in controller page');
                   },
                   onTapLoading: () {
-                    debugPrint('tap loading in controller page ${controllerGetX.preset.value!.volumes.length}');
-                    showCustomAlertDialog(context: context, function: (){
-                      for (final element in controllerGetX.preset.value!.volumes) {
-                        debugPrint('deviceName & position: ${element.deviceName} ${element.currentValue}');
-                        serviceAPIs.runDeviceFullURL(url: MyString.GET_DEVICE_API(
-                                  deviceName: '${element.deviceName}',
-                                  position: '${element.currentValue}'))
-                          .then((value) {})
-                          .whenComplete(() => Navigator.of(context).pop());
-                      }
-                    }, text: 'Do you want to apply this preset?');
+                    debugPrint(
+                        'tap loading in controller page ${controllerGetX.preset.value!.volumes.length}');
+                    showCustomAlertDialog(
+                        context: context,
+                        function: () {
+                          for (final element
+                              in controllerGetX.preset.value!.volumes) {
+                            debugPrint('deviceName & position: ${element.deviceName} ${element.currentValue}');
+                            serviceAPIs.runDeviceFullURL(
+                                    url: MyString.GET_DEVICE_API(
+                                        deviceName: element.deviceName,
+                                        position: '${element.currentValue}'))
+                                .then((value) {})
+                                .whenComplete(() {
+                                  
+                                });
+                          }
+                          Navigator.of(context).pop();
+                        },
+                        text: 'Do you want to apply this preset?');
                   },
                 ),
               ],
