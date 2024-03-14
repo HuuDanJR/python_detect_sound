@@ -94,17 +94,22 @@ Widget mainItem(
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
-      AnimatedGradient(
-        width: width / 2,
-        height: height * 4 / 5,
-        colorList: const [
-          MyColor.blueBG,
-          MyColor.blueBG2,
-          MyColor.blueBG3,
-          MyColor.blueBG4,
-          MyColor.blueBG5,
-        ],
-        widget: Column(
+      // AnimatedGradient(
+      //   width: width / 2,
+      //   height: height * 4 / 5,
+      //   colorList: const [
+      //     MyColor.blueBG,
+      //     MyColor.blueBG2,
+      //     MyColor.blueBG3,
+      //     MyColor.blueBG4,
+      //     MyColor.blueBG5,
+      //   ],
+      //   widget:
+      Container(
+        width:width/2,
+        color:MyColor.blueBG,
+        child:
+         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -131,19 +136,23 @@ Widget mainItem(
         ),
         // ),
       ),
-      AnimatedGradient(
-        width: width / 2,
-        height: height * 4 / 5,
-        colorList: const [
-          MyColor.pinkBG,
-          MyColor.pinkBG2,
-          MyColor.pinkBG3,
-          MyColor.pinkBG4,
-          MyColor.pinkBG5,
+      // AnimatedGradient(
+      //   width: width / 2,
+      //   height: height * 4 / 5,
+      //   colorList: const [
+      //     MyColor.pinkBG,
+      //     MyColor.pinkBG2,
+      //     MyColor.pinkBG3,
+      //     MyColor.pinkBG4,
+      //     MyColor.pinkBG5,
          
        
-        ],
-        widget:
+      //   ],
+      //   widget:
+      Container(
+        width: width/2,
+        color:MyColor.pinkBG3,
+        child:
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
