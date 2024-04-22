@@ -1,0 +1,148 @@
+<div class="row" style="margin: unset">
+  <!-- <div class="col-md-4 d-flex container-login-left" style="padding-left: 0px; padding-right: 0px">
+    <img src="<%= image_path('logo.png') %>" alt="User Avatar" class="logo-login mr-3 img-circle">
+  </div> -->
+  <div class="col-md-12" style="padding-left: 0px; padding-right: 0px" id="login-form">
+    <!-- <div class="back-home">
+      <a href="/" class="btn-backhome">Home</a>
+    </div> -->
+    <div class="login-page" style="background-image: url('<%= image_path('background-login.png') %>') !important; background-size: cover;">
+      <img src="<%= image_path('logo-login.png') %>" alt="User Avatar" class="logo-login">
+      <div class="login-box login-box-mobile">
+        <!-- /.login-logo -->
+        <div class="card">
+          <div class="card-body login-card-body">
+            <p class="login-box-msg title-forn-login-register">VEGAS E-GAMING CLUB</p>
+            <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+              <div class="input-group mb-3">
+                <%= f.text_field :email, autofocus: true, autocomplete: "off", placeholder: "Customer Number/Email", class: 'form-control input-login' %>
+              </div>
+              <div class="input-group mb-3">
+                <%= f.password_field :password, autocomplete: "off", placeholder: "Pin Code/Password", class: 'form-control input-login' %>
+              </div>
+              <div style="display: flex; width: 100%;align-items: center;justify-content: center">
+                  <!--
+                  <div style="flex:1">
+                      <% if devise_mapping.rememberable? %>
+                        <div class="icheck-primary" style="float:left; display: flex; hidden: true">
+                          <input type="checkbox" value="1" name="user[remember_me]" id="user_remember_me" style="width: 26px;height: 26px;"> &nbsp;&nbsp;&nbsp;
+                          <%= f.label :remember_me, "Remember me" %>
+                        </div>
+                      <% end %>
+                    </div>
+                  -->
+                  <div style="float:center">
+                    <button type="submit" name="commit" value="" class="btn btn-sign-in" style="
+                        width: 64px;
+                        height: 64px;
+                        background: crimson;
+                        border: 1px solid #C0C0C0;
+                        border-radius: 64px;
+                        color: white;
+                    "> <span class="fas fa-arrow-right"></span></button>
+                  </div>
+              </div>
+              <div class="input-group">
+                  <input class="form-control" hidden="hidden" type="text" value="" name="token_web" id="token_web">
+              </div>
+            <% end %>
+            <%# <div class="input-group d-flex" style="margin-top: 5px">
+              <p class="mb-1" style="flex: 1">
+      
+              </p>
+            </div> %>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+      // let language_hl = "<%= @hl_language.to_s %>";
+      // if(language_hl == "ja"){
+      //   $("#user_email").attr("placeholder", "고객 번호/이메일");
+      // }else if(language_hl == "kr"){
+      //   $("#user_email").attr("placeholder", "고객 번호/이메일");
+      // }else if(language_hl == "cn"){
+      //   $("#user_email").attr("placeholder", "고객 번호/이메일");
+      // }else{
+      // }
+      let lastWindowHeight = window.innerHeight;
+
+      window.addEventListener('resize', function() {
+        let currentWindowHeight = window.innerHeight;
+        
+        if (currentWindowHeight < lastWindowHeight) {
+          // Keyboard likely shown
+        } else if (currentWindowHeight > lastWindowHeight) {
+          // Keyboard likely hidden
+        }
+
+        lastWindowHeight = currentWindowHeight; // Update the last known height
+      });
+
+      const inputField = document.getElementById('user_email');
+      inputField.addEventListener('input', handleInput);
+      inputField.addEventListener('change', handleChange);
+      inputField.addEventListener('keyup', handleKeyUp);
+      inputField.addEventListener('keydown', handleKeyDown);
+      function handleInput(event) {
+        onScrollUI();
+      }
+
+      function handleChange(event) {
+        onScrollUI();
+      }
+
+      function handleKeyUp(event) {
+         onScrollUI();
+      }
+      
+      function handleKeyDown(event) {
+         onScrollUI();
+      }
+    });
+
+    function onScrollUI(){
+       if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+      }
+    }
+</script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+  import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-messaging.js";
+  const firebaseConfig = {
+    apiKey: "<%= @FireBaseConfig[:apiKey] %>",
+    authDomain: "<%= @FireBaseConfig[:authDomain] %>",
+    projectId: "<%= @FireBaseConfig[:projectId] %>",
+    storageBucket: "<%= @FireBaseConfig[:storageBucket] %>",
+    messagingSenderId: "<%= @FireBaseConfig[:messagingSenderId] %>",
+    appId: "<%= @FireBaseConfig[:appId] %>",
+    measurementId: "<%= @FireBaseConfig[:measurementId] %>"
+  }
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const messaging = getMessaging(app);
+
+    getToken(messaging, {vapidKey: "<%= @FireBaseConfig[:validKey] %>" })
+      .then((currentToken) => {
+        if (currentToken) {
+            $('#token_web').val(currentToken);
+        } else {
+          // Show permission request UI
+          console.log(
+            "No registration token available. Request permission to generate one."
+          );
+          // ...
+        }
+      })
+      .catch((err) => {
+        console.log("An error occurred while retrieving token. ", err);
+        // ...
+      });
+
+</script>

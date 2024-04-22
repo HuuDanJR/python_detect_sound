@@ -1,0 +1,147 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6">
+          <%= t('notification') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">
+            <%= t('notification') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class=row>
+            <div class="col-md-12">
+              <%= form_with(url: "/notifications", method: "get", local: true, id: "notification_history") do |f| %>
+                <%= f.hidden_field :page, :value => 1 %>
+                <div class="form-row">
+                  <div class="form-group col-sm-2">
+                    <label>Search:</label>
+                    <%= f.text_field(:search, value: @search_query, placeholder: "Search", class: "form-control") %>
+                  </div>
+
+                  <div class="form-group col-sm-2">
+                    <label>Notification Type:</label>
+                    <select class="form-control select2" name="notification_type" id="notification_type">
+                      <option value="">-- Notification Type --</option>                    
+                      <% @configs.each do |item| %>
+                        <option value="<%= item['id'] %>"><%= item['name'] %></option>
+                      <% end %>
+                    </select>
+                  </div>
+                  
+                  <div class="form-group col-sm-2">
+                    <label>Date From:</label>
+                    <%= f.date_field(:date_from, value: @date_from, class: "form-control") %>
+                  </div>
+                  <div class="form-group col-sm-2">
+                    <label>Date To:</label>
+                    <%= f.date_field(:date_to, value: @date_to, class: "form-control") %>
+                  </div>
+
+                  <div class="form-group col-sm-2">
+                    <label>Sort By Send Time:</label>
+                    <select class="form-control select2" name="order_type" id="order_type">
+                      <option value="1" selected>Descending</option>
+                      <option value="2">Ascending</option>
+                    </select>
+                  </div>
+                  
+                  <div class="form-group col-sm-2">
+                    <label>&nbsp;</label><br>
+                    <%= f.submit "Search", class: "btn btn-search btn-smr" %>
+                    <a class="btn btn-search btn-smr" href="/notifications/export?search=<%= @search_query %>&&date_from=<%= @date_from %>&&date_to=<%= @date_to %>&&notification_type=<%= @notification_type %>" target="_blank">Export</a>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive">
+          <table id="place_list" class="table table-striped projects">
+            <thead>
+            <tr>
+              <th>No.</th>
+              <th>Title</th>
+              <th>Short description</th>
+              <th>Source</th>
+              <th>Send Time</th>
+              <th>Send To</th>
+              <th>Login</th>
+              <th>Read By</th>
+              <th class="text-center">Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <% index = 0 %>
+            <% @notifications.each do |notification| %>
+              <tr>
+                <% index = index + 1 %>
+                <td><%= index %></td>
+                <td><%= notification.title %></td>
+                <td><%= notification.short_description %></td>
+                <td><%= notification.source_type %></td>
+                <td style="max-width:136px !important;word-break: normal;"><%= notification.created_at_tmp.strftime("%H:%M %d-%m-%Y") %></td>
+                <td><%= notification.send_to %></td>
+                <td><%= notification.total_count %></td>
+                <td style="max-width:90px !important;word-break: normal;"><%= notification.read_count %></td>
+                <td class="project-actions text-center">
+                  <a data-turbolinks="false" style="background: #e8effa !important" class="btn-action" href="/notifications/export_notification/<%= notification.source_id %>?source_type=<%= notification.source_type %>" data-toggle="tooltip" title="Export Notification"  target="_blank"><i class="fas fa-download"></i></a>
+
+                </td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+          <div class="p-2 digg_pagination">
+            <%= will_paginate @notifications %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script type="text/javascript">
+  $( document ).ready(function() {
+    reloadPage();
+  });
+  
+  $(function() {
+      var selected = new URLSearchParams(window.location.search);
+      let seletedNotificationType = selected.get('notification_type');
+      let seletedOrderType = selected.get('order_type');
+      if(seletedOrderType == null){
+        seletedOrderType = 1;
+      }
+      $("#notification_type").val(seletedNotificationType).trigger("change");
+      $('#notification_type').on('change', function(e){
+        $('form').submit();
+      });
+      
+      $("#order_type").val(seletedOrderType).trigger("change");
+      $('#order_type').on('change', function(e){
+        $('form').submit();
+      });
+  });
+
+</script>

@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  grand_name: MyString
+  grand_value: 1.5
+  major_name: MyString
+  major_value: 1.5
+
+two:
+  grand_name: MyString
+  grand_value: 1.5
+  major_name: MyString
+  major_value: 1.5

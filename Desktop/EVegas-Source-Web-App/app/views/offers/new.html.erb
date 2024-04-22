@@ -1,0 +1,41 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6" id="title_header">
+          <%= t('offer_new') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active" id="breadcrumb_header">
+            <%= t('offer_new') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+    <%= render 'form', offer: @offer %>
+</section>
+<script>
+  $(function() {
+    var selected = new URLSearchParams(window.location.search);
+    let offer_type = selected.get('offer_type');
+    if(offer_type){
+      if(offer_type == 1){
+        $("#title_header").text("Offer New");
+        $("#breadcrumb_header").text("Offer");
+      }else{
+        $("#title_header").text("Event New");
+        $("#breadcrumb_header").text("Event");
+      }
+    }
+  });
+</script>

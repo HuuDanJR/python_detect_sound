@@ -1,0 +1,2 @@
+class MysteryJackpot < ApplicationRecord
+end

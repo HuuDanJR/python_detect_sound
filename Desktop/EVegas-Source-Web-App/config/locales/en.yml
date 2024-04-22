@@ -1,0 +1,205 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at https://guides.rubyonrails.org/i18n.html.
+
+en:
+  activerecord:
+    attributes:
+      map:
+        name: "Name "
+      place:
+        name: "Name "
+      zone:
+        name: "Name "
+      river:
+        name: "Name "
+      street:
+        name: "Name "
+      plant:
+        name: "Name "
+      user:
+        current_password: "Current password "
+        name: "Name "
+    errors:
+      models:
+        map:
+          attributes:
+            name:
+              blank: "cannot be left blank"
+        place:
+          attributes:
+            name:
+              blank: "cannot be left blank"
+        zone:
+          attributes:
+            name:
+              blank: "cannot be left blank"
+        river:
+          attributes:
+            name:
+              blank: "cannot be left blank"
+        street:
+          attributes:
+            name:
+              blank: "cannot be left blank"
+        plant:
+          attributes:
+            name:
+              blank: "cannot be left blank"
+        user:
+          attributes:
+            current_password:
+              blank: "cannot be left blank"
+            name:
+              blank: "cannot be left blank"
+  messages:
+    missing_param: "Missing parameters"
+    invalid_param: "Parameter is invalid"
+    input_json_invalid: "Input JSON invalid"
+    error_while_save: "An error occurred while saving. Please contact your system administrator or try again"
+    object_to_required: "Object to required"
+    object_not_found: "Object not found"
+    can_not_connect_to_server: "Unable to connect to server "
+
+  error_403_info: "Your account does not have access. Please contact the administrator or try again."
+  error_404_info: "The website you are looking for does not exist."
+  error_422_info: "Your request is incorrect. Please contact the administrator or try again."
+  error_500_info: "Error! An error occurred. Please try again later. Please contact the administrator or try again."
+  
+  action_show: "Show"
+  action_edit: "Update"
+  action_destroy: "Delete"
+  action_confirm_destroy: "Are you sure you want to delete?"
+  action_new: "Create"
+  update_success: "Update Success"
+
+  user: "User"
+  user_email: "Email/Customer Number"
+  user_created_at: "Created"
+  user_new: "Create User"
+  user_edit: "Update User"
+  user_status: "Status"
+  user_activated: "Activeted"
+  user_inactivated: "Not activated"
+  user_change_password: "Change Password"
+  user_reset_password: "Password Default"
+  user_name: "User name"
+  user_birthday: "Date of birth"
+  user_locked: "Lock"
+  user_unlocked: "Unlock"
+  user_not_found: "User not found"
+
+  group: "Group User"
+  group_name: "Group Name"
+  group_description: "Description"
+
+  role: "Role"
+  role_name: "Role Name"
+  role_description: "Description"
+  role_action: "Action"
+  role_resource: "Resource"
+
+  file_import_not_found: "Please select the file to import."
+  file_import_success: "Import file Success."
+
+  dashboard: "Dashboard"
+  dashboard_user_latest: "User latest"
+
+  officer: "Officer"
+  officer_name: "Name"
+  officer_phone: "Phone"
+  officer_home_town: "Home Town"
+  officer_date_of_birth: "Date of birth"
+  officer_gender: "Gender"
+  officer_nationality: "Nationality"
+  officer_language: "Language"
+  officer_organization: "Organization"
+  officer_position: "Position"
+  officer_status: "Status"
+  officer_online: "Online"
+  officer_create_success: "Officer Create Success"
+  officer_update_success: "Officer Update Success"
+  officer_delete_success: "Officer Deleted"
+  officer_language_support: "Language support"
+
+  delete_success: "Delete successfully"
+  delete_fail: "Delete failed"
+
+  customer_card_number: "Card number"
+  customer_cashless_balance: "Cashless balance"
+  customer_colour: "Colour"
+  customer_age: "Age"
+  customer_colour_html: "Colour html"
+  customer_comp_balance: "Comp balance"
+  customer_comp_status_colour: "Comp status colour"
+  customer_comp_status_colour_html: "Comp status colour html"
+  customer_forename: "Forename"
+  customer_freeplay_balance: "Freeplay balance"
+  customer_gender: "Gender"
+  customer_has_online_account: "Online"
+  customer_hide_comp_balance: "Hide comp balance"
+  customer_is_guest: "Guest"
+  customer_loyalty_balance: "Loyalty balance"
+  customer_loyalty_points_available: "Loyalty points available"
+  customer_membership_type_name: "Membership type name"
+  customer_middle_name: "Middle name"
+  customer_number: "Number"
+  customer_player_tier_name: "Player tier name"
+  customer_player_tier_short_code: "Player tier short code"
+  customer_premium_player: "Premium player"
+  customer_surname: "Surname"
+  customer_title: "Title"
+  customer_valid_membership: "Valid membership"
+  customer_create_success: "Customer was successfully created"
+  customer_update_success: "Customer was successfully updated"
+
+  time_booking_required: "Time booking not config at settings"
+
+  booking_reject: "You have just booked, please wait a few minutes"
+  booking_reject_ko: "방금 예약이 완료되었습니다, 잠시만 기다려 주십시오"
+  booking_reject_zh: "您刚刚预订好了，请稍等一下"
+  booking_reject_ja: "You have just booked, please wait a few minutes"
+
+  booking_reject_level: "Your booking request is not available in this moment, please contact our staff or Host"
+  booking_reject_level_ko: "죄송합니다 고객님, 현재 차량 예약이 불가하오니 자세한 사항은 저희 직원에게 문의 부탁 드립니다"
+  booking_reject_level_zh: "对不起，现在不能预订车辆 为了更多详细的内容，请联系一下我们的员工"
+  booking_reject_level_ja: "客様の予約リクエストは現在ご利用いただけません。詳しくはスタッフにお尋ねください。"
+
+  booking_mc_reservation_reject: "You have just booked a machine reservation, please wait a few minutes"
+  booking_mc_reservation_reject_ko: "죄송합니다 고객님, 현재 차량 예약이 불가하오니 자세한 사항은 저희 직원에게 문의 부탁 드립니다"
+  booking_mc_reservation_reject_zh: "对不起，现在不能预订车辆 为了更多详细的内容，请联系一下我们的员工"
+  booking_mc_reservation_reject_ja: "客様の予約リクエストは現在ご利用いただけません。詳しくはスタッフにお尋ねください。"
+
+  booking_reject_mc_reservation_level: "Sorry Sir/Mdm, The Machine reservation is not avaiable at this time, please contact our staff for more details"
+  booking_reject_mc_reservation_level_ko: "죄송합니다 고객님, 현재 기계 예약이 불가하오니 자세한 사항은 저희 직원에게 문의 부탁 드립니다"
+  booking_reject_mc_reservation_level_zh: "对不起，现在不能保留机器 为了更多详细的内容，请联系一下我们的员工"
+  booking_reject_mc_reservation_level_ja: "申し訳ございませんが、現在ご予約を承ることができません。"
+
+  password_change_not_match: "New password and password confirmation do not match"

@@ -1,0 +1,218 @@
+<style>
+  .select2{
+    min-width: 90px !important;
+  }
+</style>
+<%= form_with(model: product, local: true) do |form| %>
+  <div class="row">
+    <% if product.errors.any? %>
+      <div id="error_explanation" class="col-md-12">
+        <h2>
+          <%= pluralize(product.errors.count, "error" ) %> prohibited this product from being saved:
+        </h2>
+
+        <ul>
+          <% product.errors.full_messages.each do |message| %>
+            <li>
+              <%= message %>
+            </li>
+            <% end %>
+        </ul>
+      </div>
+      <% end %>
+  </div>
+
+  <div class="row" data-turbolinks="false">
+    <div class="col-md-12">
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Information</h3>
+        </div>
+        <div class="card-body">
+         <!-- <% if !@product.qrcode.nil? && !@product.qrcode.empty? %>
+            <div class="form-row">
+              <div class="form-group col-sm-4">
+                <label>
+                  <%= t('Qrcode') %>:
+                </label>
+                <div>
+                  <%= @imageQrcode.html_safe %>
+                </div>
+              </div>
+            </div>
+          <% end %> -->
+          <div class="form-row">
+            <div class="form-group col-sm-4">
+              <label>
+                <%= t('sku') %>:
+              </label>
+              <%= form.text_field :sku, class: "form-control", required: true %>
+            </div>
+            <div class="form-group col-sm-4">
+              <label>
+                <%= t('name') %>:
+              </label>
+              <%= form.text_field :name, class: "form-control", required: true %>
+            </div>
+
+            <div class="form-group col-sm-4">
+              <label>
+                <%= t('base_price') %>:
+              </label>
+              <%= form.number_field :base_price, class: "form-control" %>
+            </div>
+            <div class="form-group col-sm-4">
+              <label>
+                <%= t('price') %>:
+              </label>
+              <%= form.number_field :price, class: "form-control" %>
+            </div>
+            <div class="form-group col-sm-4">
+              <label>
+                <%= t('point_price') %>:
+              </label>
+              <%= form.number_field :point_price, class: "form-control" %>
+            </div>
+            
+            <div class="form-group col-sm-4">
+              <label>
+                <%= t('Customer Level') %>:
+              </label>
+              <div style="display:flex">
+                <select class="form-control select2" name="customer_levels" id="customer_levels" multiple="multiple" onchange="onChangeCustomerLevel()">
+                  <% @customer_level.each do |item| %>
+                    <option value="<%= item['membership_name'] %>"><%= item['name'] %></option>
+                  <% end %>
+                </select>
+              </div>
+              <%= form.text_field :customer_level, class: "form-control", hidden: true %>
+            </div>
+            
+
+            <div class="form-group col-sm-4">
+              <label>
+                <%= t('product_type') %>:
+              </label>
+              <div class="gender-item">
+                <%= form.radio_button :product_type, 1 %>Food
+                <%= form.radio_button :product_type, 2 %>Beverage
+              </div>
+            </div>
+
+            <div class="form-group col-sm-4">
+              <label>
+                <%= t('product_category_id') %>:
+              </label>
+              <%= select_tag("product[product_category_id]", options_from_collection_for_select(@product_categories, 'id', 'name', @product.product_category_id.to_i),  {:multiple => false, class: "form-control select2"})%>
+            </div>
+
+
+            <div class="form-group col-sm-4">
+              <label>
+                <%= t('Beverage_types') %>:
+              </label>
+              <div style="display:flex; width: 100%">
+                <select class="form-control select2" name="beverage_types" id="beverage_types" onchange="onChangeBeverage()">
+                  <% @beverage_type_config.each do |item| %>
+                    <option value="<%= item['id'] %>"><%= item['name'] %></option>
+                  <% end %>
+                </select>
+              </div>
+              <%= form.text_field :beverage_type, class: "form-control", hidden: true %>
+            </div>
+            <div class="form-group col-sm-12">
+              <label>
+                <%= t('Description') %>:
+              </label>
+              <%= form.text_area :description, class: "form-control ckeditor", rows:"6", required: true %>
+            </div>
+
+            <div class="form-group col-sm-4">
+              <label>
+                <%= t('index') %>:
+              </label>
+              <%= form.text_field :index_product, class: "form-control", type: "number" %>
+            </div>
+
+            <div class="form-group col-sm-4">
+              <label>
+                <%= t('is_hide') %>:
+              </label>
+              <%= form.check_box :is_hide, class: "form-control" %>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label><%= t('product_attach') %> :</label> <span style="color: red !important;">Ratio 3:4 - 600px:800px</span>
+              <div class="list-img">
+                <% if @product.attachment_id? %>
+                  <div>
+                    <img id="drag1" src="/attachments/download/<%= @product.attachment_id %>?version=medium" width="360" height="360">
+                  </div>
+                <% end %>
+              </div>
+              <%= form.file_field :attachment, :multiple => false, accept: 'image/*', class: "form-control" %>
+              
+              <%= form.number_field :attachment_id, class: "form-control", hidden: true %>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <%= link_to 'Back', 'javascript:void(0);', onclick: "window.history.back(); setTimeout(function(){window.location.reload();}, 100);", class: "btn btn-secondary" %>      
+      <input class="btn btn-success float-right" name="btnSubmit" data-disable-with="Processing..." type="submit" value="Save" />
+        <%# <button type="submit" class="btn btn-success float-right" id="btnSubmit">Save</button> %>
+    </div>
+  </div>
+<% end %>
+<script>
+    $(document).on("turbolinks:load", function () {
+        replaceCKEDITOR("product_description");
+    });
+</script>
+
+<script>
+     $(document).ready(function () {
+        let customer_levels = $('#product_customer_level').val();
+        if (customer_levels !== '' && customer_levels != undefined){
+          customer_levels = JSON.parse(customer_levels);
+          $("#customer_levels").val(customer_levels);
+          $('#customer_levels').trigger('change');
+        }
+
+        let beverage_types = $('#product_beverage_type').val();
+        if (beverage_types !== '' && beverage_types != undefined){
+          beverage_types = JSON.parse(beverage_types);
+          $("#beverage_types").val(beverage_types);
+          $('#beverage_types').trigger('change');
+        }
+
+        var editor = CKEDITOR.replace('product_description');
+       
+    });
+
+    function onChangeCustomerLevel(){
+      let customer_levels = $('#customer_levels').val(); 
+      if (customer_levels.length > 0){     
+        $('#product_customer_level').val(JSON.stringify(customer_levels));
+      }else{
+        $('#product_customer_level').val("");
+      }
+    }
+
+    function onChangeBeverage(){
+       let beverage_types = $('#beverage_types').val(); 
+      if (beverage_types > 0){     
+        $('#product_beverage_type').val(beverage_types);
+      }else{
+        $('#product_beverage_type').val("");
+      }
+    }
+
+</script>

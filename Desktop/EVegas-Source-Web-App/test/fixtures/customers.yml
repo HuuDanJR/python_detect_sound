@@ -1,0 +1,55 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  age: 1
+  card_number: MyString
+  cashless_balance: 9.99
+  colour: 1
+  colour_html: MyString
+  comp_balance: 9.99
+  comp_status_colour: 1
+  comp_status_colour_html: MyString
+  forename: MyString
+  freeplay_balance: 9.99
+  gender: MyString
+  has_online_account: false
+  hide_comp_balance: false
+  is_guest: false
+  loyalty_balance: 9.99
+  loyalty_points_available: 1
+  membership_type_name: MyString
+  middle_name: MyString
+  number: 1
+  player_tier_name: MyString
+  player_tier_short_code: MyString
+  premium_player: false
+  surname: MyString
+  title: MyString
+  valid_membership: false
+
+two:
+  age: 1
+  card_number: MyString
+  cashless_balance: 9.99
+  colour: 1
+  colour_html: MyString
+  comp_balance: 9.99
+  comp_status_colour: 1
+  comp_status_colour_html: MyString
+  forename: MyString
+  freeplay_balance: 9.99
+  gender: MyString
+  has_online_account: false
+  hide_comp_balance: false
+  is_guest: false
+  loyalty_balance: 9.99
+  loyalty_points_available: 1
+  membership_type_name: MyString
+  middle_name: MyString
+  number: 1
+  player_tier_name: MyString
+  player_tier_short_code: MyString
+  premium_player: false
+  surname: MyString
+  title: MyString
+  valid_membership: false

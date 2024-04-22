@@ -1,0 +1,37 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  customer: one
+  address: MyString
+  pickup_at: 2022-07-13 10:24:46
+  customer_note: MyString
+  booking_type: 1
+  reservation_type: 1
+  driver_name: MyString
+  driver_mobile: MyString
+  car_type: MyString
+  license_plate: MyString
+  arrival_at: 2022-07-13 10:24:46
+  internal_note: MyString
+  price: 1
+  distance: 9.99
+  drop_off_at: 2022-07-13 10:24:46
+  status: 1
+
+two:
+  customer: two
+  address: MyString
+  pickup_at: 2022-07-13 10:24:46
+  customer_note: MyString
+  booking_type: 1
+  reservation_type: 1
+  driver_name: MyString
+  driver_mobile: MyString
+  car_type: MyString
+  license_plate: MyString
+  arrival_at: 2022-07-13 10:24:46
+  internal_note: MyString
+  price: 1
+  distance: 9.99
+  drop_off_at: 2022-07-13 10:24:46
+  status: 1

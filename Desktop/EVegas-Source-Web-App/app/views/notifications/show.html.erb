@@ -1,0 +1,220 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6">
+          <%= t('notification') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">
+            <%= t('notification_show') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+      <div class="row" data-turbolinks="false">
+        <div class="col-md-12">
+          <div class="card card-secondary">
+            <div class="card-header">
+              <h3 class="card-title">Information</h3>
+            </div>
+            <div class="card-body">
+            
+              <div class="form-row">
+                
+                <div class="col-md-3">
+                  <label>
+                    <%= t('user') %>:
+                  </label>
+                  
+                  <div class="">
+                    <%= @notification.name %> - 
+                    <%= @notification.email %>
+                  </div>
+                </div>
+                
+                <div class="col-md-3">
+                  <label>
+                    <%= t('status_read') %>:
+                  </label>
+                  
+                  <div class="">
+                    <%= @notification.is_read ? "Yes - Time read:" : "No" %> <%= @notification.is_read ? @notification.updated_at.strftime("%d-%m-%Y %T") : "" %>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <label>
+                    <%= t('notification_type') %>:
+                  </label>
+                  
+                  <div class="">
+                    <%= @notification.source_type %>
+                  </div>
+                </div>
+                <div class="form-group col-sm-3">
+                  <label>
+                    <%= t('Time_send') %>:
+                  </label>
+                  <div class="">
+                    <%= @notification.created_at.strftime("%d-%m-%Y %T") %>
+                  </div>
+                </div>
+              </div>
+
+              <ul class="nav nav-tabs" id="process-link-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="en-tab" data-toggle="pill"
+                        href="#en" role="tab" aria-controls="en"
+                        aria-selected="true">English</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="korea-tab" data-toggle="pill"
+                        href="#korea" role="tab" aria-controls="korea"
+                        aria-selected="false">Korean</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="china-tab" data-toggle="pill"
+                        href="#china" role="tab" aria-controls="china"
+                        aria-selected="false">Chinese</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="vietnam-tab" data-toggle="pill"
+                        href="#vietnam" role="tab" aria-controls="vietnam"
+                        aria-selected="false">Japanese</a>
+                  </li>
+              </ul>
+              <div class="tab-content" id="process-link-tabContent" style="padding: 10px; display: flex;">
+                  <div class="tab-pane fade active show" id="en" role="tabpanel" style="width: 100%;">
+                    <div class="form-row">
+                      <div class="form-group col-sm-12">
+                        <label>
+                          <%= t('title') %>:
+                        </label>
+                        <p> <%= @notification.title %><p>
+                      </div>
+                    </div>
+                    
+                    <div class="form-row">
+                      <div class="form-group col-sm-12">
+                        <label>
+                          <%= t('short_description') %>:
+                        </label>
+                        <p> <%= @notification.short_description %><p>
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group col-sm-12">
+                        <label>
+                          <%= t('content') %>:
+                        </label>
+                        <p> <%= @notification.content.html_safe %><p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="korea" role="tabpanel" style="width: 100%;">
+                    <div class="form-row">
+                      <div class="form-group col-sm-12">
+                        <label>
+                          Title Korean:
+                        </label>
+                        <p> <%= @notification.title_kr %><p>
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group col-sm-12">
+                        <label>
+                          Short Description Korean:
+                        </label>
+                        <p> <%= @notification.short_description_kr %><p>
+                      </div>
+                    </div>
+
+                    <div class="form-row">
+                      <div class="form-group col-sm-12">
+                        <label>
+                          Content Korean:
+                        </label>
+                        <p> <%= @notification.content_kr.html_safe %><p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="china" role="tabpanel" style="width: 100%;">
+                  <div class="form-row">
+                    <div class="form-group col-sm-12">
+                      <label>
+                        Title Chinese:
+                      </label>
+                        <p> <%= @notification.title_cn %><p>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col-sm-12">
+                      <label>
+                        Short Description Chinese:
+                      </label>
+                        <p> <%= @notification.short_description_cn %><p>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col-sm-12">
+                      <label>
+                        Content Chinese:
+                      </label>
+                        <p> <%= @notification.content_cn.html_safe %><p>
+                    </div>
+                  </div>
+                  </div>
+                  <div class="tab-pane fade" id="vietnam" role="tabpanel" style="width: 100%;">
+                  <div class="form-row">
+                    <div class="form-group col-sm-12">
+                      <label>
+                        Title Japanese:
+                      </label>
+                        <p> <%= @notification.title_ja %><p>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col-sm-12">
+                      <label>
+                        Short Description Japanese :
+                      </label>
+                        <p> <%= @notification.short_description_ja %><p>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col-sm-12">
+                      <label>
+                        Content Japanese:
+                      </label>
+                        <p> <%= @notification.content_ja.html_safe %><p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <%= link_to 'Back', 'javascript:void(0);', onclick: "window.history.back(); setTimeout(function(){window.location.reload();}, 100);", class: "btn btn-secondary" %>                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</section>

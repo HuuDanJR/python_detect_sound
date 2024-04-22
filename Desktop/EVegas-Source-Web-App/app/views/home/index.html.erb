@@ -1,0 +1,40 @@
+<div class="row" style="margin: unset">
+
+
+  <div class="col-md-12" style="padding-left: 0px; padding-right: 0px">
+    <div class="login-page" style="background-image: url('<%= image_path('background-login.png') %>') !important;">
+      <img src="<%= image_path('logo-login.png') %>" alt="User Avatar" class="logo-login">
+      <div class="login-box">
+        <!-- /.login-logo -->
+        <div class="card">
+          <div class="card-body login-card-body">
+            <p class="login-box-msg title-forn-login-register">Vegas E-Gaming Club</p>
+            <div class="input-group d-flex" style="margin-top: 5px">
+              <p class="mb-1" style="flex: 1">
+                <% if current_user %>
+                 <a href="/dashboard" class="btn-login-home" data-turbolinks="false">Dashboard</a>
+                <% else %>
+                  <a href="/user/sign_in" class="btn-login-home">Login</a>
+                <% end %>
+                <a href="/home/product" class="btn-backhome" data-turbolinks="false">Menu</a>
+              </p>
+            </div>
+            
+            <% if current_user %>
+              <div style="margin-top: 5px">
+                <a href="/user/sign_out" class="mt-10" data-method="delete">Logout</a>
+              </div>
+            <% end %>     
+          </div>
+        </div>
+
+          <p>Download App</p>
+            
+              <div>
+                <a href="https://play.google.com/store/apps/details?id=com.trivietjsc.vcms&hl=vi&gl=US" target="_blank"><img src="<%= image_path('android-logo.png') %>" height="45" width="45"/></a>
+                <a href="https://apps.apple.com/vn/app/e-vegas/id6443826209?l=vi" target="_blank"><img src="<%= image_path('ios-logo.png') %>" height="45" width="45"/></a>
+              </div>
+      </div>
+    </div>
+  </div>
+</div>

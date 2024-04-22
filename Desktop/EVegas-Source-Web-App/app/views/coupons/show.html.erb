@@ -1,0 +1,105 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6">
+          <%= t('coupon_show') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">
+            <%= t('coupon_show') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="card card-secondary">
+          <div class="card-header">
+            <h3 class="card-title">Information</h3>
+          </div>
+          <div class="card-body">
+            <p>
+              <strong>Name:</strong>
+              <%= @coupon.name %>
+            </p>
+            <p>
+              <strong>Issued by:</strong>
+              <%= @coupon.issued %>
+            </p>
+
+            <p>
+              <strong>Serial No:</strong>
+              <%= @coupon.serial_no %>
+            </p>
+
+            <p>
+              <strong>Note:</strong>
+               <% if @coupon.note.present? %>
+                <%= @coupon.note.html_safe %>
+            
+                
+              <% else %>
+
+              <% end %>
+            </p>
+            <p>
+              <strong>Description:</strong>
+              <% if @coupon.description.present? %>
+                <%= @coupon.description.html_safe %>
+            
+              <% else %>
+
+              <% end %>
+            </p>
+            <p>
+              <strong>Issue Date:</strong>
+              <%= @coupon.time_start.strftime("%d-%m-%Y") %>
+            </p>
+
+            <p>
+              <strong>Expired Date:</strong>
+              <%= @coupon.expired  == nil ? "" : @coupon.expired.strftime("%d-%m-%Y") %>
+            </p>
+            <p>
+              <strong>Customer:</strong>
+              <%= @coupon.customer_surname + " " + @coupon.customer_forename %>
+            </p>
+            <p>
+              <strong>Customer Number:</strong>
+              <%= @coupon.customer_number %>
+            </p>
+            <p>
+              <strong>Benefits:</strong>
+              <ul>
+                <% @benefits.each do |item| %>
+                  <li>
+                    <img src="/attachments/download/<%= item.attachment_id %>" alt="<%= item.attachment_id %>" style="width: 48px; height: 48px; object-fit:contain;"/>
+                    <span class="ml-2"><%= item.name %></span>
+                    <span class="ml-5">(Used: <%= item.count_usage%>/<%= item.total_usage %>)</span>
+                    <span class="ml-5">Note: <%= item.note %></span>
+                  </li>
+                <% end %>
+              </ul>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <%= link_to 'Back', 'javascript:void(0);', onclick: "window.history.back(); setTimeout(function(){window.location.reload();}, 100);", class: "btn btn-secondary" %>      </div>
+    </div>
+  </div>
+</section>

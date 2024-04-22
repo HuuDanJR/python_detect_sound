@@ -1,0 +1,39 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6" id="title_header">
+          <%= t('offer_edit') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active" id="breadcrumb_header">
+            <%= t('offer_edit') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <%= render 'form', offer: @offer %>
+</section>
+<script>
+  $( document ).ready(function() {
+    let offer_offer_type = $('#offer_offer_type').val();
+    if (offer_offer_type){
+      if(offer_offer_type == 1){
+        $("#title_header").text("Offer Edit");
+        $("#breadcrumb_header").text("Offer");
+      }else{
+        $("#title_header").text("Event Edit");
+        $("#breadcrumb_header").text("Event");
+      }
+    }
+  });
+</script>

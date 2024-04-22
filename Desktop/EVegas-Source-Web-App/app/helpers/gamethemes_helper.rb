@@ -1,0 +1,2 @@
+module GamethemesHelper
+end

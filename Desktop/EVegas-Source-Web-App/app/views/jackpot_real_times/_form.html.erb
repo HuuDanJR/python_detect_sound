@@ -1,0 +1,22 @@
+<%= form_with(model: jackpot_real_time, local: true) do |form| %>
+  <% if jackpot_real_time.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(jackpot_real_time.errors.count, "error") %> prohibited this jackpot_real_time from being saved:</h2>
+
+      <ul>
+        <% jackpot_real_time.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :data %>
+    <%= form.text_field :data %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

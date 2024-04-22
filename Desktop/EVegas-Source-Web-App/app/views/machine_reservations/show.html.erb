@@ -1,0 +1,161 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6">
+          <%= t('machine_reservation_show') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">
+            <%= t('machine_reservation_show') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-secondary">
+          <div class="card-header">
+            <h3 class="card-title">Information</h3>
+          </div>
+          <div class="card-body">
+
+            <div class="form-row">
+
+              <div class="form-group col-sm-4">
+                <label>
+                  <%= t('machine_reservation_customer') %>:
+                </label>
+                <p>
+                  <%= @machine_reservation.customer.forename %>
+                </p>
+              </div>
+              <div class="form-group col-sm-4">
+                <label>
+                  <%= t('machine_number') %>:
+                </label>
+                <div class="">
+                  <%= @machine_reservation.machine_number %>
+                </div>
+              </div>
+              <div class="form-group col-sm-4">
+                <label>
+                  <%= t('machine_name') %>:
+                </label>
+                <div class="">
+                  <%= @machine_reservation.machine_name %>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label>
+                  <%= t('started_at') %>:
+                </label>
+                <div class="">
+                  <%= @machine_reservation.started_at != nil ? @machine_reservation.started_at.strftime("%T %d-%m-%Y") : "" %>
+                </div>
+              </div>
+              
+              <div class="form-group col-sm-4">
+                <label>
+                  <%= t('ended_at') %>:
+                </label>
+                <div class="">
+                  <%= @machine_reservation.ended_at != nil ? @machine_reservation.ended_at.strftime("%T %d-%m-%Y") : "" %>
+                </div>
+              </div>
+              
+
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('zone') %>:
+                </label>
+                  <%= @machine_reservation.zone %>
+              </div>
+              
+
+              <div class="form-group col-sm-3">
+                <label>
+                  Win/Lose:
+                </label>
+                  <%= @machine_reservation.results_play %>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+        <div class="card card-info">
+          <div class="card-header">
+            <h3 class="card-title">Status Booking</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-row">
+            
+              
+              <div class="form-group col-sm-12">
+                <label>
+                  <%= t('Message from staff') %>:
+                </label>
+                <div class="">
+                  <% if @machine_reservation.status == 1 %>
+                    <%= @machine_reservation.internal_note %>
+                  <% elsif @machine_reservation.status == 2 %>
+                      <%= @machine_reservation.note_confirm %>
+                  <% elsif @machine_reservation.status == 3 %>
+                      <%= @machine_reservation.note_finish %>
+                  <% elsif @machine_reservation.status == 0 %>
+                      <%= @machine_reservation.note_cancel %>
+                  <% end %>
+                </div>
+              </div>
+              
+              <div class="form-group col-sm-4">
+                <label>
+                  <%= t('approved_by') %>:
+                </label>
+                <div class="">
+                  <%= @machine_reservation.approved_by %>
+                </div>
+              </div>
+              
+              <div class="form-group col-sm-4">
+                <label>
+                  <%= t('updated_by') %>:
+                </label>
+                <div class="">
+                  <%= @machine_reservation.updated_by %>
+                </div>
+              </div>
+              
+              <div class="form-group col-sm-4">
+                <label>
+                  <%= t('machine_reservation_status') %>:
+                </label>
+                <div class="gender-item">
+                  <%= @machine_reservation.status == 1 ? "Receive" : (@machine_reservation.status == 2 ? "Confirm" : "Finish" ) %>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+            <%= link_to 'Back', 'javascript:void(0);', onclick: "window.history.back(); setTimeout(function(){window.location.reload();}, 100);", class: "btn btn-secondary" %>        </div>
+      </div>
+    </div>
+</section>

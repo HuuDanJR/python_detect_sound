@@ -1,0 +1,220 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6">
+          <%= t('car_booking_show') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">
+            <%= t('car_booking_show') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+  
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card card-secondary">
+          <div class="card-header">
+            <h3 class="card-title">Information</h3>
+          </div>
+          <div class="card-body">
+
+            <div class="form-row">
+
+              <div class="form-group col-sm-4">
+                <label>
+                  <%= t('customer') %>:
+                </label>
+                <p>
+                  <%= @reservation.customer.forename %>
+                </p>
+              </div>
+              <div class="form-group col-sm-8">
+                <label>
+                  <%= t('Drop Off Location') %>:
+                </label>
+                <div class="">
+                  <%= @reservation.address %>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label>
+                  <%= t('pickup_at') %>:
+                </label>
+                <div class="">
+                  <%= @reservation.pickup_at != nil ? @reservation.pickup_at.strftime("%T %d-%m-%Y") : "" %>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label>
+                  <%= t('customer_note') %>:
+                </label>
+                <div class="">
+                  <%= @reservation.customer_note %>
+                </div>
+              </div>
+              <div class="form-group col-sm-4">
+                <label>
+                  <%= t('confirm_by') %>:
+                </label>
+                <div class="">
+                  <%= @reservation.confirm_by %>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-8">
+                <label>
+                  <%= t('Pick Up Location') %>:
+                </label>
+                <div class="">
+                  <%= @reservation.current_location %>
+                </div>
+              </div>
+
+              
+            </div>
+
+          </div>
+        </div>
+        <div class="card card-success">
+          <div class="card-header">
+            <h3 class="card-title">Officer Note</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-row">
+
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('driver_name') %>:
+                </label>
+                <div class="">
+                  <%= @reservation.driver_name %>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('driver_mobile') %>:
+                </label>
+                <div class="">
+                  <%= @reservation.driver_mobile %>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('car') %>:
+                </label>
+                <div class="">
+                  <%= @reservation.car_type %>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('license_plate') %>:
+                </label>
+                <div class="">
+                  <%= @reservation.license_plate %>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('Message from staff') %>:
+                </label>
+
+                <div class="">
+                  <% if @reservation.status == 1 %>
+                    <%= @reservation.internal_note %>
+                  <% elsif @reservation.status == 2 %>
+                      <%= @reservation.note_confirm %>
+                  <% elsif @reservation.status == 3 %>
+                      <%= @reservation.note_finish %>
+                  <% elsif @reservation.status == 0 %>
+                      <%= @reservation.note_cancel %>
+                  <% end %>
+                </div>
+              </div>
+              <% if @reservation.status != 0 %>
+                <div class="form-group col-sm-3">
+                  <label>
+                    <%= t('price') %>:
+                  </label>
+                  <div class="">
+                    <%= @reservation.price %>
+                  </div>
+                </div>
+
+                <div class="form-group col-sm-3">
+                  <label>
+                    <%= t('distance') %>:
+                  </label>
+                  <div class="">
+                    <%= @reservation.distance %>
+                  </div>
+                </div>
+
+                <div class="form-group col-sm-3">
+                  <label>
+                    <%= t('drop_off_at') %>:
+                  </label>
+                  <div class="">
+                    <div class="">
+                      <%= @reservation.drop_off_at == nil ? "" : @reservation.drop_off_at.strftime("%T %d-%m-%Y") %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="card card-info">
+          <div class="card-header">
+            <h3 class="card-title">Status Booking</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-row">
+
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('type') %>:
+                </label>
+                <div class="gender-item">
+                  <%= @reservation.reservation_type==1 ? "Internal car" : "Other(Taxi, Grab,...)" %>
+                </div>
+              </div>
+
+              <div class="form-group col-sm-4">
+                <label>
+                  <%= t('status') %>:
+                </label>
+                <div class="gender-item">
+                  <%= @reservation.status== 1 ? "Receive" : ( @reservation.status==2 ? "Confirm" : (@reservation.status==0 ? "Cancel" : "Finish") ) %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <%= link_to 'Back', 'javascript:void(0);', onclick: "window.history.back(); setTimeout(function(){window.location.reload();}, 100);", class: "btn btn-secondary" %>        </div>
+      </div>
+    </div>
+</section>

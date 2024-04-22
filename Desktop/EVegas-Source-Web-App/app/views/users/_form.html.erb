@@ -1,0 +1,65 @@
+<%= form_with(model: user, local: true) do |form| %>
+  <div class="row">
+    <% if user.errors.any? %>
+      <div class="col-md-12" id="error_explanation">
+        <h4>Có <%= pluralize(user.errors.count, "error") %> errors:</h4>
+
+        <ul>
+          <% user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="row">
+    <!-- left column -->
+    <div class="col-md-12">
+      <!-- general form elements -->
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">User Information</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+
+          <div class="form-row">
+            <div class="col-md-6 form-group">
+              <%= form.label t('user_email') %>
+              <% if action_name == "edit" %>
+                <%= form.text_field :email, class: "form-control", readonly: true %>
+              <% else %>
+                <%= form.text_field :email, class: "form-control", :required => true %>
+              <% end %>
+            </div>
+
+            <div class="col-md-6 form-group">
+              <%= form.label t('user_name') %>
+              <%= form.text_field :name, class: "form-control", :required => true %>
+            </div>
+            <div class="col-md-6 form-group">
+              <%= form.label t('group') %>
+              <%= form.select :group_ids, options_from_collection_for_select(@groups, :id, :name, @user.group_ids), {:include_blank => '-- Select --'}, {:multiple => true, class: "form-control select2"} %>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <%= link_to 'Back', 'javascript:void(0);', onclick: "window.history.back(); setTimeout(function(){window.location.reload();}, 100);", class: "btn btn-secondary" %>      
+      <input class="btn btn-success float-right" name="btnSubmit" data-disable-with="Processing..." type="submit" value="Save" />
+      <%# <button type="submit" class="btn btn-success float-right">Save</button> %>
+    </div>
+  </div>
+<% end %>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2();
+    });
+</script>

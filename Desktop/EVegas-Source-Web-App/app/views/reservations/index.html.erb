@@ -1,0 +1,168 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6">
+          <%= t('car_booking') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">
+            <%= t('car_booking') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+  
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class=row>
+            <div class="col-md-10">
+              <%= form_with(url: "/reservations", method: "get", local: true) do |f| %>
+              <div class="form-row">
+                <%= f.hidden_field :page, :value => 1 %>
+                <div class="form-group col-sm-3">
+                  <label>Search:</label>
+                  <%= f.text_field(:search, value: @search_query, placeholder: "Search by number, name", class: "form-control") %>
+                </div>
+                <div class="form-group col-sm-3">
+                  <label>Status:</label>
+                  <select class="form-control select2" name="status" id="status">
+                    <option value="">-- Status --</option>                    
+                    <% @bookingStatuses.each do |item| %>
+                      <option value="<%= item['id'] %>"><%= item['name'] %></option>
+                    <% end %>
+                  </select>
+                 </div>
+                <div class="form-group col-sm-3">
+                  <label>Booking type:</label>
+                  <select class="form-control select2" name="booking_type" id="booking_type">
+                    <option value="">-- Booking Type --</option>                    
+                    <% @bookingTypes.each do |item| %>
+                      <option value="<%= item['id'] %>"><%= item['name'] %></option>
+                    <% end %>
+                  </select>
+                </div>
+                <div class="form-group col-sm-3">
+                  <label>Reservation type:</label>
+                  <select class="form-control select2" name="reservation" id="reservation">
+                    <option value="">-- Reservation Type --</option>                    
+                    <% @bookingReservations.each do |item| %>
+                      <option value="<%= item['id'] %>"><%= item['name'] %></option>
+                    <% end %>
+                  </select>
+                </div>
+                <div class="form-group col-sm-3">
+                  <label>Date From:</label>
+                  <%= f.date_field(:date_from, value: @date_from, class: "form-control") %>
+                </div>
+                <div class="form-group col-sm-3">
+                  <label>Date To:</label>
+                  <%= f.date_field(:date_to, value: @date_to, class: "form-control") %>
+                </div>
+                <div class="form-group col-sm-3">
+                  <label>&nbsp;</label><br>
+                  <%= f.submit "Search", class: "btn btn-search btn-smr" %>
+              <a class="btn btn-search btn-smr" href="/reservations/export?search=<%= @search_query %>&&status=<%= @status %>&&reservation=<%= @reservation %>&&booking_type=<%= @booking_type %>&&date_from=<%= @date_from %>&&date_to=<%= @date_to %>" target="_blank">Export</a>
+                </div>
+              </div>
+              <% end %>
+            </div>
+            <div class="col-md-2">
+              <label>&nbsp;</label><br>
+              <%= link_to 'New', new_reservation_path, class: "btn btn-primary btn-smr float-sm-right", 'data-turbolinks' => "false" %>
+            </div>
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive">
+          <table class="table table-striped projects">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Customer</th>
+                <th>Number</th>
+                <th>Level</th>
+                <th>Pickup Time</th>
+                <th>Request Time</th>
+                <th>Status</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% index = 0 %>
+              <% @reservations.each do |reservation| %>
+                <tr class="<%= (reservation.created_at - DateTime.now).abs <= 300 ? "highlight" : "" %>">
+                  <% index = index + 1 %>
+                  <td><%= index %></td>
+                  <td><%= reservation.customer.forename.to_s + " " + reservation.customer.middle_name.to_s + " " + reservation.customer.surname.to_s %></td>
+                  <td><%= reservation.customer.number %></td>
+                  <td><%= reservation.customer.membership_type_name %></td>
+                  <td><%= reservation.pickup_at != nil ? reservation.pickup_at.strftime("%T %d-%m-%Y") : "" %></td>
+                  <td><%= reservation.created_at != nil ? reservation.created_at.strftime("%T %d-%m-%Y") : "" %></td>
+                  <td class="status-<%= reservation.status %>">
+                    <% @bookingStatuses.each do |item| %>
+                      <% if reservation.status == item['id'] %>
+                           <%= item['name'] %>
+                      <% end %>
+                    <% end %>
+                  </td>
+                  <td class="project-actions text-center">
+                    <a class="btn-action" href="/reservations/<%= reservation.id %>" data-toggle="tooltip" title="View" data-turbolinks="false"><i class="fa fa-eye"></i></a>
+                    <% if reservation.status == 1 || reservation.status == 2 %>
+                      <a class="btn-action edit" href="/reservations/<%= reservation.id %>/edit" data-toggle="tooltip" title="Edit" data-turbolinks="false"><i class="fa fa-pencil-alt"></i></a>
+                      <a class="btn-action delete" data-confirm="Do you want to delete this item?"  rel="nofollow" data-method="delete" data-toggle="tooltip" title="Delete" href="/reservations/<%= reservation.id %>"><i class="fa fa-trash"></i></a>
+                    <% end %>
+                    
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <div class="p-2 digg_pagination">
+            <%= will_paginate @reservations %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script type="text/javascript">
+  $( document ).ready(function() {
+    setTimeout(function () { 
+      location.reload();
+    }, 60000);
+    // reloadPageWindowsBack();
+  });
+
+  $(function() {
+      var selected = new URLSearchParams(window.location.search);
+      let seletedStatus = selected.get('status');
+      let seletedType = selected.get('booking_type');
+      let seletedreservation = selected.get('reservation');
+      if (seletedStatus) {
+          $("#status").val(seletedStatus); 
+      }
+      if (seletedType) {
+          $("#booking_type").val(seletedType); 
+      }
+      if (seletedreservation) {
+          $("#reservation").val(seletedreservation); 
+      }
+      
+      $('#status').trigger('change');
+      $('#booking_type').trigger('change');
+      $('#reservation').trigger('change');
+  });
+</script>

@@ -1,0 +1,93 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6">
+          <%= t('jackpot_machine') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">
+            <%= t('jackpot_machine') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class=row>
+            <div class="col-md-6">
+              <%= form_with(url: "/jackpot_machines", method: "get", local: true) do |f| %>
+                <%= f.hidden_field :page, :value => 1 %>
+                <div class="form-row">
+                  <div class="form-group col-sm-4">
+                    <%= f.text_field(:search, value: @search_query, placeholder: "Search", class: "form-control") %>
+                  </div>
+                  <div class="form-group col-sm-3">
+                    <%= f.date_field(:date_from, value: @date_from, class: "form-control") %>
+                  </div>
+                  <div class="form-group col-sm-3">
+                    <%= f.date_field(:date_to, value: @date_to, class: "form-control") %>
+                  </div>
+                  <div class="form-group col-sm-2">
+                    <%= f.submit "Search", class: "btn btn-search btn-smr" %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive">
+          <table id="place_list" class="table table-striped projects">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Machine Number</th>
+                <th>Date</th>
+                <th>Game Type</th>
+                <th>Jackpot value</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+
+            <% index = 0 %>
+            <tbody>
+              <% index = 0 %>
+              <% @jackpot_machines.each do |jackpot_machine| %>
+                <tr>
+                  <% index = index + 1 %>
+                  <td><%= index %></td>
+                  <td><%= jackpot_machine.mc_number %></td>
+                  <td><%= jackpot_machine.jp_date != nil ? jackpot_machine.jp_date.strftime("%d-%m-%Y") : "" %></td>
+                  <td><%= jackpot_machine.jackpot_game_type != nil ? jackpot_machine.jackpot_game_type.name : "" %></td>
+                  <td><%= jackpot_machine.jp_value %></td>
+                  <td class="project-actions text-center">
+                    <a class="btn-action" href="/jackpot_machines/<%= jackpot_machine.id %>" data-toggle="tooltip" title="View"><i class="fa fa-eye"></i></a>     
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <div class="p-2 digg_pagination">
+            <%= will_paginate @jackpot_machines %>
+          </div>
+          <div class=row>
+            <div class="col-md-12">
+              <a class="btn btn-search btn-smr float-sm-right" href="/jackpot_machines/export?search=<%= @search_query %>&&date_from=<%= @date_from %>&&date_to=<%= @date_to %>" target="_blank">Export</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,111 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark"><%= t('setting') %></h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active"><%= t('setting') %></li>
+        </ol>
+      </div><!-- /.col -->
+
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+
+  <%= form_with(url: {action: "update_mail"}, local: true) do |form| %>
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="card card-secondary">
+          <div class="card-header">
+            <h3 class="card-title">System Email Configuration</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div class="form-group">
+              <label>SMTP Address</label>
+              <input id="mail_smtp_address" class="form-control" value="<%= @mail['mail_smtp_address'] %>" name="mail[mail_smtp_address]">
+            </div>
+            <div class="form-group">
+              <label>SMTP Port</label>
+              <input id="mail_smtp_port" type="number" class="form-control" value="<%= @mail['mail_smtp_port'] %>" name="mail[mail_smtp_port]">
+            </div>
+            <div class="form-group">
+              <label>SMTP Domain</label>
+              <input id="mail_smtp_domain" class="form-control" value="<%= @mail['mail_smtp_domain'] %>" name="mail[mail_smtp_domain]">
+            </div>
+            <div class="form-group">
+              <label>SMTP User Name</label>
+              <input id="mail_smtp_user_name" class="form-control" value="<%= @mail['mail_smtp_user_name'] %>" name="mail[mail_smtp_user_name]">
+            </div>
+            <div class="form-group">
+              <label>SMTP Password</label>
+              <input id="mail_smtp_password" type="password" class="form-control" value="<%= @mail['mail_smtp_password'] %>" name="mail[mail_smtp_password]">
+            </div>
+            <div class="form-group">
+              <label>SMTP Authentication</label>
+              <input id="mail_smtp_authentication" class="form-control" value="<%= @mail['mail_smtp_authentication'] %>" name="mail[mail_smtp_authentication]">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="card card-info">
+          <div class="card-header">
+            <h3 class="card-title">Check Email</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group col-sm-9">
+                <input id="mail_to" type="email" class="form-control" placeholder="Email">
+              </div>
+              <div class="form-group col-sm-3">
+                <div class="btn btn-primary float-right" onclick="send_email_testing()">Send Email</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <%= link_to 'Back', 'javascript:void(0);', onclick: "window.history.back(); setTimeout(function(){window.location.reload();}, 100);", class: "btn btn-secondary" %>        <button type="submit" class="btn btn-success float-right">Save</button>
+      </div>
+    </div>
+  <% end %>
+</section>
+<script>
+    function send_email_testing() {
+        $.ajax({
+            url: `/settings/send-mail-testing`,
+            type: "GET",
+            data: {
+                mail_smtp_address: $("#mail_smtp_address").val(),
+                mail_smtp_port: $("#mail_smtp_port").val(),
+                mail_smtp_domain: $("#mail_smtp_domain").val(),
+                mail_smtp_user_name: $("#mail_smtp_user_name").val(),
+                mail_smtp_password: $("#mail_smtp_password").val(),
+                mail_smtp_authentication: $("#mail_smtp_authentication").val(),
+                mail_to: $("#mail_to").val(),
+            },
+            dataType: "json",
+            success: function (data) {
+                alert("Gửi email thành công!");
+            },
+            error: function (xhr, status, error) {
+                alert("Gửi email không thành công!");
+            }
+        });
+    }
+</script>

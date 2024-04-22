@@ -1,0 +1,92 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6">
+          <%= t('user_first_login') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">
+            <%= t('user_first_login') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+        <div class=row>
+          <!--          <h3 class="card-title">Danh sách</h3>-->
+          <div class="col-md-12">
+          <%= form_with(url: "/user_first_logins", method: "get", local: true) do |f| %>
+            <%= f.hidden_field :page, :value => 1 %>
+            <div class="form-row">
+              <div class="form-group col-sm-6">
+                <%= f.text_field(:search, value: @search_query, placeholder: "Search", class: "form-control") %>
+              </div>
+
+                <div class="form-group col-sm-2">
+                  <%= f.date_field(:date_from, value: @date_from, class: "form-control") %>
+                </div>
+                <div class="form-group col-sm-2">
+                  <%= f.date_field(:date_to, value: @date_to, class: "form-control") %>
+                </div>
+              <div class="form-group col-sm-2">
+                <%= f.submit "Search", class: "btn btn-search btn-smr" %>
+              </div>
+            </div>
+          <% end %>
+          </div>
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive">
+          <table id="user_first_login_list" class="table table-striped projects">
+            <thead>
+            <tr>
+              <th>No.</th>
+              <th  width="200">Email/Number</th>
+              <th><%= t('name') %></th>
+              <th><%= t('first_sign_in') %></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% index = 0 %>
+            <% @user_first_logins.each do |user_first_login| %>
+              <tr>
+                <% index = index + 1 %>
+                <td><%= ++index %></td>
+                <td width="200"><%= user_first_login.email %></td>
+                <td><%= user_first_login.name %></td>
+                <td>
+                    <%= user_first_login.last_sign_in_at.strftime("%d-%m-%Y %T") %>
+                </td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+          <div class="p-2 digg_pagination">
+            <%= will_paginate @user_first_logins %>
+          </div>
+          
+          <div class=row>
+            <div class="col-md-12">
+              <a class="btn btn-search btn-smr float-sm-right" href="/user_first_logins/export?search=<%= @search_query %>&&date_from=<%= @date_from %>&&date_to=<%= @date_to %>" target="_blank">Export</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

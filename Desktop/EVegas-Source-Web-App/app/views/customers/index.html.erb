@@ -1,0 +1,127 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6">
+          <%= t('customer') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">
+            <%= t('customer') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class=row>
+            <div class="col-md-8">
+              <%= form_with(url: "/customers", method: "get", local: true) do |f| %>
+                <%= f.hidden_field :page, :value => 1 %>
+                <div class="form-row">
+                  <div class="form-group col-sm-4">
+                    <%= f.text_field(:search, value: @search_query, placeholder: "Search", class: "form-control") %>
+                  </div>
+                  
+                  <div class="form-group col-sm-4">
+                    <select class="form-control select2" name="sort" id="sort" placeholder="Sort" >
+                        <option value="">-- Sort --</option>     
+                        <option value="0">New user</option>                    
+                        <option value="1">Last Frame Date</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-sm-4">
+                    <%= f.submit "Search", class: "btn btn-search btn-smr" %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+            <div class="col-md-2">
+              <%= link_to 'New', new_customer_path(), class: "btn btn-primary btn-smr float-sm-right", 'data-turbolinks' => "false" %>
+            </div>
+            <div class="col-md-2">
+              <%= link_to 'Sync Data', synchronize_customers_path(), class: "btn btn-secondary btn-smr float-sm-right" %>
+            </div>
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive">
+          <table id="place_list" class="table table-striped projects">
+            <thead>
+            <tr>
+              <th>No.</th>
+              <th><%= t('customer_number') %></th>
+              <th><%= t('customer_title') %></th>
+              <th><%= t('customer_forename') %></th>
+              <th><%= t('customer_gender') %></th>
+              <th><%= t('customer_membership_type_name') %></th>
+              <th><%= t('last_update_frame_point') %></th>
+              <th class="text-center">Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <% index = 0 %>
+            <% @customers.each do |customer| %>
+              <tr>
+                <% index = index + 1 %>
+                <td><%= index %></td>
+                <td><%= customer.number %></td>
+                <td><%= customer.title.to_s %></td>
+                <td><%= customer.surname.to_s %> <%= customer.middle_name.to_s %> <%= customer.forename.to_s %></td>
+                <td><%= customer.gender %></td>
+                <td>
+                  <%= customer.membership_type_name %>
+                </td>
+                <td>
+                  <%= customer.last_update_frame_point != nil ? customer.last_update_frame_point.strftime("%T %d-%m-%Y") : '' %>
+                </td>
+                <td class="project-actions text-center">
+                  <a class="btn-action" href="/customers/<%= customer.id %>" data-toggle="tooltip" title="View"><i class="fa fa-eye"></i></a>
+                  <a class="btn-action edit" href="/customers/<%= customer.id %>/edit" data-toggle="tooltip" title="Edit"><i class="fa fa-pencil-alt"></i></a>
+                </td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+          <div class="p-2 digg_pagination">
+            <%= will_paginate @customers %>
+          </div>
+          <div class=row>
+            <div class="col-md-12">
+              <a class="btn btn-search btn-smr float-sm-right" href="/customers/export" target="_blank">Export</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="text/javascript">
+  $( document ).ready(function() {
+    reloadPage();
+    reloadPageWindowsBack();
+  });
+  
+  $(function() {
+      var selected = new URLSearchParams(window.location.search);
+      let seletedOrder = selected.get('sort');
+      if (seletedOrder) {
+          $("#sort").val(seletedOrder);
+      }
+      $('#sort').trigger('change');
+  });
+
+</script>

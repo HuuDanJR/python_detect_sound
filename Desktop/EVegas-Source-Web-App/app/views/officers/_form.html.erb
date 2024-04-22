@@ -1,0 +1,154 @@
+<%= form_with(model: officer, local: true) do |form| %>
+  <div class="row">
+    <% if officer.errors.any? %>
+      <div class="col-md-12" id="error_explanation">
+        <h4>Có <%= pluralize(officer.errors.count, "error") %> prohibited this officer from being saved:</h4>
+        <ul>
+          <% officer.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Information</h3>
+        </div>
+        <div class="card-body">
+          <div class="form-row">
+            <div class="col-sm-4 form-group">
+              <label>
+                <%= t('user') %>:
+              </label>
+              <%= form.hidden_field :user_id, id: "user_id" , name: "user_id" %>
+                <%= form.select :user_id, options_from_collection_for_select(@users, :id, :email, @officer.user_id),
+                  {:include_blank=> '-- User --'}, {class: "form-control select2"} %>
+
+            </div>
+            
+            <div class="form-group col-sm-4">
+              <label><%= t('officer_name') %>:</label>
+              <%= form.text_field :name, class: "form-control", required: true %>
+            </div>
+            <div class="form-group col-sm-4">
+              <label><%= t('officer_date_of_birth') %>:</label>
+              <%= form.date_field :date_of_birth, class: "form-control" %>
+            </div>
+            
+            <div class="form-group col-sm-4">
+              <label><%= t('officer_phone') %>:</label>
+              <%= form.text_field :phone, class: "form-control" %>
+            </div>
+            <div class="form-group col-sm-4">
+              <label><%= t('officer_home_town') %>:</label>
+              <%= form.text_field :home_town, class: "form-control" %>
+            </div>
+            <div class="form-group col-sm-4">
+              <label><%= t('officer_gender') %>:</label>
+              <div class="gender-item">
+                <%= form.radio_button :gender, true %> Male
+                <%= form.radio_button :gender, false %>Female
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-sm-4">
+              <label><%= t('officer_nationality') %>:</label>
+              <%= form.text_field :nationality, class: "form-control" %>
+            </div>
+            <div class="form-group col-sm-4">
+              <label><%= t('officer_language_support') %>:</label>
+              <div style="display:flex">
+                <select class="form-control select2" name="languages" id="languages" multiple="multiple" onchange="onChangeLanguage()">
+                  <% @languages.each do |item| %>
+                    <option value="<%= item['hl'] %>"><%= item['language'] %></option>
+                  <% end %>
+                </select>
+              </div>
+              <%= form.text_field :language_support, class: "form-control", hidden: true %>
+            </div>
+            <div class="form-group col-sm-2">
+              <label><%= t('officer_online') %>:</label>
+              <div class="gender-item">
+                <%= form.radio_button :online, false %>Offline
+                <%= form.radio_button :online, true %> Online
+              </div>
+            </div>
+            <div class="form-group col-sm-2">
+              <label><%= t('reception') %>:</label>
+              <div class="gender-item">
+                <%= form.radio_button :is_reception, false %>No
+                <%= form.radio_button :is_reception, true %> Yes
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label><%= t('Avatar') %>:</label> <span style="color: red !important;">Ration 8:7 - 2410px:2150px</span></label>
+              <div class="list-img">
+                <% if @officer.attachment_id? %>
+                  <div>
+                    <img id="drag1" src="/attachments/download/<%= @officer.attachment_id %>?version=medium" width="360" height="360">
+                  </div>
+                <% end %>
+              </div>
+              <%= form.file_field :attachment, :multiple => false, accept: 'image/*', class: "form-control" %>
+              
+              <%= form.number_field :attachment_id, class: "form-control", hidden: true %>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <%= link_to 'Back', 'javascript:void(0);', onclick: "window.history.back(); setTimeout(function(){window.location.reload();}, 100);", class: "btn btn-secondary" %>      
+      <input class="btn btn-success float-right" name="btnSubmit" data-disable-with="Processing..." type="submit" value="Save" />
+      <%# <button type="submit" class="btn btn-success float-right" id="btnSubmit">Save</button> %>
+    </div>
+  </div>
+<% end %>
+
+<script>
+    function delete_att(othis, id) {
+        if (confirm('Bạn có muốn xoá?')) {
+            $.ajax({
+                url: `/attachments/${id}`,
+                type: "DELETE",
+                dataType: "json",
+                success: function (data) {
+                    $(othis).parent().remove();
+                }
+            });
+        }
+    }
+
+     $(document).ready(function () {
+        let language = $('#officer_language_support').val();
+        if (language !== '' && language != undefined){
+          language = JSON.parse(language);
+          $("#languages").val(language);
+          $('#languages').trigger('change');
+        }
+        reloadPageWindowsBack();
+    });
+
+    function onChangeLanguage(){
+      let languages = $('#languages').val(); 
+      if (languages.length > 0){     
+        $('#officer_language_support').val(JSON.stringify(languages));
+      }else{
+        $('#officer_language_support').val("");
+      }
+    }
+
+</script>

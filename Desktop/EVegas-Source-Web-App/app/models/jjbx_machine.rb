@@ -1,0 +1,2 @@
+class JjbxMachine < ApplicationRecord
+end

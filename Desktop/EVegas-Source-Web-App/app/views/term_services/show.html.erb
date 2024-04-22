@@ -1,0 +1,48 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark"><%= t('Show') %></h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active"><%= t('Show') %></li>
+        </ol>
+      </div><!-- /.col -->
+
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</section>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+         <div class="card-header">
+          <h3 class="card-title">Information</h3>
+        </div>
+         <div class="card-body">
+         <p>
+              <strong>Name:</strong>
+              <%= @term_service.name %>
+            </p>
+            <p>
+              <strong>Content:</strong>
+              <% if @term_service.content.present? %>
+                <%= @term_service.content.html_safe %>
+            
+                
+              <% else %>
+
+              <% end %>
+            </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

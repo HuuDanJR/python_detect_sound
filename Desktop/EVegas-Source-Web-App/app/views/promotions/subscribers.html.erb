@@ -1,0 +1,80 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6">
+          <%= t('promotion_subscriber') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">
+            <%= t('promotion_subscriber') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class=row>
+            <div class="col-md-6">
+                <div class="form-row">
+                  <div class="form-group col-sm-6">
+                    Title: <%= @promotion.name %>
+                  </div>
+
+        
+                </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive">
+          <table id="place_list" class="table table-striped projects">
+            <thead>
+            <tr>
+              <th>No.</th>
+              <th><%= t('name') %></th>
+              <th><%= t('customer_number') %></th>
+              <th><%= t('status') %></th>
+              <th><%= t('Time Subscription') %></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <% index = 0 %>
+            <% @promotion_subscribers.each do |promotion| %>
+              <tr>
+                <% index = index + 1 %>
+                <td><%= index %></td>
+                <td><%= promotion.name %>
+                <td><%= promotion.number %>
+                <td><%= promotion.time_send == nil ? "Subscriber" : "Cancel" %>
+                <td><%= promotion.created_at.strftime("%T %d-%m-%Y") %>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+          <div class="p-2 digg_pagination">
+            <%= will_paginate @promotion_subscribers %>
+          </div>
+          <div class=row>
+            <div class="col-md-12">
+              <a class="btn btn-search btn-smr float-sm-right" href="/promotions/export/subscribers/<%= @promotion.id %>" target="_blank">Export</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

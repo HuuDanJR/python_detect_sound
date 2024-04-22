@@ -1,0 +1,116 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6">
+          <%= t('coupon') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">
+            <%= t('coupon') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class=row>
+            <div class="col-md-12">
+              <%= form_with(url: "/coupons", method: "get", local: true) do |f| %>
+                <%= f.hidden_field :page, :value => 1 %>
+                <div class="form-row">
+                  <div class="form-group col-sm-2">
+                    <%= f.text_field(:search, value: @search_query, placeholder: "Number, name, coupon", class: "form-control", autocomplete: "off") %>
+                  </div>
+
+                  <div class="form-group col-sm-2">
+                    <%= f.select :coupon_template_id, options_from_collection_for_select(@coupon_templates, :id, :name, @coupon_template_id.to_i), {:include_blank => '-- All Coupon Template --'}, {class: "form-control"} %>
+                  </div>
+
+                  <div class="form-group col-sm-2">
+                    <%= f.date_field(:date_from, value: @date_from, class: "form-control") %>
+                  </div>
+                  <div class="form-group col-sm-2">
+                    <%= f.date_field(:date_to, value: @date_to, class: "form-control") %>
+                  </div>
+
+                  <div class="form-group col-sm-3">
+                    <%= f.submit "Search", class: "btn btn-search btn-smr" %>
+                    <a class="btn btn-search btn-smr" href="/coupons/export?search=<%= @search_query %>&&date_from=<%= @date_from %>&&date_to=<%= @date_to %>&&coupon_template_id=<%= @coupon_template_id %>" target="_blank">Export</a>
+                  </div>
+                  <div class="form-group col-sm-1">
+                    <%= link_to 'New', new_coupon_path, class: "btn btn-primary btn-smr float-sm-right", 'data-turbolinks' => "false" %>
+                  </div>
+                </div>
+                
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive">
+          <table id="place_list" class="table table-striped projects">
+            <thead>
+              <tr>
+                <th style="width: 50px">No.</th>
+                <th style="width: 180px">Customer Name</th>
+                <th style="width: 180px">Number</th>
+                <th>Coupon Name</th>
+                <th style="width: 100px">Serial No</th>
+                <th>Issue Date</th>
+                <th>Expire Date</th>
+                <th>Benefit Modified</th>
+                <th>Status</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+
+            <% index = 0 %>
+            <tbody>
+              <% index = 0 %>
+              <% @coupons.each do |coupon| %>
+                <tr>
+                  <% index = index + 1 %>
+                  <td style="width: 50px"><%= index %></td>
+                  <td style="width: 180px"><%= coupon.customer_surname + " " + coupon.customer_forename %></td>
+                  <td style="width: 180px"><%= coupon.customer_number %></td>
+                  <td><%= coupon.name %></td>
+                  <td style="width: 100px"><%= coupon.serial_no %></td>
+                  <td><%= coupon.time_start != nil ? coupon.time_start.strftime("%d-%m-%Y") : "" %></td>
+                  <td><%= coupon.expired != nil ? coupon.expired.strftime("%d-%m-%Y") : "" %></td>
+                  <td><%= coupon.modified_date != nil ? coupon.modified_date.strftime("%d-%m-%Y") : "" %></td>
+                  <td style="width: 100px"><%= coupon.status_coupon %></td>
+                  <td class="project-actions text-center" style="display:flex">
+                    <a class="btn-action" style="max-width:30px!important" href="/coupons/<%= coupon.id %>" data-toggle="tooltip" title="View"><i class="fa fa-eye"></i></a>
+                    <a class="btn-action edit" style="max-width:30px!important" href="/coupons/<%= coupon.id %>/edit?is_extend=0" data-toggle="tooltip" title="Edit" data-turbolinks="false"><i class="fa fa-pencil-alt"></i></a>
+                    <% if coupon.status_coupon == "Expired" %>
+                      <a class="btn-action" style="background: #00cc00 !important; max-width:30px!important" href="/coupons/<%= coupon.id %>/edit?is_extend=1" data-toggle="tooltip" title="Extend" data-turbolinks="false"><i class="fa fa-expand"></i></a>
+                    <% end %>
+                    <% if current_user.groups.find { |record| record[:id] == 1 } != nil %>
+                      <a class="btn-action delete" style="max-width:30px!important" data-confirm="Do you want to delete this item?" rel="nofollow" data-method="delete" data-toggle="tooltip" title="Delete" href="/coupons/<%= coupon.id %>"><i class="fa fa-trash"></i></a>
+                    <% elsif coupon.status_type == 1 %>
+                      <a class="btn-action delete" style="max-width:30px!important" data-confirm="Do you want to delete this item?" rel="nofollow" data-method="delete" data-toggle="tooltip" title="Delete" href="/coupons/<%= coupon.id %>"><i class="fa fa-trash"></i></a>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <div class="p-2 digg_pagination">
+            <%= will_paginate @coupons %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

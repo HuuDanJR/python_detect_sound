@@ -1,0 +1,2 @@
+module JackpotRealTimesHelper
+end

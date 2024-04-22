@@ -1,0 +1,106 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6">
+            <%= @offer.offer_type.to_i == 1 ? "Offer Show" : "Event Show" %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">
+            <%= @offer.offer_type.to_i == 1 ? "Offer Show" : "Event Show" %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="card card-secondary">
+          <div class="card-header">
+            <h3 class="card-title">Information</h3>
+          </div>
+          <div class="card-body">
+           <div class="form-row">
+            <div class="form-group col-sm-3">
+              <label><%= t('title') %>:</label>
+              <%= @offer.title %>
+            </div>
+            <div class="form-group col-sm-3">
+              <label><%= t('publish_date') %>:</label>
+              <p>
+                <% if !@offer.publish_date.nil? %>
+                  <%= @offer.publish_date == nil ? "" : @offer.publish_date.strftime("%d-%m-%Y") %>
+                <% end %>
+              </p>
+            </div>
+            <div class="form-group col-sm-3">
+              <label><%= t('end_date') %>:</label>
+              <p>
+                <% if !@offer.time_end.nil? %>
+                  <%= @offer.time_end == nil ? "" : @offer.time_end.strftime("%d-%m-%Y") %>
+                <% end %>
+              </p>
+            </div>
+            <div class="form-group col-sm-3">
+              <label><%= t('is_highlight') %>:</label>
+              <p><%= @offer.is_highlight ? "Highlight" : "Upcoming" %></p>
+            </div>
+
+            <div class="form-group col-sm-9">
+              <label><%= t('url_news') %>:</label>              
+              <%= @offer.url_news %>
+            </div>
+            <div class="form-group col-sm-3">
+              <label><%= t('is_discover') %>:</label>
+              <p><%= @offer.is_discover ? "Show" : "Hide" %></p>
+            </div>
+          </div>
+
+            <div class="form-row">
+              <div class="field col-md-6">
+                <label><%= t('Image Slide') %>:</label>
+                <div class="list-img">
+                  <% if @offer.attachment_id? %>
+                    <div>
+                      <img id="drag1" src="/attachments/download/<%= @offer.attachment_id %>?version=medium" width="220" height="400">
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+              
+              <div class="field  col-md-6">
+                <label><%= t('Banner') %>:</label>
+                <div class="list-img">
+                  <% if @offer.banner_attachment? %>
+                    <div>
+                      <img id="drag1" src="/attachments/download/<%= @offer.banner_attachment %>?version=medium" width="400" height="220">
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <%= link_to 'Back', 'javascript:void(0);', onclick: "window.history.back(); setTimeout(function(){window.location.reload();}, 100);", class: "btn btn-secondary" %>      </div>
+    </div>
+  </div>
+</section>
+<script>
+  $(document).ready(function() {
+  });
+</script>

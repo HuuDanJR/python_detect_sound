@@ -1,0 +1,63 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6">
+          <%= t('roulette_show') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">
+            <%= t('roulette_show') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="card card-secondary">
+          <div class="card-header">
+            <h3 class="card-title">Information</h3>
+          </div>
+          <div class="card-body">
+            <p>
+              <strong>Name:</strong>
+              <%= @roulette.name %>
+            </p>
+
+            <p>
+              <strong>Description:</strong>
+              <%= @roulette.description %>
+            </p>
+
+            <p>
+              <strong>Streaming url:</strong>
+              <%= @roulette.streaming_url %>
+            </p>
+
+            <p>
+              <strong>Publish:</strong>
+              <%= @roulette.publish %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <%= link_to 'Edit', edit_roulette_path(@roulette), class: "btn btn-success float-right", "data-turbolinks": "false" %>
+        <%= link_to 'Back', roulettes_path, class: "btn btn-secondary" %>
+      </div>
+    </div>
+  </div>
+</section>

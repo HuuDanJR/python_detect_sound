@@ -1,0 +1,648 @@
+<style>
+  .select2{
+    min-width: 90px !important;
+  }
+</style>
+<%= form_with(model: reservation, local: true, id: "reservation_form") do |form| %>
+  <div class="row">
+    <% if reservation.errors.any? %>
+      <div id="error_explanation" class="col-md-12">
+        <h2>
+          <%= pluralize(reservation.errors.count, "error" ) %> prohibited this reservation from being saved:
+        </h2>
+
+        <ul>
+          <% reservation.errors.full_messages.each do |message| %>
+            <li>
+              <%= message %>
+            </li>
+            <% end %>
+        </ul>
+      </div>
+      <% end %>
+  </div>
+
+  <div class="row"  data-turbolinks="false">
+    <div class="col-md-12">
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Booking Confirmation</h3>
+        </div>
+        <div class="card-body">
+          <div class="form-row form-group">
+            <% if action_method != "update" %>
+            <div class="col-md-6 form-group" style="display: flow-root;">
+              <label>
+                <%= t('search_customer_number') %>:
+              </label>
+              <input id="search" autocomplete="off" onfocus="FocusSearch(this)" onkeyup="searchUsers(this)" 
+                    onblur="UnFocusSearch(this)" class="form-control" placeholder="Search Customer Number">
+              <div id="list-result"></div>
+            </div>
+            <% end %>
+            
+            <div class="form-group col-md-6">
+              <label>
+                <%= t('customer_id') %>:
+              </label>
+              <input class="form-control" value="<%= @customer_number %>" type="text" disabled id="cus_id">
+              <%= form.text_field :customer_id, class: "form-control", required: true, hidden: true %>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-sm-6">
+              <label>
+                <%= t('Pick-up Time') %>:
+              </label>
+              <% if action_method != "update" %>
+                <%= form.datetime_field :pickup_at, class: "form-control", required: true, step: 'any' %>
+              <% else %>
+                <%= form.datetime_field :pickup_at, class: "form-control", :disabled => true %>
+              <% end %>
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label>
+                <%= t('Pick-up location') %>:
+              </label>
+              <%= form.text_field :current_location, value: "Vegas Club", class: "form-control" %>
+            </div>
+
+            <div class="form-group col-sm-12">
+              <label>
+                <%= t('Drop-off location') %>:
+              </label>
+              <%= form.text_field :address, class: "form-control" %>
+            </div>
+            
+
+            <div class="form-group col-sm-12">
+              <label>
+                <%= t('customer_note') %>:
+              </label>
+              <%= form.text_field :customer_note, class: "form-control" %>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-sm-6">
+              <label>
+                <%= t('type') %>:
+              </label>
+              <div class="gender-item">
+                <% if @reservation.status.to_i == 2 %>
+                  <%= form.text_field :reservation_type, class: "form-control", hidden: true %>
+                  <%= form.radio_button :reservation_type, 1, :disabled => true %> Internal car
+                  <%= form.radio_button :reservation_type, 2, :disabled => true %> Other(Taxi, Grab,...)
+                <% else %>
+                  <%= form.radio_button :reservation_type, 1 %> <label for="reservation_reservation_type_1"> Internal car </label>
+                  <%= form.radio_button :reservation_type, 2 %> <label for="reservation_reservation_type_2"> Other(Taxi, Grab,...) </label>
+                <% end %>
+              </div>
+            </div>
+            
+            <div class="form-group col-sm-6">
+              <label>
+                <%= t('confirm_by') %>:
+              </label>
+              <%= form.text_field :confirm_by, class: "form-control" %>
+            </div>
+          </div>
+          <div class="form-row" id="select-driver">
+            <div class="form-group col-sm-6">
+              <label>
+                <%= t('driver_name') %>:
+              </label>
+              <select class="form-control select2" name="select_reservation_driver_name" id="select_reservation_driver_name" onchange="onChangeDriver()">
+                <% @drivers.each do |item| %>
+                  <option value="<%= item[:name] + " - " + item[:nickname] %>" phone-attribute="<%= item[:phone] %>"><%= item[:name] + " - " + item[:nickname] %></option>
+                <% end %>
+              </select>
+              <input class="form-control" hidden="hidden" type="text" value="" name="driver_name_select_val" id="driver_name_select_val">
+            </div>
+            <div class="form-group col-sm-6">
+              <label>
+                <%= t('Car') %>:
+              </label>
+              <select class="form-control select2" name="select_car" id="select_car" onchange="onChangeCar()">
+                <% @car_internal.each do |item| %>
+                  <option value="<%= item['license_plate'] %>" type-car-attribute="<%= item['type_car'] %>"><%= item['type_car'] %>: <%= item['license_plate'] %></option>
+                <% end %>
+              </select>
+              <input class="form-control" hidden="hidden" type="text" value="" name="license_plate_select_val" id="license_plate_select_val">
+              <input class="form-control" hidden="hidden" type="text" value="" name="type_car_select_val" id="type_car_select_val">
+            </div>
+          </div>
+
+          <div class="form-row" hidden>
+            <div class="form-group col-sm-3">
+              <label>
+                <%= t('driver_name') %>:
+              </label>
+              <%= form.text_field :driver_name, class: "form-control" %>
+            </div>
+
+            <div class="form-group col-sm-3">
+              <label>
+                <%= t('driver_mobile') %>:
+              </label>
+              <%= form.text_field :driver_mobile, class: "form-control" %>
+            </div>
+
+            <div class="form-group col-sm-3">
+              <label>
+                <%= t('Car Model') %>:
+              </label>
+              <%= form.text_field :car_type, class: "form-control" %>
+            </div>
+
+
+            <div class="form-group col-sm-3">
+              <label>
+                <%= t('license_plate') %>:
+              </label>
+              <%= form.text_field :license_plate, class: "form-control" %>
+            </div>
+
+          </div>
+
+          <div class="form-row" id="reservation_other">
+            <div class="form-group col-sm-3">
+              <label>
+                <span class="translation_missing" title="translation missing: en.driver_name">Driver Name</span>:
+              </label>
+              <input class="form-control" type="text" value="" name="driver_name_other" id="driver_name_other">
+            </div>
+
+            <div class="form-group col-sm-3">
+              <label>
+                <span class="translation_missing" title="translation missing: en.driver_mobile">Driver Mobile</span>:
+              </label>
+              <input class="form-control" type="text" value="" name="driver_mobile_other" id="driver_mobile_other">
+            </div>
+
+            <div class="form-group col-sm-3">
+              <label>
+                <span class="translation_missing" title="translation missing: en.car_type">Car Type</span>:
+              </label>
+              <input class="form-control" type="text" value="" name="car_type_other" id="car_type_other">
+            </div>
+
+
+            <div class="form-group col-sm-3">
+              <label>
+                <span class="translation_missing" title="translation missing: en.license_plate">License Plate</span>:
+              </label>
+              <input class="form-control" type="text" value="" name="license_plate_other" id="license_plate_other">
+            </div>
+
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-sm-4">
+              <label>
+                <%= t('Send confirmation notification to customer') %>:
+              </label>
+              <div class="gender-item" style="border: unset;">
+                <% if @reservation.status.to_i == 2 %>
+                    <input type="radio" id="reservation_status_2_tmp" name="reservation_status_2_tmp" value="2" checked /> <label for="reservation_status">Confirmed</label>
+                    <input type="radio" id="reservation_status_2" name="reservation[status]" value="2" checked hidden /> 
+                <% else %>
+                    <%= form.radio_button :status, 2 %> <label for="reservation_status_2">Confirmed</label>
+                <% end %>
+              </div>
+            </div>
+            <div class="form-group col-sm-12">
+              <label>
+                <span>Message from staff:</span>
+              </label>
+                <%= form.text_field :note_confirm, class: "form-control" %>
+            </div>
+            <div class="form-group col-sm-12">
+              <button type="button" class="btn btn-success float-right" data-disable-with="Processing..." id="send_reservation">Send Confirm</button> 
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Finish</h3>
+        </div>
+        <div class="card-body">
+          <div class="form-row">
+            <div class="form-group col-sm-4">
+              <label>
+                <%= t('drop_off_at') %>:
+              </label>
+              <div class="">
+                <%= form.datetime_field :drop_off_at, class: "form-control", step: 'any' %>
+              </div>
+            </div>
+            
+
+            <div class="form-group col-sm-4">
+              <label>
+                <%= t('price') %>(usd):
+              </label>
+              <%= form.number_field :price, class: "form-control", step:"any", step:"any", min: 0, max: 1000000  %>
+            </div>
+
+            <div class="form-group col-sm-4">
+              <label>
+                <%= t('distance') %>(km):
+              </label>
+              <%= form.number_field :distance, class: "form-control", step:"any", min: 0, max: 1000000  %>
+            </div>
+
+            <div class="col-sm-4">
+              <label>
+                <%= t('Send Finish notification to customer') %>:
+              </label>
+              <div class="gender-item" style="border: unset;">
+                  <%= form.radio_button :status, 3 %> <label for="reservation_status_3">Finish</label>
+              </div>
+            </div>
+            <div class="form-group col-sm-12">
+              <label>
+                <span>Message from staff:</span>
+              </label>
+                <%= form.text_field :note_finish, class: "form-control" %>
+            </div>
+            <div class="form-group col-sm-12">
+              <button type="button" class="btn btn-danger float-right" data-disable-with="Processing..." id="send_reservation_finish">Send Finish</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+       <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Cancellation</h3>
+        </div>
+        <div class="card-body">
+          <% if action_method == "update" %>
+            <div class="form-row form-group">              
+              <div class="form-group col-md-6">
+                <label>
+                  <%= t('customer_id') %>:
+                </label>
+                <input class="form-control" value="<%= @customer_number %>" type="text" disabled id="cus_id">
+                <%= form.text_field :customer_id, class: "form-control", required: true, hidden: true %>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-sm-4">
+                <label>
+                  <%= t('Pick-up Time') %>:
+                </label>
+                <div class="">
+                  <p>
+                    <%= @reservation.pickup_at != nil ? @reservation.pickup_at.strftime("%T %d-%m-%Y") : "" %>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group col-sm-4">
+                <label>
+                  <%= t('type') %>:
+                </label>
+                  <%= @reservation.reservation_type == 1 ? "Internal car" : "Other(Taxi, Grab,...)" %>
+              </div>
+              <div class="form-group col-sm-4">
+                <label>
+                  <%= t('booking_type') %>:
+                </label>
+                  <%= @reservation.booking_type == 1 ? "Booking on app" : "Other" %>
+              </div>
+              <div class="form-group col-sm-12">
+                <label>
+                  <%= t('Drop-off location') %>:
+                </label>
+                  <%= @reservation.address %>
+              </div>
+
+              <div class="form-group col-sm-6">
+                <label>
+                  <%= t('customer_note') %>:
+                </label>
+                  <%= @reservation.customer_note %>
+              </div>
+              
+              <div class="form-group col-sm-6">
+                <label>
+                  <%= t('Pick-up location') %>:
+                </label>
+                <%= @reservation.current_location %>
+              </div>
+              <div class="col-sm-4">
+                <label>
+                  <%= t('Send Cancel notification to customer') %>:
+                </label>
+                <div class="gender-item" style="border: unset;">
+                    <%= form.radio_button :status, 0 %> <label for="reservation_status_0">Cancel</label>
+                </div>
+              </div>
+            </div>
+            <% else %>
+            <div class="form-group">
+              <div class="">
+                <label>
+                  <%= t('Send Cancel notification to customer') %>:
+                </label>
+                <div class="gender-item" style="border: unset;">
+                    <%= form.radio_button :status, 0 %> <label for="reservation_status_0">Cancel</label>
+                </div>
+              </div>
+              
+            </div>
+            <% end %>
+            
+            <div class="form-row form-group">      
+              <div class="col-sm-12">
+                <label>
+                  <span>Message from staff:</span>
+                </label>
+                  <%= form.text_field :note_cancel, class: "form-control" %>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="">
+                <button type="button" class="btn btn-warning float-right" data-disable-with="Processing..." id="send_reservation_cancel">Send Cancel</button> 
+              </div>
+            </div>
+        </div>
+      </div>
+<!-- 
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Staff Note</h3>
+        </div>
+        <div class="card-body">
+          <div class="form-row">
+            <div class="form-group col-sm-12 autocomplete">
+              <label>
+                <%= t('staff_note') %>:
+              </label>
+              <%= form.text_field :internal_note, class: "form-control" %>
+            </div>
+
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+
+  <div class="row" style="padding:10px">
+    <div class="col-12">
+      <%= link_to 'Back', 'javascript:void(0);', onclick: "window.history.back(); setTimeout(function(){window.location.reload();}, 100);", class: "btn btn-secondary" %>        <%# <button type="submit" class="btn btn-success float-right" id="btnSubmit">Save</button> %>
+        <%# <input class="btn btn-success float-right" name="btnSubmit" data-disable-with="Processing..." type="submit" value="Save & Send" /> %>
+    </div>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+  let driverName = "";
+  let license_plate = "";
+  let car_type = "";
+  let driver_mobile = ""
+  // let select_driver = "";
+  // let selectcar = "";
+  // let selectlicense = "";
+
+  $(document).ready(function () {
+     $("#send_reservation").click(function() {
+      if ($('input[type=radio][name="reservation[status]"]:checked').val() != '2'){
+        alert('Check status confirmed!');
+        return;
+      }
+      if ($('input[type=radio][name="reservation[reservation_type]"]:checked').val() == '1'){
+        if ($('#driver_name_select_val').val() == ""){
+          alert('Driver Name Required!');
+          return;
+        }
+      }else{
+        if ($('#driver_name_other').val() == ""){
+          alert('Driver Name Required!');
+          return;
+        }
+      }
+      if ($('#reservation_customer_id').val() == ""){
+        alert('Customer Required!');
+        return;
+      }
+      $("#reservation_form").submit();
+    });
+
+    $("#send_reservation_finish").click(function() {
+        if ($('input[type=radio][name="reservation[status]"]:checked').val() != '3'){
+          alert('Check status finish!');
+          return;
+        }
+
+        if ($('input[type=radio][name="reservation[reservation_type]"]:checked').val() == '1'){
+          if ($('#driver_name_select_val').val() == ""){
+            alert('Driver Name Required!');
+            return;
+          }
+        }else{
+          if ($('#driver_name_other').val() == ""){
+            alert('Driver Name Required!');
+            return;
+          }
+        }
+        if ($('#reservation_customer_id').val() == ""){
+          alert('Customer Required!');
+          return;
+        }
+        let drop_off_at = $('#reservation_drop_off_at').val();
+        let pick_up = $('#reservation_pickup_at').val();
+        
+        if (drop_off_at == ""){
+          alert('Drop Off At Required!');
+          return;
+        }
+
+        if(drop_off_at < pick_up){
+          alert('Drop Off At must be greater than Pick Up Time');
+          return;
+        }
+        $("#reservation_form").submit();
+    });
+
+    $("#send_reservation_cancel").click(function() {
+      if ($('input[type=radio][name="reservation[status]"]:checked').val() != '0'){
+        alert('Check status cancel!');
+        return;
+      }
+      if ($('#reservation_customer_id').val() == ""){
+        alert('Customer Required!');
+        return;
+      }
+      $("#reservation_form").submit();
+    });
+
+    let reser_status = $('input[type=radio][name="reservation[status]"]:checked').val();
+    if (reser_status == '0' || reser_status == '3'){
+      $("#send_reservation_cancel").prop('disabled', true);
+      $("#send_reservation_finish").prop('disabled', true);
+      $("#send_reservation").prop('disabled', true);
+    }
+    if(reser_status == '2'){
+      $("#send_reservation").remove();
+      $("#reservation_address").prop('disabled', true);
+      $("#reservation_customer_note").prop('disabled', true);
+      $("#reservation_current_location").prop('disabled', true);
+      $("#reservation_note_confirm").prop('disabled', true);
+    }
+    getDataStaffNote();
+    driverName =  $('#reservation_driver_name').val();
+    license_plate =  $('#reservation_license_plate').val();
+    car_type =  $('#reservation_car_type').val();
+    driver_mobile = $('#reservation_driver_mobile').val();
+    let value = $('input[type=radio][name="reservation[reservation_type]"]:checked').val();
+    if (value == '1') {
+      $('#reservation_other').hide();
+      $('#select-driver').show();
+      $('#select_reservation_driver_name').val(driverName);
+      $('#select_reservation_driver_name').trigger('change');
+      
+      $('#select_car').val(license_plate);
+      $('#select_car').trigger('change');
+
+      onChangeDriver();
+      onChangeCar();
+    }
+    else {
+      $('#select-driver').hide();
+      $('#reservation_other').show();
+      onChangeTypeReservation();
+    }
+    
+  });
+  
+  $('input[type=radio][name="reservation[reservation_type]"]').change(function() {
+    if (this.value == '1') {
+      $('#select-driver').show();
+      $('#reservation_other').hide();
+      onChangeDriver();
+      onChangeCar();
+    }
+    else {
+      $('#select-driver').hide();
+      $('#reservation_other').show();
+      onChangeTypeReservation();
+    }
+  });
+
+  function onChangeDriver(){
+      $('#driver_name_select_val').val($('#select_reservation_driver_name option:selected').text());
+      $('#reservation_driver_mobile').val($('#select_reservation_driver_name option:selected').attr("phone-attribute"));
+      $('#reservation_driver_name').val('');
+  }
+
+  function onChangeCar(){
+      $('#license_plate_select_val').val($('#select_car').val());
+      $('#type_car_select_val').val($('#select_car option:selected').attr("type-car-attribute"));
+      $('#reservation_car_type').val('');
+      $('#reservation_license_plate').val('');
+  }
+
+  function onChangeTypeReservation(){
+      $('#reservation_driver_name').val('');
+      $('#reservation_car_type').val('');
+      $('#reservation_license_plate').val('');
+      $('#reservation_driver_mobile').val('');
+
+      $('#driver_name_other').val(driverName);
+      $('#car_type_other').val(car_type);
+      $('#license_plate_other').val(license_plate);
+      $('#driver_mobile_other').val(driver_mobile);
+      
+      $('#driver_name_select_val').val('');
+      $('#license_plate_select_val').val('');
+      $('#type_car_select_val').val('');
+  }
+
+  
+    var _changeInterval = null;
+    function searchUsers(othis){
+        var keyword = $('#search').val();
+        var search = $(othis).val();
+        if(search != null && search != ''){
+            clearInterval(_changeInterval);
+            _changeInterval = setInterval(function() {
+                clearInterval(_changeInterval);
+                $("#list-result").empty();
+                Search(keyword);
+            }, 500);
+        }else{
+            $("#list-result").empty();
+        }
+    }
+
+    function FocusSearch(othis){
+        var search = $(othis).val();
+        if(search == null || search == ''){
+            $("#list-result").empty();
+        }
+    }
+    function UnFocusSearch(othis){
+        var search = $(othis).val();
+    }
+
+  function Search(keyword){
+      $.ajax({
+          "url": `/notifications/get_users?search=${keyword}`,
+          "method": "GET",
+          success: function (result) {
+              if(result != null && result.length > 0){
+                  var html = '';
+                  $.each(result, function(index, item){
+                      html += RenderHtmlItem(item);
+                  })
+                  $('#list-result').append(html);
+              }else{
+                $('#list-result').append('<div>Not Found</div>');
+              }
+          },
+          error: function (result) {
+            $('#list-result').append('<div>Not Found</div>');
+          }
+      })
+  }
+
+    function RenderHtmlItem(item){
+      let name = (item.surname == null ? "" : item.surname) + " " + (item.middle_name == null ? "" : item.middle_name) + " " + (item.forename == null ? "" : item.forename);
+      return `<div class="lc-item" onclick="selectCustomer(${item.cus_id}, '${name} - ${item.number}')">
+          <div class="lc-content">
+              <div type="hidden" class="temp-object hide">${JSON.stringify(item)}</div>
+              <div class="result-name">${item.number} - ${name}</div>
+          </div>
+      </div>`;
+    }
+  
+  function selectCustomer(cus_id, name){
+    $("#cus_id").val(name);
+    $("#reservation_customer_id").val(cus_id);
+  }
+  
+
+  function getDataStaffNote(){
+    $.ajax({
+      "url": `/api/v1/settings/get_staff_note`,
+      "method": "GET",
+      success: function (result) {
+        if(result != null){
+          var booking = JSON.parse(result.setting_value).car_booking;
+          autocomplete(document.getElementById("reservation_internal_note"), booking);
+        }else{
+        }
+      },
+      error: function (result) {
+          console.log('Error');
+      }
+    });
+  }
+
+</script>

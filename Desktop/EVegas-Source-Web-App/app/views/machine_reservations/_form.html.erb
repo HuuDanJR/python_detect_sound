@@ -1,0 +1,407 @@
+<style>
+  .select2{
+    min-width: 90px !important;
+  }
+
+  .select2-container--default .select2-results__option[aria-disabled=true] {
+      background: #E7C569 !important;
+      color: rgba(0, 0, 0, 0.9) !important;
+  }
+</style>
+<%= form_with(model: machine_reservation, local: true, id: "mc_form") do |form| %>
+  <div class="row">
+    <% if machine_reservation.errors.any? %>
+      <div class="col-md-12" id="error_explanation">
+        <h4><%= pluralize(machine_reservation.errors.count, "error" ) %> errors:</h4>
+        <ul>
+          <% machine_reservation.errors.full_messages.each do |message| %>
+            <li>
+              <%= message %>
+            </li>
+            <% end %>
+        </ul>
+      </div>
+      <% end %>
+  </div>
+
+  <div class="row" data-turbolinks="false">
+    <div class="col-md-12">
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Information machine reservation</h3>
+        </div>
+        <div class="card-body">
+          <div class="form-row form-group">
+            <% if action_method != "update" %>
+              <div class="col-md-6 form-group" id="" style="display: flow-root;">
+                <label>
+                  <%= t('search_customer_number') %>:
+                </label>
+                <input id="search" autocomplete="off" onfocus="FocusSearch(this)" onkeyup="searchUsers(this)" 
+                      onblur="UnFocusSearch(this)" class="form-control" placeholder="Search Customer Number">
+                <div id="list-result"></div>
+
+              </div>
+            <% end %>
+            
+            <div class="form-group col-sm-6">
+              <label>
+                <%= t('customer') %>:
+              </label>
+              <input class="form-control" value="<%= @customer_number %>" type="text" disabled id="cus_id">
+              <%= form.text_field :customer_id, class: "form-control", required: true, hidden: true %>
+            </div>
+
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-sm-3">
+              <label>
+                <%= t('start_time') %>:
+              </label>
+              <%= form.datetime_field :started_at, class: "form-control", required: true, step: 'any',  onchange: "AddTimeEnded()" %>
+            </div>
+
+            <div class="form-group col-sm-3">
+              <label>
+                Time:
+              </label>
+              <div class="form-group" style="display: flex; align-items: center;">
+                <input style="width:128px" id="hour-mc" type="number" min="0" max="24" class="form-control" name="hour-mc" value="0" onchange="AddTimeEnded()"/>:Hours - &nbsp;
+                <input style="width:128px" id="minutes-mc" type="number" min="0" max="60" class="form-control"  name="minutes-mc" value="0" onchange="AddTimeEnded()"/>:Minutes
+              </div>
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label>
+                <%= t('machine_number') %>:
+              </label>
+              <select class="form-control select2" name="machine_neon" id="machine_neon" onchange="changeMachine()">                
+
+              </select>
+
+              <%= form.text_field :machine_number, class: "form-control", hidden: true %>
+              <%= form.text_field :machine_name, class: "form-control", hidden: true %>    
+              <%= form.text_field :gametheme_id, class: "form-control", hidden: true %>
+              <input class="form-control" type="text" value="" name="game_type_id" id="game_type_id" hidden="hidden">
+            </div>
+
+              <input type="radio" value="1" checked="checked" hidden name="machine_reservation[booking_type]" id="machine_reservation_booking_type_1">
+
+
+            <div class="form-group col-sm-3">
+              <label>
+                <%= t('end_time') %>:
+              </label>
+                <input class="form-control" step="any" disabled="disabled" value="" type="datetime-local" name="machine_reservation[ended_at_tmp]" id="machine_reservation_ended_at_tmp">
+                <%= form.datetime_field :ended_at, class: "form-control", required: true, step: 'any', hidden: true %>
+              <span id="ended_at_mess" class="field-validation-valid text-danger" data-valmsg-replace="true">End At must be better than Start At</span>
+            </div>
+
+            <div class="form-group col-sm-3">
+              <label>
+                <%= t('status') %>:
+              </label>
+              <div class="gender-item" style="border: unset;">
+                <!--  <%= form.radio_button :status, 1 %> <label for="machine_reservation_status_1">Receive</label> -->
+                 
+                  <%= form.radio_button :status, 2 %> <label for="machine_reservation_status_2">Confirm</label>
+              </div>
+            </div>
+            
+            <div class="form-group col-sm-12 autocomplete">
+              <label>
+                <%= t('staff_note') %>:
+              </label>
+              <%= form.text_field :internal_note, class: "form-control" %>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Information Extra</h3>
+        </div>
+        <div class="card-body">
+          <div class="form-row">
+            <div class="form-group col-sm-3">
+              <label>
+                <%= t('approved_by') %>:
+              </label>
+              <%= form.text_field :approved_by, class: "form-control" %>
+            </div>
+            
+
+            <div class="form-group col-sm-3">
+              <label>
+                <%= t('updated_by') %>:
+              </label>
+              <%= form.text_field :updated_by, class: "form-control" %>
+            </div>
+            
+            <div class="form-group col-sm-3">
+              <label>
+                <%= t('zone') %>:
+              </label>
+              <%= form.text_field :zone, class: "form-control" %>
+            </div>
+            
+
+            <div class="form-group col-sm-3">
+              <label>
+                Win/Lose:
+              </label>
+              <%= form.text_field :results_play, class: "form-control" %>
+            </div>
+
+            <!--  
+            <div class="form-group col-sm-4">
+              <label>
+                <%= t('status') %>:
+              </label>
+              <div class="gender-item" style="border: unset;">
+                  <%= form.radio_button :status, 3 %> <label for="machine_reservation_status_3">Finish</label>
+              </div>
+            </div>
+             -->
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="padding:10px">
+    <div class="col-12">
+      <%= link_to 'Back', 'javascript:void(0);', onclick: "window.history.back(); setTimeout(function(){window.location.reload();}, 100);", class: "btn btn-secondary" %>      
+      <%# <input class="btn btn-success float-right" id="savemc" name="btnSubmit" data-disable-with="Processing..." type="submit" value="Send" /> %>
+        <button type="button" class="btn btn-success float-right" id="btnSubmit" data-disable-with="Processing...">Send</button>
+    </div>
+  </div>
+  <% end %>
+
+<script>
+  $( document ).ready(function() {
+     $("#btnSubmit").click(function() {
+      if ($('#machine_reservation_customer_id').val() == ""){
+        alert('Customer Required!');
+        return;
+      }
+      $("#mc_form").submit();
+    });
+
+    checkDataMachine();    
+    getDataStaffNote();
+    let machineNumber = $("#machine_reservation_machine_number").val();
+    if (machineNumber) {
+      $("#machine_neon").val(machineNumber); 
+      $('#machine_neon').trigger('change');
+    }else{
+      changeMachine();
+    }
+    let start_tmp = new Date($('#machine_reservation_started_at').val());
+    let end_tmp = new Date($('#machine_reservation_ended_at').val());
+    let hour = end_tmp.getHours() - start_tmp.getHours();
+    let mm = end_tmp.getMinutes() - start_tmp.getMinutes();
+    if (start_tmp.getDate() == end_tmp.getDate()){
+      $('#hour-mc').val(hour);
+      $('#minutes-mc').val(Math.abs(mm));
+    }else{
+      $('#hour-mc').val(23 - Math.abs(hour));
+      $('#minutes-mc').val(60 - Math.abs(mm));
+    }
+
+    $('#machine_reservation_started_at').val(dateToDatetimeLocal(start_tmp));
+    $('#machine_reservation_ended_at').val(dateToDatetimeLocal(end_tmp));
+    $('#machine_reservation_ended_at_tmp').val(dateToDatetimeLocal(end_tmp));
+
+  });
+  
+  var _changeInterval = null;
+  function searchUsers(othis){
+      var keyword = $('#search').val();
+      var search = $(othis).val();
+      if(search != null && search != ''){
+          clearInterval(_changeInterval);
+          _changeInterval = setInterval(function() {
+              clearInterval(_changeInterval);
+              $("#list-result").empty();
+              Search(keyword);
+          }, 500);
+      }else{
+          $("#list-result").empty();
+      }
+  }
+
+  function FocusSearch(othis){
+      var search = $(othis).val();
+      if(search == null || search == ''){
+          $("#list-result").empty();
+      }
+  }
+  function UnFocusSearch(othis){
+      var search = $(othis).val();
+  }
+
+  function Search(keyword){
+      $.ajax({
+          "url": `/notifications/get_users?search=${keyword}`,
+          "method": "GET",
+          success: function (result) {
+              if(result != null && result.length > 0){
+                  var html = '';
+                  $.each(result, function(index, item){
+                      html += RenderHtmlItem(item);
+                  })
+                  $('#list-result').append(html);
+              }else{
+                $('#list-result').append('<div>Not Found</div>');
+              }
+          },
+          error: function (result) {
+            $('#list-result').append('<div>Not Found</div>');
+          }
+      })
+  }
+
+  function RenderHtmlItem(item){
+    let name = (item.surname == null ? "" : item.surname) + " " + (item.middle_name == null ? "" : item.middle_name) + " " + (item.forename == null ? "" : item.forename);
+    return `<div class="lc-item" onclick="selectCustomer(${item.cus_id}, '${name} - ${item.number}')">
+        <div class="lc-content">
+            <div type="hidden" class="temp-object hide">${JSON.stringify(item)}</div>
+            <div class="result-name">${item.number} - ${name}</div>
+        </div>
+    </div>`;
+  }
+  
+  function selectCustomer(cus_id, name){
+    $("#cus_id").val(name);
+    $("#machine_reservation_customer_id").val(cus_id);
+  }
+
+  function changeMachine(){
+    let machineNumber = $("#machine_neon").val();
+    let text = $("#machine_neon option:selected").text();
+    let attr_machine = $("#machine_neon option:selected").attr('game-type-attr');
+    let machine_name = $("#machine_neon option:selected").attr('machine-name-attr');
+    $("#machine_reservation_machine_name").val(machine_name);
+    $("#machine_reservation_machine_number").val(machineNumber);
+    $("#game_type_id").val(attr_machine);
+  }
+
+  
+  function getDataStaffNote(){
+    $.ajax({
+      "url": `/api/v1/settings/get_staff_note`,
+      "method": "GET",
+      success: function (result) {
+        if(result != null){
+          var booking = JSON.parse(result.setting_value).mc_booking;
+          autocomplete(document.getElementById("machine_reservation_internal_note"), booking);
+        }else{
+        }
+      },
+      error: function (result) {
+          console.log('Error');
+      }
+    });
+  }
+
+  function checkDataMachine(){
+    // let end_tmp = new Date(ended_at);
+    // let start_tmp = new Date(started_at);
+    // let hour = end_tmp.getHours() - start_tmp.getHours();
+    // let mm = end_tmp.getMinutes() - start_tmp.getMinutes();
+
+    // if (start_tmp.getTime() == end_tmp.getTime()){
+    //   $('#hour-mc').val(hour);
+    //   $('#minutes-mc').val(Math.abs(mm));
+    // }else{
+    //   if(mm < 0 && hour == 1){
+    //     hour = hour - 1;
+    //     $('#hour-mc').val(0);
+    //     mm = 60 + mm;
+    //     $('#minutes-mc').val(mm);
+    //   }else{        
+    //     console.log(hour);
+    //     console.log(mm);
+    //     $('#hour-mc').val(hour);
+    //     $('#minutes-mc').val(mm);
+    //   }
+    // }
+
+    number_machine = $('#machine_reservation_machine_number').val();
+    machine_name = $('#machine_reservation_machine_name').val();
+
+    started_at = $('#machine_reservation_started_at').val();
+    ended_at =  $('#machine_reservation_ended_at').val();
+    if (ended_at <= started_at){
+      $('#ended_at_mess').show();
+      $('#btnSubmit').prop('disabled', true);
+    }else{
+      $('#ended_at_mess').hide();
+      $('#btnSubmit').prop('disabled', false);
+    }
+
+    $.ajax({
+      "url": `/api/v1/machine_reservations/get_machine_from_neon_active?started_at=${started_at}&ended_at=${ended_at}`,
+      "method": "GET",
+      success: function (result) {
+        if(result != null){
+          $.each(result, function(index, item){
+            if(item.disabled){
+              if(number_machine == item.number && machine_name == item.number_name){
+                $('#machine_neon').append(`<option value="${item.number}" game-type-attr="${item.game_type_id}" machine-name-attr="${item.name}" selected>${item.number} - ${item.name}</option>`);
+              }else{
+                $('#machine_neon').append(`<option value="${item.number}" game-type-attr="${item.game_type_id}" machine-name-attr="${item.name}" disabled="true" style="background:red!important">${item.number} - ${item.name}</option>`);
+              }
+            }else{
+              $('#machine_neon').append(`<option value="${item.number}" game-type-attr="${item.game_type_id}" machine-name-attr="${item.name}">${item.number} - ${item.name}</option>`);
+            }
+          })
+          changeMachine();
+        }else{
+        }
+      },
+      error: function (result) {
+          console.log('Error');
+      }
+    });
+  }
+
+  function AddTimeEnded(){
+    let hours_tmp = $('#hour-mc').val();
+    let minutes_tmp = $('#minutes-mc').val();
+    let start_tmp = $('#machine_reservation_started_at').val();
+    let date_next = dateToDatetimeLocal(addHours(new Date(start_tmp), hours_tmp, minutes_tmp));
+    $('#machine_reservation_ended_at').val(date_next);
+    $('#machine_reservation_ended_at_tmp').val(date_next);
+    checkDataMachine();
+  }
+
+  function addHours(date, hours, minutes) {
+    date.setTime(date.getTime() + hours * 60 * 60 * 1000 + minutes * 60000);
+
+    return date;
+  }
+
+  function removeHours(date) {
+    date.setTime(date.getTime() + hours * 60 * 60 * 1000 + minutes * 60000);
+
+    return date;
+  }
+
+  function dateToDatetimeLocal(date) {
+    const YYYY = date.getFullYear();
+    const MM = String(date.getMonth() + 1).padStart(2, '0');  // Months are 0-based, so we add 1
+    const DD = String(date.getDate()).padStart(2, '0');
+    const HH = String(date.getHours()).padStart(2, '0');
+    const MI = String(date.getMinutes()).padStart(2, '0');
+    
+    return `${YYYY}-${MM}-${DD}T${HH}:${MI}:00`;
+}
+
+</script>

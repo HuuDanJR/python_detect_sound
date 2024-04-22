@@ -1,0 +1,40 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6">
+          <%= t('car_booking_edit') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">
+            <%= t('car_booking_edit') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+  
+
+<!-- Main content -->
+<section class="content">
+  <%= render 'form', reservation: @reservation, action_method: "update" %>
+</section>
+<script type="text/javascript">
+  $(document).ready(function () {
+    let value = $('input[type=radio][name="reservation[reservation_type]"]:checked').val();
+    if (value == '1') {
+      $('#select-driver').show();
+      $('#reservation_other').hide();
+    }
+    else {
+      $('#select-driver').hide();
+      $('#reservation_other').show();
+    }
+    
+  });
+</script>

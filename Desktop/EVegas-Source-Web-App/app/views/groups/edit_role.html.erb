@@ -1,0 +1,108 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6">
+          <%= t('group_edit_role') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">
+            <%= t('group_edit_role') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- Main content -->
+<section class="content">
+  <%#= render 'form', group: @group %>
+  <%= form_with(model: @group, url: {action: "update_role"}, local: true) do |form| %>
+    <div class="row">
+      <% if @group.errors.any? %>
+      <div class="col-md-12" id="error_explanation">
+        <h4>Có <%= pluralize(group.errors.count, "error") %> errors:</h4>
+
+          <ul>
+            <% @group.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="row">
+      <!-- left column -->
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="card card-secondary">
+          <div class="card-header">
+            <h3 class="card-title">Information</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div class="field">
+              <%= form.label :name %>:
+              <%= @group.name %>
+            </div>
+
+            <div class="field">
+              
+              <% if @role_list.length > 0 %>      
+              <% @role_list.each do |res| %>
+                <b>Role: <%= res[:role_name] %></b>
+                <div class="card-body table-responsive">
+                  <table class="table table-striped projects">
+                    <thead>
+                    <tr>
+                      <th width="10px">No.</th>
+                      <th width="40%"><%= t('name') %></th>
+                      <th><%= t('description') %></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% index = 0 %>
+                    <% if res[:role_list].length > 0 %>
+                      <% res[:role_list].each do |role| %>
+                        <tr>
+                          <% index = index + 1 %>
+                          <td width="10px"><%= index %></td>
+                          <td width="40%">
+                          <% if role[:checked] %>
+                            <input type="checkbox" checked="<% role[:checked] %>" value="<%= role[:id] %>" name="group[role_ids][]" id="group_role_ids_<%= role[:id] %>">
+                          <% else %>
+                            <input type="checkbox"  value="<%= role[:id] %>" name="group[role_ids][]" id="group_role_ids_<%= role[:id] %>">
+                          <% end %>
+                            <label for="group_role_ids_<%= role[:id] %>"> <%= role[:name] %></label>
+                          </td>
+                          <td>
+                              <%= role[:description] %>
+                          </td>
+                        </tr>
+                        <% end %>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <%= link_to 'Back', 'javascript:void(0);', onclick: "window.history.back(); setTimeout(function(){window.location.reload();}, 100);", class: "btn btn-secondary" %>        
+      <input class="btn btn-success float-right" name="btnSubmit" data-disable-with="Processing..." type="submit" value="Save" />
+        <%# <button type="submit" class="btn btn-success float-right" id="btnSubmit">Save</button> %>
+      </div>
+    </div>
+  <% end %>
+</section>

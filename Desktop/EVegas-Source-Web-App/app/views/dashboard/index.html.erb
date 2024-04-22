@@ -1,0 +1,244 @@
+<style>
+.officer-status-true{
+  color: green;
+  border-color: white;
+}
+.officer-status-false{
+  color: red;
+  border-color: white;
+}
+</style>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6">
+          <%= t('dashboard') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">
+            <%= t('dashboard') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content" id="dashboard">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card card-dashboard">
+        <div class="card-header">
+          <span class="card-title-dashboard">
+            Booking Car Latest(<%= @booking_car.length %>)
+          </span>
+          <span class="card-title-readall">
+            <a href="/reservations" class="uppercase">View all</a>
+          </span>
+        </div>
+        <div class="card-body">
+          <div class="row">
+           <% @booking_car.each do |item| %>
+              <div class="col-md-6">
+                <div class="item-dashboard">
+                  <div class="product-img">
+                    <% if item.customer.attachment_id.to_i != 0 %>
+                      <img src="/attachments/download/<%= item.customer.attachment_id %>?version=thumb" alt="Image" class="img-size-50">
+                    <% else %>
+                      <img src="<%= image_path('user.png') %>" alt="Image" class="img-size-50">
+                    <% end %>
+                  </div>
+                  <div class="product-info item-content-dashboard">
+                    <a class="product-title des" href="/reservations/<%= item.id %>">
+                      <%= item.customer.surname.to_s %> <%= item.customer.middle_name.to_s %> <%= item.customer.forename.to_s %> (<%= item.customer.number %>)
+                    </a>
+                    <p class="product-description sub-des">
+                        <%= item.pickup_at.strftime("%d-%m-%Y %T") %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+     <div class="col-md-6">
+      <div class="card card-dashboard">
+        <div class="card-header">
+          <span class="card-title-dashboard">
+            Machine Reservation Latest(<%= @booking_mc.length %>)
+          </span>
+          <span class="card-title-readall">
+            <a href="/machine_reservations" class="uppercase">View all</a>
+          </span>
+        </div>
+        <div class="card-body">
+          <div class="row">
+           <% @booking_mc.each do |item| %>
+              <div class="col-md-6">
+                <div class="item-dashboard">
+                  <div class="product-img">
+                    <% if item.customer.attachment_id.to_i != 0 %>
+                      <img src="/attachments/download/<%= item.customer.attachment_id %>?version=thumb" alt="Image" class="img-size-50">
+                    <% else %>
+                      <img src="<%= image_path('user.png') %>" alt="Image" class="img-size-50">
+                    <% end %>
+                  </div>
+                  <div class="product-info item-content-dashboard">
+                    <a class="product-title des" href="/machine_reservations/<%= item.id %>">
+                      <%= item.customer.surname.to_s %> <%= item.customer.middle_name.to_s %> <%= item.customer.forename.to_s %> (<%= item.customer.number %>)
+                    </a>
+                    <p class="product-description sub-des">
+                        <%= item.started_at.strftime("%d-%m-%Y %T") %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card card-dashboard">
+        <div class="card-header">
+          <span class="card-title-dashboard">
+            Accommodations Latest(<%= @spas.length %>)
+          </span>
+          <span class="card-title-readall">
+            <a href="/accommodations" class="uppercase">View all</a>
+          </span>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <% @spas.each do |item| %>
+              <div class="col-md-6">
+                <div class="item-dashboard">
+                  <div class="product-img">
+                    <% if item.customer.attachment_id.to_i != 0 %>
+                      <img src="/attachments/download/<%= item.customer.attachment_id %>?version=thumb" alt="Image" class="img-size-50">
+                    <% else %>
+                      <img src="<%= image_path('user.png') %>" alt="Image" class="img-size-50">
+                    <% end %>
+                  </div>
+                  <div class="product-info item-content-dashboard">
+                    <a class="product-title des" href="/machine_reservations/<%= item.id %>">
+                      <%= item.customer.surname.to_s %> <%= item.customer.middle_name.to_s %> <%= item.customer.forename.to_s %> (<%= item.customer.number %>)
+                    </a>
+                    <p class="product-description sub-des">
+                        <%= item.date_pick.strftime("%d-%m-%Y %T") %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card card-dashboard">
+        <div class="card-header">
+          <span class="card-title-dashboard">
+            Spas Latest(<%= @spas.length %>)
+          </span>
+          <span class="card-title-readall">
+            <a href="/spas" class="uppercase">View all</a>
+          </span>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <% @spas.each do |item| %>
+              <div class="col-md-6">
+                <div class="item-dashboard">
+                  <div class="product-img">
+                    <% if item.customer.attachment_id.to_i != 0 %>
+                      <img src="/attachments/download/<%= item.customer.attachment_id %>?version=thumb" alt="Image" class="img-size-50">
+                    <% else %>
+                      <img src="<%= image_path('user.png') %>" alt="Image" class="img-size-50">
+                    <% end %>
+                  </div>
+                  <div class="product-info item-content-dashboard">
+                    <a class="product-title des" href="/machine_reservations/<%= item.id %>">
+                      <%= item.customer.surname.to_s %> <%= item.customer.middle_name.to_s %> <%= item.customer.forename.to_s %> (<%= item.customer.number %>)
+                    </a>
+                    <p class="product-description sub-des">
+                        <%= item.date_pick.strftime("%d-%m-%Y") %> <%= item.time_pick.strftime("%T") %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card card-dashboard">
+        <div class="card-header">
+          <span class="card-title-dashboard">
+            Active Staff(<%= @officers.length %>)
+          </span>
+          <span class="card-title-readall">
+            <a href="/officers" class="uppercase">View all</a>
+          </span>
+        </div>
+        <div class="card-body">
+          <div class="row">
+           <% @officers.each do |item| %>
+              <div class="col-md-3 col-6 col-sm-4 col-lg-2 cursor-pointer" id="officer-<%= item.id %>" onclick="changeStatusOfficer(<%= item.id %>,<%= item.online %>)" data-toggle="tooltip" title="<%= item.online == false ? "Offline" : "Online" %>">
+                <div class="item-staff">
+                    <img class="image-officer" src="/attachments/download/<%= item.attachment_id %>?version=thumb" alt="User Image" width="50" height="50">
+                    <div id="users-list-name-<%= item.id %>">
+                      <p class="officer-status-<%= item.online %> staff-name">
+                        <%= item.name %>
+                      </p>
+                    </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+    
+  </div>
+</section>
+<script type="text/javascript">
+  $( document ).ready(function() {
+    reloadPage();
+  });
+
+  function changeStatusOfficer(customer_id, online){
+    let statusOnline = !online
+    $.ajax({
+      "url": `/officers/active/${customer_id}/online/${statusOnline}`,
+      "method": "GET",
+      success: function (result) {
+        if(result.id !== undefined){
+          location.reload();
+        }
+      },
+      error: function (result) {
+          console.log('Error');
+      }
+    });
+  }
+</script>

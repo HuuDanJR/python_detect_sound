@@ -1,0 +1,25 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sku: MyString
+  qrcode: MyString
+  name: MyString
+  desc: MyString
+  base_price: 9.99
+  price: 9.99
+  point_price: 1
+  product_type: 1
+  attachment: one
+  product_category: one
+
+two:
+  sku: MyString
+  qrcode: MyString
+  name: MyString
+  desc: MyString
+  base_price: 9.99
+  price: 9.99
+  point_price: 1
+  product_type: 1
+  attachment: two
+  product_category: two

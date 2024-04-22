@@ -1,0 +1,2 @@
+json.extract! customer, :id, :age, :card_number, :cashless_balance, :colour, :colour_html, :comp_balance, :comp_status_colour, :comp_status_colour_html, :forename, :freeplay_balance, :gender, :has_online_account, :hide_comp_balance, :is_guest, :loyalty_balance, :loyalty_points_available, :membership_type_name, :middle_name, :number, :player_tier_name, :player_tier_short_code, :premium_player, :surname, :title, :valid_membership, :created_at, :updated_at
+json.url customer_url(customer, format: :json)

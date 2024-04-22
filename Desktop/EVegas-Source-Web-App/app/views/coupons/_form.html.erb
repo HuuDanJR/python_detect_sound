@@ -1,0 +1,737 @@
+<style>
+  .select2{
+    min-width: 90px !important;
+  }
+  .input-group {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+
+  .input-group .form-control {
+    flex-grow: 1;
+  }
+
+  .input-group-append {
+    margin-left: -1px; /* Adjust as necessary */
+  }
+
+</style>
+<%= form_with(model: coupon, local: true, id: "mc_reservation_form", params: {is_extend: @extend}) do |form| %>
+  <input class="form-control" hidden="hidden" type="text" value="<%= @is_extend %>" name="is_extend" id="is_extend">
+  <input class="form-control" hidden="hidden" type="text" value="<%= action_method %>" name="is" id="action_method_f">
+  <div class="row">
+    <% if coupon.errors.any? %>
+      <div class="col-md-12" id="error_explanation">
+        <h4><%= pluralize(coupon.errors.count, "error" ) %> errors:</h4>
+        <ul>
+          <% coupon.errors.full_messages.each do |message| %>
+            <li>
+              <%= message %>
+            </li>
+            <% end %>
+        </ul>
+      </div>
+      <% end %>
+  </div>
+
+  <div class="row" data-turbolinks="false">
+    <div class="col-md-12">
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Information coupon</h3>
+        </div>
+        <div class="card-body">
+          <div class="form-row form-group">
+            <% if action_method != "update" %>
+              <div class="col-md-6 form-group" id="" style="display: flow-root;">
+                <label>
+                  <%= t('search_customer_number') %>:
+                </label>
+                <input id="search" autocomplete="off" onfocus="FocusSearch(this)" onkeyup="searchUsers(this)" 
+                      onblur="UnFocusSearch(this)" class="form-control" placeholder="Search Customer Number">
+                <div id="list-result"></div>
+              </div>
+            <% end %>
+            <div class="form-group col-sm-6">
+              <label>
+                <%= t('customer') %>:
+              </label>
+              <input class="form-control" value="<%= @customer_number %>" type="text" disabled id="cus_id">
+              <%= form.text_field :customer_id, class: "form-control", required: true, hidden: true %>
+            </div>
+
+          </div>
+
+          <div class="form-row">
+            
+
+            <% if action_method == "create" %>
+              <div class="form-group col-sm-2">
+                <label>Coupon Type:</label>
+                <%= form.text_field :coupon_template_id, class: "form-control", hidden: true %>
+                <select class="form-control select2" name="coupons_config" id="coupons_config" onchange="onChangeCouponsIds()">
+                  <option value="">-- Coupon Type --</option>                    
+                  <% benefit_config.each do |item| %>
+                    <option id="benefits_item_<%= item.id %>" value="<%= item.benefit_ids %>" benefit-attr="<%= item.benefit_totals %>"><%= item.name %></option>
+                  <% end %>
+                </select>
+              </div>
+            <% end %>
+
+            <div class="form-group col-sm-2">
+              <label>
+                <%= t('name') %>:
+              </label>
+              <%= form.text_field :name, class: "form-control", required: true, autocomplete: "off" %>
+            </div>
+            <div class="form-group col-sm-2">
+              <label>
+                <%= t('serial_no') %>:
+              </label>
+              <%= form.text_field :serial_no, class: "form-control", step: 'any' %>
+            </div>
+            
+            <div class="form-group col-sm-2">
+              <label>
+                <%= t('issued_by') %>:
+              </label>
+              <%= form.text_field :issued, class: "form-control", step: 'any' %>
+            </div>
+            
+            <div class="form-group col-sm-2">
+              <label>
+                <%= t('Issue Date') %>:
+              </label>
+              <%= form.date_field :time_start, class: "form-control", required: true, step: 'any' %>
+            </div>
+            <div class="form-group col-sm-2">
+              <label>
+                <%= t('Expired Date') %>:
+              </label>
+              <%= form.date_field :expired, class: "form-control", required: true, step: 'any' %>
+            </div>
+            
+            <div class="form-group col-sm-12">
+              <label>
+                <%= t('Note') %>: <button type="button" id="id_note" onclick="editnote()">Show Edit Note</button>
+              </label>
+              <div id="check_cp_note">
+                <%= form.text_area :note, class: "form-control", rows:"3" %>
+              </div>
+              <div id="content_note">
+                <% if @coupon.note.present? %>
+                <%= @coupon.note.html_safe %>
+            
+                
+                <% else %>
+
+                <% end %>
+              </div>
+            </div>
+            
+            <div class="form-group col-sm-12">
+              <label>
+                <%= t('description') %>:
+              </label>
+              <textarea class="form-control" rows="6" disabled="disabled" name="coupon_description_text" id="coupon_description_text"></textarea>
+              <%= form.text_field :description, hidden: true, class: "form-control" %>
+              <%= form.text_field :description_ja, hidden: true, class: "form-control" %>
+              <%= form.text_field :description_kr, hidden: true, class: "form-control" %>
+              <%= form.text_field :description_cn, hidden: true, class: "form-control" %>
+              <%= form.text_field :name_ja, hidden: true, class: "form-control" %>
+              <%= form.text_field :name_kr, hidden: true, class: "form-control" %>
+              <%= form.text_field :name_cn, hidden: true, class: "form-control" %>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>
+              <%= t('benefits') %>
+            </label>
+            <div class="benefit-list" id="benefit-list-all">
+              <% benefit_index = -1 %>
+              <% benefits.each do |item| %>
+                <% if coupon_benefit_ids.include? item.id %>
+                    <div class="row benefit-item align-items-center mb-2" id="coupon_benefit_template_<%= item.id %>">
+                      <div class="col-md-3 d-flex align-items-center">
+                        <input disabled
+                          type="checkbox" 
+                          id="benefit-<%= item.id %>" 
+                          style="width: 16px; height: 16px; min-height: 38px;" 
+                          name="coupon[benefit_ids][]" 
+                          value="<%= item.id %>"
+                          <% if !coupon_benefit_ids.nil? %>
+                            <%= (coupon_benefit_ids.include? item.id) ? 'checked' : '' %>
+                          <% end %>
+                        />
+                        <label class="m-0 ml-2" for="benefit-<%= item.id %>">
+                          <img src="/attachments/download/<%= item.attachment_id %>" alt="<%= item.attachment_id %>" style="width: 48px; height: 48px; object-fit:contain;"/>
+                          <span><%= item.name %></span>
+                        </label>
+                      </div>
+                      
+                      <div class="col-md-9" id="list-benefit-<%= item.id %>">
+                      
+                       <% if action_method == "update" %>
+                        <% if !coupon_benefit_ids.nil? %>
+                            <% if coupon_benefit_ids.include? item.id %>
+                              <div class="row" id="item-benefit-<%= item.id %>">
+                                <% benefit_index += 1%>
+                                <div class="col-md-2 d-flex align-items-center total-usage" id="total-usage-<%= item.id %>">
+                                  <label class="m-0" style="display: inline-block; width: 202px; word-wrap: break-word;font-size: 14px;">Total Usage</label>
+                                  <input class="form-control ml-2" type="number" style="padding: unset!important; min-width: 30px !important; text-align: center;" disabled name="coupon[total_usages][]" value="<%= coupon_benefits[benefit_index][:total_usage] %>"/>
+                                </div>
+                                <div class="col-md-2 d-flex align-items-center count-usage" id="count-usage-<%= item.id %>">
+                                  <label class="m-0" style="display: inline-block; width: 170px; word-break:break-all;font-size: 14px;">Redeem</label>
+                                  <input class="form-control ml-2"type="number" style="padding: unset!important; min-width: 30px !important;text-align: center;" disabled name="coupon[count_usages][]" value="<%= coupon_benefits[benefit_index][:count_usage] %>"/>
+                                </div>
+                                <div class="col-md-5 d-flex align-items-center count-usage" id="count-usage-<%= item.id %>">
+                                  <label class="m-0" style="display: inline-block; min-width: 50px; word-break:break-all;font-size: 14px;">Note &nbsp;</label>
+                                  <div class="input-group">
+                                    <input class="form-control" type="text" placeholder="Enter to save" onkeydown="updateNoteBenefitEnter(this, <%= coupon_benefits[benefit_index][:id] %>)" id="coupon_benefits_note_<%= coupon_benefits[benefit_index][:id] %>" name="coupon_benefits_note_<%= coupon_benefits[benefit_index][:id] %>" value="<%= coupon_benefits[benefit_index][:note] %>" />
+                                    <div class="input-group-append">
+                                      <button class="btn btn-outline-secondary" style="background: #6666ff !important; color:white !important;" type="button" onclick="updateNoteBenefit(<%= coupon_benefits[benefit_index][:id] %>)">Save</button>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-3" id="btn-usage-<%= item.id %>">
+                                  <% if coupon_benefits[benefit_index][:count_usage].to_i < coupon_benefits[benefit_index][:total_usage].to_i %>
+                                    <button type="button" id="btn_used_<%= coupon_benefits[benefit_index][:id] %>" data-disable-with="Processing..." class="btn btn-success" onclick="usedCoupons(<%= coupon_benefits[benefit_index][:id] %>, 1)">Stamp</button> 
+                                  <% else %>
+                                    <button type="button" class="btn btn-danger">Used</button>
+                                  <% end %>
+                                  <% if (coupon_benefits[benefit_index][:count_usage].to_i != 0) && (current_user.role? "undo_benefit_coupons") %>
+                                    <button type="button" id="btn_cancel_<%= coupon_benefits[benefit_index][:id] %>" data-disable-with="Processing..." class="btn btn-warning" onclick="undoCoupons(<%= coupon_benefits[benefit_index][:id] %>, 0)">Undo</button>
+                                  <% end %>
+                                </div>
+                              </div>
+                            <% end %>
+                          <% end %>
+                        <% end %>
+                      </div>
+                    </div>
+                <% else%>
+                
+                 <% if action_method == "create" %>
+                    <div class="row benefit-item d-flex align-items-center mb-2" id="coupon_benefit_template_<%= item.id %>">
+                      <div class="col-md-4 d-flex align-items-center">
+                        <div style="width: 20px !important; height: 38px!important;">
+                          <input disabled
+                            type="checkbox" 
+                            id="benefit-<%= item.id %>" 
+                            style="width: 20px !important; height: 38px!important;" 
+                            name="coupon[benefit_ids][]" 
+                            value="<%= item.id %>"
+                            <% if !coupon_benefit_ids.nil? %>
+                              <%= (coupon_benefit_ids.include? item.id) ? 'checked' : '' %>
+                            <% end %>
+                          />
+                        </div>
+                        <label class="m-0 ml-2" for="benefit-<%= item.id %>">
+                          <img src="/attachments/download/<%= item.attachment_id %>" alt="<%= item.attachment_id %>" style="width: 48px; height: 48px; object-fit:contain;"/>
+                          <span><%= item.name %></span>
+                        </label>
+                      </div>
+                      <div class="col-md-8" id="list-benefit-<%= item.id %>">
+                        <% if !coupon_benefit_ids.nil? %>
+                            <% if coupon_benefit_ids.include? item.id %>
+                              <div class="row" id="item-benefit-<%= item.id %>">
+                                <% benefit_index += 1%>
+                                <div class="col-md-4 d-flex align-items-center total-usage" id="total-usage-<%= item.id %>">
+                                  <label class="m-0" style="white-space: nowrap;">Total Usage</label>
+                                  <input class="form-control ml-2" type="number" disabled name="coupon[total_usages][]" value="<%= coupon_benefits[benefit_index][:total_usage] %>"/>
+                                </div>
+                                <div class="col-md-4 d-flex align-items-center count-usage" id="count-usage-<%= item.id %>">
+                                  <label class="m-0" style="white-space: nowrap;">Redeemed</label>
+                                  <input class="form-control ml-2"type="number" disabled name="coupon[count_usages][]" value="<%= coupon_benefits[benefit_index][:count_usage] %>"/>
+                                </div>
+                              </div>
+                            <% end %>
+                          <% end %>
+                      </div>
+                    </div>
+                  <% end %>
+                <% end %>
+              <% end %>
+            </div>   
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="padding:10px">
+    <div class="col-12">
+      <%= link_to 'Back', 'javascript:void(0);', onclick: "window.history.back(); setTimeout(function(){window.location.reload();}, 100);", class: "btn btn-secondary" %>
+      <% if params[:is_extend].to_i == 1 %>
+        <button type="button" class="btn btn-success float-right" data-disable-with="Processing..." id="save_mc">Extend</button> 
+      <% else %>
+        <button type="button" class="btn btn-success float-right" data-disable-with="Processing..." id="save_mc">Save</button> 
+      <% end %>
+    </div>
+  </div>
+  <% end %>
+<script>
+    $(document).on("turbolinks:load", function () {
+        replaceCKEDITOR("coupon_description_text");
+        var editor_note = replaceCKEDITOR("coupon_note");
+    });
+</script>
+
+<script>
+  var is_note = 0;
+  var list_coupon_all = [];
+  var list_coupon_map = [];
+  var is_choose_template = 0
+  $( document ).ready(function() {
+    if($("#action_method_f").val() == "update"){
+      $("#coupon_name").prop('disabled', true);
+      $("#coupon_serial_no").prop('disabled', true);
+      $("#coupon_time_start").prop('disabled', true);
+      $("#coupon_expired").prop('disabled', true);
+      $("#coupon_issued").prop('disabled', true);
+      $("#check_cp_note").hide();
+      $("#content_note").show();
+      is_choose_template = 1;
+    }else{
+      $("#check_cp_note").hide();
+      $("#content_note").hide();
+    }
+    if($("#is_extend").val() == "1"){
+      $("#coupon_time_start").prop('disabled', false);
+      $("#coupon_expired").prop('disabled', false);
+    }
+    list_coupon_all = [];
+    $("#save_mc").click(function() {
+        if ($('#coupon_customer_id').val() == ""){
+          alert('Customer Required!');
+          return;
+        }
+        let time_start = $('#coupon_time_start').val();
+        let coupon_expired = $('#coupon_expired').val();
+        
+        if (time_start == ""){
+          alert('Issue Date Required!');
+          return;
+        }
+       
+        if (coupon_expired == ""){
+          alert('Expired Date Required!');
+          return;
+        }
+
+        if(time_start > coupon_expired){
+          alert('Expired Date must be greater than Issue Date');
+          return;
+        }
+
+        if(is_choose_template == 0){
+          alert('Please select coupon type');
+          return;
+        }
+        $("#mc_reservation_form").submit();
+    });
+
+    // var el = jQuery('<div>').html($("#coupon_description").val()).text();
+    // $("#coupon_description_text").val(el);
+    CKEDITOR.instances['coupon_description_text'].setData($("#coupon_description").val());
+    <% if !coupon_benefits.nil? %>
+      var state_benefit_ids = "<%= coupon_benefits.map { |cb| "#{cb[:benefit_id]}"}.join(",") %>".split(",");
+      var state_count_usages = "<%= coupon_benefits.map { |cb| "#{cb[:count_usage]}"}.join(",") %>".split(",");
+      var state_total_usages = "<%= coupon_benefits.map { |cb| "#{cb[:total_usage]}"}.join(",") %>".split(",");
+    <% else %>
+      var state_benefit_ids = [];
+      var state_count_usages = [];
+      var state_total_usages = [];
+    <% end %>
+    $('input[type="checkbox"]').on('change', (e) => {
+      let list_total = [];
+      let targetCheckbox = e.target;
+      let benefit_id = targetCheckbox.value;
+      if (targetCheckbox.checked) {
+        let index = state_benefit_ids.indexOf(benefit_id);
+        if (index > -1){
+          state_total_usage = state_total_usages[index]
+          state_count_usage = state_count_usages[index]
+        } else{
+          list_total = $("#coupons_config option:selected").attr('benefit-attr').split(',');
+          let index_item = $("#coupons_config").val().split(',').indexOf(benefit_id);
+          if (index_item  > -1){
+            state_total_usage = list_total[index_item];
+          }else{
+            state_total_usage = 1;
+          }
+          state_count_usage = 0;
+        }
+
+        $(`#list-benefit-${benefit_id}`).append(`
+          <div class="row" id="item-benefit-${benefit_id}">
+            <input name="coupon[benefit_ids][]" value="${benefit_id}" hidden/>
+            <div class="col-md-4 d-flex align-items-center" id="total-usage-${benefit_id}">
+              <label class="m-0" style="white-space: nowrap;">Total Usage</label>
+              <input disabled class="form-control ml-2" type="number" name="coupon_total_usages_${benefit_id}" value="${state_total_usage}"/>
+              <input hidden class="form-control ml-2" type="number" name="coupon[total_usages][]" value="${state_total_usage}"/>
+            </div>
+            <div class="col-md-4 d-flex align-items-center" id="count-usage-${benefit_id}">
+              <label class="m-0" style="white-space: nowrap;">Redeemed</label>
+              <input disabled class="form-control ml-2"type="number" name="coupon_count_usages_${benefit_id}" value="${state_count_usage}"/>
+              <input hidden class="form-control ml-2"type="number" name="coupon[count_usages][]" value="${state_count_usage}"/>
+            </div>
+          </div>
+        `);
+      } else{
+        $(`.benefit-item #total-usage-${benefit_id}`).remove();
+        $(`.benefit-item #count-usage-${benefit_id}`).remove();
+        $(`#btn-usage-${benefit_id}`).remove();
+      }
+    })
+    list_coupon_all = $("#benefit-list-all >div");
+    if(list_coupon_all.length > 0){
+      getListBenefit(list_coupon_all);
+    }
+  });
+  
+  var _changeInterval = null;
+  function searchUsers(othis){
+      var keyword = $('#search').val();
+      var search = $(othis).val();
+      if(search != null && search != ''){
+          clearInterval(_changeInterval);
+          _changeInterval = setInterval(function() {
+              clearInterval(_changeInterval);
+              $("#list-result").empty();
+              Search(keyword);
+          }, 500);
+      }else{
+          $("#list-result").empty();
+      }
+  }
+
+  function FocusSearch(othis){
+      var search = $(othis).val();
+      if(search == null || search == ''){
+          $("#list-result").empty();
+      }
+  }
+  function UnFocusSearch(othis){
+      var search = $(othis).val();
+  }
+
+  function Search(keyword){
+      $.ajax({
+          "url": `/notifications/get_users?search=${keyword}`,
+          "method": "GET",
+          success: function (result) {
+              if(result != null && result.length > 0){
+                  var html = '';
+                  $.each(result, function(index, item){
+                      html += RenderHtmlItem(item);
+                  })
+                  $('#list-result').append(html);
+              }else{
+                $('#list-result').append('<div>Not Found</div>');
+              }
+          },
+          error: function (result) {
+            $('#list-result').append('<div>Not Found</div>');
+          }
+      })
+  }
+
+  function RenderHtmlItem(item){
+    let name = (item.surname == null ? "" : item.surname) + " " + (item.middle_name == null ? "" : item.middle_name) + " " + (item.forename == null ? "" : item.forename);
+    return `<div class="lc-item" onclick="selectCustomer(${item.cus_id}, '${name} - ${item.number}')">
+        <div class="lc-content">
+            <div type="hidden" class="temp-object hide">${JSON.stringify(item)}</div>
+            <div class="result-name">${item.number} - ${name}</div>
+        </div>
+    </div>`;
+  }
+  
+  function selectCustomer(cus_id, name){
+    $("#cus_id").val(name);
+    $("#coupon_customer_id").val(cus_id);
+  }
+
+  function usedCoupons(coupon_benefit_id, stamp){
+    let note_cp = getNoteCoupon();
+    let update_cp = {
+      stamp: stamp,
+      note_coupon: note_cp
+    };
+    if (confirm('Do you want to stamp this benefit?')) {
+        $("#btn_used_" + coupon_benefit_id).prop('disabled', true);
+        $("#btn_cancel_" + coupon_benefit_id).prop('disabled', true);
+        $.ajax({
+            "url": `/coupons/used_benefit/${coupon_benefit_id}`,
+            "method": "POST",
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "data": JSON.stringify(update_cp),
+            success: function (result) {
+                if(result){
+                  location.reload();
+                  $("#btn_used_" + coupon_benefit_id).prop('disabled', false);
+                  $("#btn_cancel_" + coupon_benefit_id).prop('disabled', false);
+                }
+            },
+            error: function (result) {
+              $("#btn_used_" + coupon_benefit_id).prop('disabled', false);
+              $("#btn_cancel_" + coupon_benefit_id).prop('disabled', false);
+            }
+        });
+      } 
+  }
+
+  function undoCoupons(coupon_benefit_id, stamp){
+    let note_cp = getNoteCoupon();
+    let update_cp = {
+      stamp: stamp,
+      note_coupon: note_cp
+    };
+    if (confirm('Do you want to undo this benefit?')) {
+        $("#btn_used_" + coupon_benefit_id).prop('disabled', true);
+        $("#btn_cancel_" + coupon_benefit_id).prop('disabled', true);
+        $.ajax({
+            "url": `/coupons/undo_benefit/${coupon_benefit_id}`,
+            "method": "POST",
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "data": JSON.stringify(update_cp),
+            success: function (result) {
+                if(result){
+                  location.reload();
+                  $("#btn_used_" + coupon_benefit_id).prop('disabled', false);
+                  $("#btn_cancel_" + coupon_benefit_id).prop('disabled', false);
+                }
+            },
+            error: function (result) {
+              $("#btn_used_" + coupon_benefit_id).prop('disabled', false);
+              $("#btn_cancel_" + coupon_benefit_id).prop('disabled', false);
+            }
+        });
+      } 
+  }
+
+  function onChangeCouponsIds(){
+    let all_list_id = [];
+    let list_checked = [];
+    $("#coupon_title").val("");
+    $("#coupon_name").val("");
+    if($("#coupons_config").val() != ""){
+      $("#coupon_name").val($("#coupons_config option:selected").text());
+      is_choose_template = 1;
+    }else{
+      is_choose_template = 0;
+    }
+
+    $("input:checkbox").each(function(){
+        var $this = $(this);
+        all_list_id.push($this.attr("id"));
+        $this.prop("checked", false).trigger("change");
+    });
+    let des_ja = "";
+    let des_kr = "";
+    let des_cn = "";
+    let des = "";
+    let name_ja = "";
+    let name_kr = "";
+    let name_cn = "";
+    let id_select = $("#coupons_config option:selected").attr("id");
+    let id_template = "";
+    <% benefit_config.each do |item| %>
+        if (`benefits_item_<%= item.id %>` == id_select){
+          id_template = `<%= item.id %>`
+          des_ja = `<%= item.description_ja %>`
+          des_kr = `<%= item.description_kr %>`
+          des_cn = `<%= item.description_cn %>`
+          des = `<%= item.description %>`
+          name_ja = `<%= item.name_ja %>`
+          name_kr = `<%= item.name_kr %>`
+          name_cn = `<%= item.name_cn %>`
+        }
+    <% end %>
+    $("#coupon_coupon_template_id").val(id_template);
+    // $("#coupon_description_text").val(extractTextFromHtml(extractText(`${des}`)));
+    
+    CKEDITOR.instances['coupon_description_text'].setData(extractText(`${des}`));
+    $("#coupon_description").val(extractText(des));
+    $("#coupon_description_ja").val(extractText(des_ja));
+    $("#coupon_description_kr").val(extractText(des_kr));
+    $("#coupon_description_cn").val(extractText(des_cn));
+    $("#coupon_name_cn").val(name_cn);
+    $("#coupon_name_kr").val(name_kr);
+    $("#coupon_name_ja").val(name_ja);
+
+    let list_coupon = $("#coupons_config").val().split(',');
+    
+    if(list_coupon_map.length > 0){
+      $("#benefit-list-all").empty();
+      $.each(list_coupon_map, function(index, item){
+        let _id_cp = item.id.replace('coupon_benefit_template_', '');
+        $("#benefit-list-all").append(`<div class="row benefit-item d-flex align-items-center mb-2" id="coupon_benefit_template_${_id_cp}">
+                      <div class="col-md-4 d-flex align-items-center">
+                        <div style="width: 20px !important; height: 38px!important;">
+                          <input disabled="" type="checkbox" id="benefit-${_id_cp}" style="width: 20px !important; height: 38px!important;" name="coupon[benefit_ids][]" value="${_id_cp}">
+                        </div>
+                        <label class="m-0 ml-2" for="benefit-${_id_cp}">
+                          <img src="/attachments/download/${item.icon}" alt="${item.icon}" style="width: 48px; height: 48px; object-fit:contain;">
+                          <span>${item.name}</span>
+                        </label>
+                      </div>
+                      <div class="col-md-8" id="list-benefit-${_id_cp}">
+                      </div>
+                    </div>
+                   `);
+      })
+    }
+
+    if(list_coupon){
+      let list_tmp = [];
+      let total_usage_tmp = 0;
+      $.each(list_coupon, function(index, item){
+        if ($("#benefit-" + item.trim()).length){
+          list_checked.push("#benefit-" + item);
+          $("#benefit-" + item).prop('checked', true).trigger('change');
+          let index = all_list_id.indexOf(item);
+          list_total = $("#coupons_config option:selected").attr('benefit-attr').split(',');
+          let index_item = $("#coupons_config").val().split(',').indexOf(item);
+          if (index_item > -1){
+            total_usage_tmp = list_total[index_item];
+          }else{
+            total_usage_tmp = 1;
+          }
+
+          $(`#list-benefit-${item}`).append(`
+            <div class="row" id="item-benefit-${item}">
+              <input name="coupon[benefit_ids][]" value="${item}" hidden/>
+              <div class="col-md-4 d-flex align-items-center" id="total-usage-${item}">
+                <label class="m-0" style="white-space: nowrap;">Total Usage</label>
+                <input disabled class="form-control ml-2" type="number" name="coupon_total_usages_${item}" value="${total_usage_tmp}"/>
+                <input hidden class="form-control ml-2" type="number" name="coupon[total_usages][]" value="${total_usage_tmp}"/>
+              </div>
+              <div class="col-md-4 d-flex align-items-center" id="count-usage-${item}">
+                <label class="m-0" style="white-space: nowrap;">Redeemed</label>
+                <input disabled class="form-control ml-2"type="number" name="coupon_count_usages_${item}" value="0"/>
+                <input hidden class="form-control ml-2"type="number" name="coupon[count_usages][]" value="0"/>
+              </div>
+            </div>
+          `);
+          }
+        list_tmp.push("coupon_benefit_template_" + item);
+
+      })
+      if(list_coupon_map.length > 0){
+        $.each(list_coupon_map, function(index, item){
+          if ($.inArray(item.id, list_tmp) === -1) {
+            $("#"+item.id).remove();
+          } else {
+
+          }
+        })
+      }
+    }
+    // if (all_list_id.length > 0){
+    //   $.each(all_list_id, function(index, item) {
+    //       if (list_checked.indexOf(item) === -1) {
+    //         // console.log(item);
+    //         var numberPart = item.split('-')[1];
+    //         // console.log(numberPart);
+            
+    //         // $("#benefit-" + numberPart).prop('checked', false).trigger('change');
+            
+    //         $(`#btn-usage-${numberPart}`).remove();
+    //       }
+    //     });
+    // }
+  
+  }
+
+  function extractText(htmlString) {
+    // Create a temporary DOM element to leverage the browser's ability to parse HTML
+    var tempDivElement = document.createElement('div');
+    
+    // Assign the HTML string to the innerHTML of the temporary element
+    tempDivElement.innerHTML = htmlString;
+    
+    // Extract and return the text content
+    return tempDivElement.textContent || tempDivElement.innerText || "";
+  }
+
+  function extractTextFromHtml(htmlString) {
+    // Create a temporary DOM element to leverage the browser's ability to parse HTML
+    var tempDivElement = document.createElement('div');
+    
+    // Assign the HTML string to the innerHTML of the temporary element
+    tempDivElement.innerHTML = htmlString;
+    
+    // Extract and return the text content
+    return tempDivElement.textContent || tempDivElement.innerText || "";
+  }
+
+  function getListBenefit(list_coupon_tmp){
+    $.each(list_coupon_tmp, function(index, item){
+      let name = item.getElementsByTagName("span")[0].innerText;
+      let id_attach = item.getElementsByTagName("img")[0].getAttribute("alt");
+      list_coupon_map.push({
+        id: item.id,
+        name: name,
+        icon: id_attach
+      });
+    })
+  }
+
+  function editnote(){
+    var divide = document.getElementById("check_cp_note");
+    if (divide.style.display === "none") {
+      divide.style.display = "block";
+      $("#content_note").hide();
+      $("#id_note").text('Hide Edit Note');
+      is_note = 1;
+    } else {
+      divide.style.display = "none";
+      $("#content_note").show();
+      $("#id_note").text('Show Edit Note');
+      is_note = 0;
+    }
+  }
+
+  function updateNoteBenefit(coupon_benefit_id){
+    let note = $("#coupon_benefits_note_" + coupon_benefit_id).val();
+    let note_cp = getNoteCoupon();
+    let note_object = {
+      note: note,
+      note_coupon: note_cp
+    };
+    if (note !== "" || note !== undefined){
+      $.ajax({
+          "url": `/coupons/update_note/${coupon_benefit_id}`,
+          "method": "POST",
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+           "data": JSON.stringify(note_object),
+          success: function (result) {
+              if(result){
+                alert("Notes updated successfully");
+              }
+          },
+          error: function (result) {
+                alert("Update notes failed");
+          }
+      });
+    }
+  }
+  function updateNoteBenefitEnter(ele, coupon_benefit_id){
+    if(event.key === 'Enter') {
+      updateNoteBenefit(coupon_benefit_id);      
+    }
+  }
+
+  function getNoteCoupon(){
+    let note_cp = "";
+    if (is_note == 1){
+      note_cp = CKEDITOR.instances["coupon_note"].getData();
+    }
+    return note_cp;
+  }
+
+</script>

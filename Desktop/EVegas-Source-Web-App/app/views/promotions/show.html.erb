@@ -1,0 +1,138 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6">
+          <%= t('promotion_show') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">
+            <%= t('promotion_show') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="card card-secondary">
+          <div class="card-header">
+            <h3 class="card-title">Information</h3>
+          </div>
+          <div class="card-body">
+            <p>
+              <strong>Name:</strong>
+              <%= @promotion.name %>
+            </p>
+            <p>
+              <strong>Issue date:</strong>
+              <%= @promotion.issue_date %>
+            </p>
+
+            <p>
+              <strong>Time:</strong>
+              <%= @promotion.time %>
+            </p>
+            
+            <p>
+              <strong>Color:</strong>
+              <input class="" type="color" value="<%= @promotion.color %>" name="promotion[color]" id="promotion_color" disable="true">
+            </p>
+
+            <p>
+              <strong>Game type:</strong>
+              <%= @promotion.game_type %>
+            </p>
+
+            <p>
+              <strong>Day of week:</strong>
+              <%= @promotion.day_of_week %>
+            </p>
+
+            <p>
+              <strong>Day of month:</strong>
+              <%= @promotion.day_of_month %>
+            </p>
+
+            <p>
+              <strong>Day of season:</strong>
+              <%= @promotion.day_of_season %>
+            </p>
+
+            <p>
+              <strong>Remark:</strong>
+              <%= @promotion.remark %>
+            </p>
+
+            
+            <p>
+              <strong>Terms:</strong>
+              <%= @promotion.terms.html_safe %>
+            </p>
+            
+            <p>
+              <strong>Prize:</strong>
+              <%= @promotion.prize.html_safe %>
+            </p>
+                   
+                   
+            <p>
+              <strong>Status:</strong>
+              <%= @promotion.status == 1 ? 'Show' : 'Hide' %>
+            </p>
+
+            <p>
+              <div class="form-row">
+                <div class="field">
+                  <label>Icon:</label>
+                  <div class="list-img">
+          
+                        <div>
+                          <img src="/attachments/download/<%= @promotion.attachment_id %>?version=medium" width="100" height="100">
+                        </div>
+                  </div>
+                </div>
+              </div>
+            </p>
+
+            
+            <p>
+              <div class="form-row">
+                <div class="field">
+                  <label>Banner:</label>
+                  <div class="list-img">
+          
+                        <div>
+                          <img src="/attachments/download/<%= @promotion.banner_id %>?version=medium" width="100" height="100">
+                        </div>
+                  </div>
+                </div>
+              </div>
+            </p>
+
+            <p>
+              <strong>Promotion category:</strong>
+              <%= @promotion.promotion_category.name %>
+            </p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <%= link_to 'Back', 'javascript:void(0);', onclick: "window.history.back(); setTimeout(function(){window.location.reload();}, 100);", class: "btn btn-secondary" %>      </div>
+    </div>
+  </div>
+</section>

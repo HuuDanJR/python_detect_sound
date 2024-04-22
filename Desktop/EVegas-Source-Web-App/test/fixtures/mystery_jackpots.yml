@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  jp_date: 2023-10-11 07:15:32
+  jp_game_theme: MyString
+  mc_number: MyString
+  mc_name: MyString
+  jp_value: 9.99
+
+two:
+  jp_date: 2023-10-11 07:15:32
+  jp_game_theme: MyString
+  mc_number: MyString
+  mc_name: MyString
+  jp_value: 9.99

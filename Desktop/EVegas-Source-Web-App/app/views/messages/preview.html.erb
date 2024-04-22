@@ -1,0 +1,187 @@
+<style>
+      .mobile-frame {
+          width: 375px;
+          height: 812px;
+          border-radius: 20px;
+          background-color: #eee; /* Light background color to contrast with the notification */
+          overflow: hidden;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+        margin-right: 10px;
+      }
+
+      .mobile-frame:before {
+          content: '';
+          position: absolute;
+          top: 10px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 160px;
+          height: 30px;
+          border-radius: 15px 15px 0 0;
+          background-color: black;
+      }
+
+      .notification {
+        background-color: #5f5e4a; /* Gray background */
+        padding: 10px 20px;
+        border-radius: 12px; /* Rounded corners like iOS notifications */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        width: 90%;
+        position: relative;
+        color: white;
+      }
+
+      .notification-time {
+          position: absolute; /* make the time stamp absolute */
+          top: 10px; /* position from the bottom */
+          right: 18px; /* position from the right */
+          font-size: 12px; /* adjust font size as needed */
+          color: white; /* adjust color as needed */
+          margin-left: 10px;
+      }
+
+
+      .notification-icon {
+          font-size: 24px;
+          margin-right: 10px;
+      }
+
+      .notification-content {
+          flex: 1;
+      }
+
+      .notification-title {
+          font-size: 18px;
+          margin: 0;  
+          width: 200px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+      }
+
+      .notification-description {
+          margin: 0;    
+          width: 200px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+      }
+
+      .notification-image-left {
+          width: 40px;
+          height: 40px;
+          border-radius: 5px;
+      }
+      .notification-image-right {
+          width: 36px;
+          height: 36px;
+          border-radius: 5px;
+          margin-top: 15px;
+          margin-left: 20px;
+      }
+</style>
+
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6">
+          <%= t('message_preview') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">
+            <%= t('message_preview') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="card card-secondary">
+          <div class="card-header">
+            <h3 class="card-title">Information</h3>
+          </div>
+          <div class="card-body">
+          <div class="row" style="margin: auto">
+              <div class="mobile-frame">
+                  <div class="notification">
+                      <span class="notification-icon">
+                      <img class="notification-image-left" src="<%= image_path('logo.png') %>">
+                      </span>
+                      <div class="notification-content">
+                          <h1 class="notification-title"> <%= @message.title %></h1>
+                          <p class="notification-description"><%= @message.short_description %></p>
+                      </div>
+                      <img class="notification-image-right" src="/attachments/download/<%= @message.attachment_id %>?version=medium">
+                      <span class="notification-time">now</span>
+                  </div>
+                </div>
+              <div class="mobile-frame">
+                  <div class="notification">
+                      <span class="notification-icon">
+                      <img class="notification-image-left" src="<%= image_path('logo.png') %>">
+                      </span>
+                      <div class="notification-content">
+                          <h1 class="notification-title"> <%= @message.title_kr %></h1>
+                          <p class="notification-description"><%= @message.short_description_kr %></p>
+                      </div>
+                      <img class="notification-image-right" src="/attachments/download/<%= @message.attachment_id %>?version=medium">
+                      <span class="notification-time">now</span>
+                  </div>
+                </div>
+              <div class="mobile-frame">
+                  <div class="notification">
+                      <span class="notification-icon">
+                      <img class="notification-image-left" src="<%= image_path('logo.png') %>">
+                      </span>
+                      <div class="notification-content">
+                          <h1 class="notification-title"> <%= @message.title_cn %></h1>
+                          <p class="notification-description"><%= @message.short_description_cn %></p>
+                      </div>
+                      <img class="notification-image-right" src="/attachments/download/<%= @message.attachment_id %>?version=medium">
+                      <span class="notification-time">now</span>
+                  </div>
+                </div>
+              <div class="mobile-frame">
+                  <div class="notification">
+                      <span class="notification-icon">
+                      <img class="notification-image-left" src="<%= image_path('logo.png') %>">
+                      </span>
+                      <div class="notification-content">
+                          <h1 class="notification-title"> <%= @message.title_ja %></h1>
+                          <p class="notification-description"><%= @message.short_description_ja %></p>
+                      </div>
+                      <img class="notification-image-right" src="/attachments/download/<%= @message.attachment_id %>?version=medium">
+                      <span class="notification-time">now</span>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <%= link_to 'Back', 'javascript:history.back()', class: "btn btn-secondary", "data-turbolinks": "false" %>
+      </div>
+    </div>
+  </div>
+</section>

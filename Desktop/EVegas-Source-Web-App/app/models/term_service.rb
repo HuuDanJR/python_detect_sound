@@ -1,0 +1,2 @@
+class TermService < ApplicationRecord
+end

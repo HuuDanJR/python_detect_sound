@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>E-Vegas</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_pack_tag 'application' %>
+  <%#= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  <%= favicon_link_tag asset_path('favicon.ico')  %>
+  <script src="<%= @AppDomain %>/ckeditor/ckeditor.js"></script>
+  <script src="<%= @AppDomain %>/ckeditor/styles.js"></script>
+  <script src="<%= @AppDomain %>/ckeditor/config.js"></script>
+  <%# <script src="https://cdn.ckeditor.com/4.19.1/standard/ckeditor.js"></script> %>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/favico.js/0.3.4/favico.min.js" integrity="sha512-Cdgf+Kt2eUb7W4QYPPRk8zLt9cYaZnKuTnykf/kTTVCjYKjfyEciuqjE8w19IRSOWXGE2pCOQ+7VcRKX971WYQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <style>
+    .toast.bg-success{
+      border: solid #008000 2px;
+    }
+    .toast.bg-success .toast-header{
+        background-color: rgba(255, 255, 255, 1) !important;
+        color: #000 !important;
+    }
+    .toast-body{
+        background-color: rgba(255, 255, 255, 1) !important;
+        color: #000 !important;
+    }
+        .toast-body a{
+        background-color: rgba(255, 255, 255, 1) !important;
+        color: #000 !important;
+      }
+    .highlight{
+        background: rgb(254, 246, 216)!important;
+      }
+    .autocomplete {
+      position: relative;
+      display: inline-block;
+    }
+
+    .autocomplete-items {
+      position: absolute;
+      border: 1px solid #d4d4d4;
+      border-bottom: none;
+      border-top: none;
+      z-index: 99;
+      /*position the autocomplete items to be the same width as the container:*/
+      top: 100%;
+      left: 0;
+      right: 0;
+    }
+
+    .autocomplete-items div {
+      padding: 10px;
+      cursor: pointer;
+      background-color: #fff; 
+      border-bottom: 1px solid #d4d4d4; 
+    }
+
+    /*when hovering an item:*/
+    .autocomplete-items div:hover {
+      background-color: #e9e9e9; 
+    }
+
+    /*when navigating through the items using the arrow keys:*/
+    .autocomplete-active {
+      background-color: DodgerBlue !important; 
+      color: #ffffff; 
+    }
+  </style>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+  <div class="wrapper">
+    <%= render "layouts/admin_header" %>
+    <%= render "layouts/admin_sidebar" %>
+    <div class="content-wrapper">
+      <% if notice %>
+        <p class="alert alert-success"><%= notice %></p>
+      <% end %>
+      <% if alert %>
+        <p class="alert alert-danger"><%= alert %></p>
+      <% end %>
+      <%= yield %>
+
+      <%# <div style="position: fixed; bottom: 20px; right: 25px; width: 48px; height: 48px; color: rgb(238, 238, 238); line-height: 40px; text-align: center; background-color: rgba(231, 197, 105, 0.25) !important; cursor: pointer; border-radius: 5px; z-index: 99999; opacity: 0.7;">
+        <i class="far fa-comments" style="margin-top: 10px;width: 24px; height: 22px;color: #CCA75D !important"></i>
+      </div> %>
+
+    </div>
+    <%#= render "layouts/admin_footer" %>
+    <%= render "layouts/admin_control_sidebar" %>
+
+    <script>
+      var favicon=new Favico({
+          animation:'fade'
+      });
+      favicon.badge('');
+      $("#count_notification").hide();
+      var countNoti = 0;
+      var countMessage = 0;
+      $(document).ready(function() {
+          if(window.location.href.endsWith("#")){
+            window.location.href = window.location.href.replace("#","");
+          }
+          $('[data-toggle="tooltip"]').tooltip();
+      });
+
+      $('form').keydown(function(event){
+        if(event.keyCode == 13) {
+          $(event).next().focus();
+          event.preventDefault();
+          return false;
+        }
+      })
+
+      function InvalidMsg(textbox, messageInput) {
+        if (textbox.value == '') {
+            textbox.setCustomValidity(messageInput);
+        }else{
+            textbox.setCustomValidity('');
+        }
+      }
+      $('select').select2({
+      });
+
+      
+      function reloadPageWindowsBack() {
+        // if (window.history && window.history.pushState) {
+        //   $(window).on('popstate', function() {
+        //     window.history.go();
+        //     reloadPageWindowsBack();
+        //   });
+        // }
+      }
+      
+    // disbled button when click action submit form
+      // $("#btnSubmit").click(function(){
+      //   let val = $("#btnSubmit").text();
+      //   $(this).css("pointer-events", "none");
+      //   $(this).html(`<span id="spinner_action"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...</span>`).delay(3000);
+      //   // $("#btnSubmit").submit();
+      //   $("#btnSubmit").submit(function( event ) {
+      //     event.preventDefault();
+      //     $(this).css("pointer-events", "auto");
+      //     $("#spinner_action").remove();
+      //     $(this).text(val);
+      //   });
+      // });
+
+      // reload page
+      function reloadPage(){
+        setTimeout(function () { 
+          // location.reload();
+        }, 60 * 3000);
+      }
+    
+      window.onpopstate = function(event) {
+        location.reload();
+      };
+    </script>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js";
+      import { getMessaging, onMessage, getToken } from "https://www.gstatic.com/firebasejs/9.10.0/firebase-messaging.js";
+      const firebaseConfig = {
+        apiKey: "<%= @FireBaseConfig[:apiKey] %>",
+        authDomain: "<%= @FireBaseConfig[:authDomain] %>",
+        projectId: "<%= @FireBaseConfig[:projectId] %>",
+        storageBucket: "<%= @FireBaseConfig[:storageBucket] %>",
+        messagingSenderId: "<%= @FireBaseConfig[:messagingSenderId] %>",
+        appId: "<%= @FireBaseConfig[:appId] %>",
+        measurementId: "<%= @FireBaseConfig[:measurementId] %>"
+      }
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
+
+        getToken(messaging, {vapidKey: "<%= @FireBaseConfig[:validKey] %>" })
+          .then((currentToken) => {
+            if (currentToken) {
+              // console.log(currentToken);
+            } else {
+              // Show permission request UI
+              console.log(
+                "No registration token available. Request permission to generate one."
+              );
+              // ...
+            }
+          })
+          .catch((err) => {
+            console.log("An error occurred while retrieving token. ", err);
+            // ...
+          });
+
+          onMessage(messaging, (payload) => {
+            const audio = new Audio('/notification.wav');
+            if (document.hidden) {
+              audio.play().catch(err => console.error("Error playing audio: ", err));
+            }else{
+              audio.play().catch(err => console.error("Error playing audio: ", err));
+            }
+            appendMessage(payload.notification);
+            if(window.location.pathname == '/chat_rooms'){
+              console.log(payload.data);
+              $("#count_notification").hide();
+              let room_active = $('#chat-list li.active').attr('room-attr');
+              let dataChat = $.parseJSON(payload.data.data_chat);
+              if (room_active !== undefined){
+                if (dataChat.chat_room_id == parseInt(room_active)){
+                  $('#message-list').append(renderChatMessage(dataChat));
+                  $('#text-name-' + dataChat.chat_room_id ).text(dataChat.content);
+                  $('#text-time-' + dataChat.chat_room_id).text(dataChat.created_at);
+                  $("#scroll-mess").animate({ scrollTop: $('#scroll-mess')[0].scrollHeight }, "slow");
+                }else{
+                  let room_existed = $('#room-' + dataChat.chat_room_id);
+                  if(room_existed.length){
+                    $('#chat-list #room-' + dataChat.chat_room_id).remove();
+                    $('#chat-list').prepend(renderChatRoomInChat(dataChat, payload.data.room_name));
+                  }else{
+                    $('#chat-list').prepend(renderChatRoomInChat(dataChat, payload.data.room_name));
+                  }
+                }
+              }else{
+                $('#chat-list').empty();
+                getChatRoom();
+              }
+              if(payload.data.type == 'chat_rooms'){
+
+              }
+            }else{
+              var url = "";
+              var content_mes = "";
+              var title = "";
+              if (payload.data.type == undefined){
+                url = window.location.origin + "/notifications?page=1&search=" + payload.notification.body + "&commit=Search'";
+              }else{
+                if(payload.data.type == 'chat_messages'){
+                  url = window.location.origin + "/chat_rooms";
+                  content_mes = "<a href='" + url + "' target='_blank'>" + payload.data.room_name + "</a>";
+                  title = "New Messages";
+                  countMessage+=1;
+                  $("#count_notification").show();
+                  $("#count_notification").text(countMessage);
+                }else{
+                  url = window.location.origin + "/" + payload.data.type + "/" + payload.data.object_id + "/edit";
+                  content_mes = "<a href='" + url + "' target='_blank'>" + payload.notification.body + "</a>";
+                  title = payload.notification.title;
+                }
+              }
+              $(document).Toasts('create', {
+                title: title,
+                body: content_mes,
+                class: 'bg-success'
+              })
+              countNoti++;
+              if(countNoti > 0){
+                favicon.badge(countNoti);
+              }
+            }
+          });
+
+          function appendMessage(notification) {
+            if (!window.Notification) {
+                console.log('Browser does not support notifications.');
+            } else {
+                // show notification here
+                const notificationOptions = {
+                    notification: {
+                      title: 'E-Vegas',
+                      body: notification.body,
+                      
+                    },
+                    apns: {
+                      payload: {
+                        aps: {
+                          sound: 'default',
+                          
+                        }
+                      }
+                    },
+                  };
+                // check if permission is already granted
+                if (Notification.permission === 'granted') {
+                    var notify = new Notification(notification.title, notificationOptions);
+                } else {
+                    // request permission from user
+                    Notification.requestPermission().then(function (p) {
+                        if (p === 'granted') {
+                            // show notification here
+                            var notify = new Notification(notification.title, notificationOptions);
+                        } else {
+                            console.log('User blocked notifications.');
+                        }
+                    }).catch(function (err) {
+                        console.error(err);
+                    });
+                }
+            }
+              // if ('serviceWorker' in navigator) {
+              //   navigator.serviceWorker.getRegistrations().then((registration) => {
+              //       const notificationOptions = {
+              //         body: 'test',
+              //         icon: '/logo.png'
+              //       };
+              //      registration[0].showNotification(notification.title, notificationOptions);
+              //   }, /*catch*/ (error) => {
+              //     console.error(`Service worker registration failed: ${error}`);
+              //   });
+              // } else {
+              //   console.error('Service workers are not supported.');
+              // }
+          }
+    </script>
+    <script>
+    function autocomplete(inp, arr) {
+      /*the autocomplete function takes two arguments,
+      the text field element and an array of possible autocompleted values:*/
+      var currentFocus;
+      /*execute a function when someone writes in the text field:*/
+      inp.addEventListener("input", function(e) {
+          var a, b, i, val = this.value;
+          /*close any already open lists of autocompleted values*/
+          closeAllLists();
+          if (!val) { return false;}
+          currentFocus = -1;
+          /*create a DIV element that will contain the items (values):*/
+          a = document.createElement("DIV");
+          a.setAttribute("id", this.id + "autocomplete-list");
+          a.setAttribute("class", "autocomplete-items");
+          /*append the DIV element as a child of the autocomplete container:*/
+          this.parentNode.appendChild(a);
+          /*for each item in the array...*/
+          for (i = 0; i < arr.length; i++) {
+            /*check if the item starts with the same letters as the text field value:*/
+            if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+              /*create a DIV element for each matching element:*/
+              b = document.createElement("DIV");
+              /*make the matching letters bold:*/
+              b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+              b.innerHTML += arr[i].substr(val.length);
+              /*insert a input field that will hold the current array item's value:*/
+              b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+              /*execute a function when someone clicks on the item value (DIV element):*/
+              b.addEventListener("click", function(e) {
+                  /*insert the value for the autocomplete text field:*/
+                  inp.value = this.getElementsByTagName("input")[0].value;
+                  /*close the list of autocompleted values,
+                  (or any other open lists of autocompleted values:*/
+                  closeAllLists();
+              });
+              a.appendChild(b);
+            }
+          }
+      });
+      /*execute a function presses a key on the keyboard:*/
+      inp.addEventListener("keydown", function(e) {
+          var x = document.getElementById(this.id + "autocomplete-list");
+          if (x) x = x.getElementsByTagName("div");
+          if (e.keyCode == 40) {
+            /*If the arrow DOWN key is pressed,
+            increase the currentFocus variable:*/
+            currentFocus++;
+            /*and and make the current item more visible:*/
+            addActive(x);
+          } else if (e.keyCode == 38) { //up
+            /*If the arrow UP key is pressed,
+            decrease the currentFocus variable:*/
+            currentFocus--;
+            /*and and make the current item more visible:*/
+            addActive(x);
+          } else if (e.keyCode == 13) {
+            /*If the ENTER key is pressed, prevent the form from being submitted,*/
+            e.preventDefault();
+            if (currentFocus > -1) {
+              /*and simulate a click on the "active" item:*/
+              if (x) x[currentFocus].click();
+            }
+          }
+      });
+      function addActive(x) {
+        /*a function to classify an item as "active":*/
+        if (!x) return false;
+        /*start by removing the "active" class on all items:*/
+        removeActive(x);
+        if (currentFocus >= x.length) currentFocus = 0;
+        if (currentFocus < 0) currentFocus = (x.length - 1);
+        /*add class "autocomplete-active":*/
+        x[currentFocus].classList.add("autocomplete-active");
+      }
+        function removeActive(x) {
+          /*a function to remove the "active" class from all autocomplete items:*/
+          for (var i = 0; i < x.length; i++) {
+            x[i].classList.remove("autocomplete-active");
+          }
+        }
+        function closeAllLists(elmnt) {
+          /*close all autocomplete lists in the document,
+          except the one passed as an argument:*/
+          var x = document.getElementsByClassName("autocomplete-items");
+          for (var i = 0; i < x.length; i++) {
+            if (elmnt != x[i] && elmnt != inp) {
+              x[i].parentNode.removeChild(x[i]);
+            }
+          }
+        }
+        /*execute a function when someone clicks in the document:*/
+        document.addEventListener("click", function (e) {
+            closeAllLists(e.target);
+        });
+      }
+    </script>
+  </div>
+</body>
+</html>

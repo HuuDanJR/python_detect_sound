@@ -1,0 +1,255 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6">
+          <%= t('customer') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">
+            <%= t('customer_show') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="card card-secondary">
+          <div class="card-header">
+            <h3 class="card-title">Information</h3>
+          </div>
+          <div class="card-body">
+            <% if @customer.attachment_id? %>
+            <div class="form-row">
+              <div class="form-group col-sm-3">
+                <div class="field">
+                  <label>
+                    <%= t('Avatar') %>:
+                  </label>
+                  <div class="list-img">
+                      <div>
+                        <img id="drag1" src="/attachments/download/<%= @customer.attachment_id %>?version=medium" width="360"
+                          height="360">
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% end %>
+            <div class="form-row">
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('customer_title') %>:
+                </label>
+                <%= @customer.title %>
+              </div>
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('customer_forename') %>:
+                </label>
+                <%= @customer.forename.to_s %>
+              </div>
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('customer_surname') %>:
+                </label>
+                <%= @customer.surname.to_s %>
+              </div>
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('customer_middle_name') %>:
+                </label>
+                <%= @customer.middle_name.to_s %>
+              </div>
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('birth_day') %>:
+                </label>
+                <%= @customer.date_of_birth == nil ? "" : @customer.date_of_birth.strftime("%d-%m-%Y") %>
+              </div>
+              
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('nationality') %>:
+                </label>
+                <%= @customer.nationality.to_s %>
+              </div>
+
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('customer_number') %>:
+                </label>
+                <%= @customer.number %>
+              </div>
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('customer_card_number') %>:
+                </label>
+                <%= @customer.card_number %>
+              </div>
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('customer_age') %>:
+                </label>
+                <%= @customer.age %>
+              </div>
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('customer_gender') %>:
+                </label>
+                <%= @customer.gender %>
+              </div>
+              
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('frame_start_date') %>:
+                </label>
+                <%= @customer.frame_start_date == nil ? "" : @customer.frame_start_date.strftime("%d-%m-%Y") %>
+              </div>
+              
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('frame_end_date') %>:
+                </label>
+                <%= @customer.frame_end_date == nil ? "" : @customer.frame_end_date.strftime("%d-%m-%Y") %>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('customer_premium_player') %>:
+                </label>
+                <%= @customer.premium_player ? "Yes" : "No" %>
+                <div class="gender-item">
+                  <p>
+                    <%= @customer.premium_player ? "Yes" : "No" %>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('customer_valid_membership') %>:
+                </label>
+                <div class="gender-item">
+                  <p>
+                    <%= @customer.valid_membership ? "Yes" : "No" %>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('customer_has_online_account') %>:
+                </label>
+                <div class="gender-item">
+                  <p>
+                    <%= @customer.has_online_account ? "Online" : "Offline" %>
+                  </p>
+                </div>
+              </div>
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('customer_is_guest') %>:
+                </label>
+                <div class="gender-item">
+                  <p>
+                    <%= @customer.is_guest ? "Yes" : "No" %>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('customer_cashless_balance') %>:
+                </label>
+                <%= @customer.cashless_balance %>
+              </div>
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('customer_freeplay_balance') %>:
+                </label>
+                <%= @customer.freeplay_balance %>
+              </div>
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('customer_comp_balance') %>:
+                </label>
+                <%= @customer.comp_balance %>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('customer_player_tier_name') %>:
+                </label>
+                <%= @customer.player_tier_name %>
+              </div>
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('customer_player_tier_short_code') %>:
+                </label>
+                <%= @customer.player_tier_short_code %>
+              </div>
+              <div class="form-group col-sm-6">
+                <label>
+                  <%= t('customer_membership_type_name') %>:
+                </label>
+                <%= @customer.membership_type_name %>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('customer_loyalty_balance') %>:
+                </label>
+                <%= @customer.loyalty_balance %>
+              </div>
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('customer_loyalty_points_available') %>:
+                </label>
+                <%= @customer.loyalty_points_available %>
+              </div>
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('membership_last_issue_date') %>:
+                </label>
+                <p>
+                  <%= @customer.membership_last_issue_date == nil ? "" : @customer.membership_last_issue_date.strftime("%d-%m-%Y") %>
+                </p>
+              </div>
+              
+              <div class="form-group col-sm-3">
+                <label>
+                  <%= t('last_update_frame_point') %>:
+                </label>
+                <%= @customer.last_update_frame_point == nil ? "" : @customer.last_update_frame_point.strftime("%d-%m-%Y") %>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <%= link_to 'Update' , edit_customer_path(@customer), class: "btn btn-success float-right", "data-turbolinks": "false" %>
+          <%= link_to 'Back', 'javascript:void(0);', onclick: "window.history.back(); setTimeout(function(){window.location.reload();}, 100);", class: "btn btn-secondary" %>      </div>
+    </div>
+  </div>
+</section>

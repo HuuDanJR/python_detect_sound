@@ -1,0 +1,90 @@
+<style>
+  .select2{
+    min-width: 90px !important;
+  }
+</style>
+<%= form_with(model: slide, local: true) do |form| %>
+  <div class="row">
+    <% if slide.errors.any? %>
+      <div id="error_explanation" class="col-md-12">
+        <h2>
+          <%= pluralize(slide.errors.count, "error" ) %> prohibited this slide from being saved:
+        </h2>
+
+        <ul>
+          <% slide.errors.full_messages.each do |message| %>
+            <li>
+              <%= message %>
+            </li>
+            <% end %>
+        </ul>
+      </div>
+      <% end %>
+  </div>
+
+  <div class="row" data-turbolinks="false">
+    <div class="col-md-12">
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Information</h3>
+        </div>
+        <div class="card-body">
+
+          <div class="form-row">
+            <div class="form-group col-sm-6">
+              <label>
+                <%= t('name') %>:
+              </label>
+              <%= form.text_field :name, class: "form-control", required: true %>
+            </div>
+
+            <div class="form-group col-sm-3">
+              <label>
+                <%= t('index') %>:
+              </label>
+              <%= form.text_field :slide_index, class: "form-control", required: true %>
+            </div>
+
+            <div class="form-group col-sm-3">
+              <label>
+                <%= t('is_show') %>:
+              </label>
+              <%= form.check_box :is_show, class: "form-control" %>
+            </div>
+            
+            <div class="form-group col-sm-12">
+              <label>
+                <%= t('description') %>:
+              </label>
+              <%= form.text_area :description, class: "form-control", rows:"4" %>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="field">
+              <label><%= t('slide_attach') %>: <span style="color: red !important;">Ratio 16:9 - 320px:113px</span></label>
+              <div class="list-img">
+                <% if @slide.attachment_id? %>
+                  <div>
+                    <img id="drag1" src="/attachments/download/<%= @slide.attachment_id %>?version=medium" width="360" height="360">
+                  </div>
+                <% end %>
+              </div>
+              <%= form.file_field :attachment, :multiple => false, accept: 'image/*', class: "form-control" %>
+              <%= form.number_field :attachment_id, class: "form-control", hidden: true %>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <%= link_to 'Back', 'javascript:void(0);', onclick: "window.history.back(); setTimeout(function(){window.location.reload();}, 100);", class: "btn btn-secondary" %>      
+      <input class="btn btn-success float-right" name="btnSubmit" data-disable-with="Processing..." type="submit" value="Save" />
+        <%# <button type="submit" class="btn btn-success float-right" id="btnSubmit">Save</button> %>
+    </div>
+  </div>
+<% end %>

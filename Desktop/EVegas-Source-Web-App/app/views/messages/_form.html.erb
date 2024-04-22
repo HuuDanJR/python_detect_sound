@@ -1,0 +1,820 @@
+<%= form_with(model: message, local: true, id: "message_form") do |form| %>
+  <div class="row">
+    <% if message.errors.any? %>
+      <div class="col-md-12" id="error_explanation">
+        <h4>Có <%= pluralize(message.errors.count, "error" ) %> errors:</h4>
+
+        <ul>
+          <% message.errors.full_messages.each do |message| %>
+            <li>
+              <%= message %>
+            </li>
+            <% end %>
+        </ul>
+      </div>
+      <% end %>
+  </div>
+
+  <div class="row" data-turbolinks="false">
+    <div class="col-md-12">
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Information</h3>
+        </div>
+        <div class="card-body">
+        
+          <div class="form-row">
+          <div class="col-md-3 form-group" id="" style="display: flow-root;">
+              <label>
+                <%= t('search_customer_number') %>:
+              </label>
+              <input id="search" autocomplete="off" onfocus="FocusSearch(this)" onkeyup="searchUsers(this)" 
+                    onblur="UnFocusSearch(this)" class="search-input" placeholder="" style="border: 1px solid #ced4da;padding: 6px;">
+              <div id="list-result"></div>
+
+            </div>
+            <div class="col-md-9">
+              <label>
+                <%= t('customer_number') %>: <span id="count_number" style="color: red !important;">0</span>
+              </label>
+              <select class="form-control select2" multiple="multiple" name="message_user_ids" id="message_user_ids" onchange="onChangeIds()">
+                  <option value="0">-- Customer Number --</option>
+              </select>               
+              <%# <label style="color: #e83e8c;">
+                Customer is required**
+              </label> %>
+              <input type="text" hidden id="user_ids" name="user_ids" value="<%= message.user_ids %>">
+            </div>
+
+            <div class="form-group col-sm-3">
+              <label>
+                <%= t('Category') %>:
+              </label>
+               <div style="display:flex">
+                <select class="form-control select2" name="messageTypes" id="messageTypes" onchange="onChangeCategory()">
+                  <% @messageTypes.each do |item| %>
+                    <option value="<%= item['id'] %>"><%= item['value'] %></option>
+                  <% end %>
+                </select>
+              </div>
+              <%= form.text_field :category, class: "form-control", hidden: true %>
+              <input type="radio" value="false" checked="checked" hidden="hidden" name="message[is_draft]" id="message_is_draft">
+              <input type="text" value="1" hidden="hidden" name="message[status_send]" id="message_status_send">
+            </div>
+
+            <div class="form-group col-sm-3">
+              <div class="field">
+                <label><%= t('Upload Customer Excel File') %>: </label>
+                <div class="list-img">
+                  <% if @message.customer_attachment? %>
+                    <div>
+                    <a href="/attachments/download/<%= @message.customer_attachment %>" target="_blank">Download</a>
+                    </div>
+                  <% end %>
+                  
+                </div>
+                <div style="display: flex; just">
+                  <%= form.file_field :customer_attachment_file, :multiple => false, hidden: true, class: "form-control", accept: ".xlsx, .xls, .csv", onchange: "getUsersByCustomer(this)" %>
+                  <label style="display: inline-block;padding: 6px 12px;background-color: #1d6f42;color: #fff;border-radius: 3px;cursor: pointer;" for="message_customer_attachment_file" id="name_file"><i class="fas fa-file-excel" aria-hidden="true"></i> Add your excel file</label>
+                  <%= form.number_field :customer_attachment, class: "form-control", hidden: true %>
+                  <label style="color:red" id="file_import"></label>
+                  <%# <div style="margin-left: 10px; color: red; align-items: center; cursor: pointer" title="Delete File" onclick="removeFile()">X</div> %>
+                </div>
+                <a class="" href="/attachments/download-template-customer-notification" target="_blank" style="color: red !important;text-decoration: underline !important;">Download Mandatory Template</a>
+                  
+              </div>
+            </div>
+
+            <div class="form-group col-sm-3">
+              <div class="field">
+                <label><%= t('Icon Notification') %>: <span style="color: red !important;">(1200px:700px) 16:9</span></label>
+                <div class="list-img">
+                  <% if @message.attachment_id? %>
+                    <div>
+                      <img id="drag1" src="/attachments/download/<%= @message.attachment_id %>?version=medium" width="128" height="128">
+                    </div>
+                  <% end %>
+                </div>
+                <%= form.file_field :attachment, :multiple => false, hidden: true, accept: 'image/*', class: "form-control", onchange: "onChangeIconImage(this)" %>
+                <label style="display: inline-block;padding: 6px 12px;background-color: #337ab7;color: #fff;border-radius: 3px;cursor: pointer;" for="message_attachment"><i class="fa fa-image" aria-hidden="true"></i> Add your image</label>
+                <%= form.number_field :attachment_id, class: "form-control", hidden: true %>
+              </div>
+            </div>
+
+            <div class="form-group col-sm-3">
+              <label>
+                <%= t('Time') %>:
+              </label>
+              <div class="">
+                <%= form.datetime_field :time_send, class: "form-control", step: 'any' %>
+              </div>
+            </div>
+
+           <div class="form-group col-sm-3">
+              <label>
+                <%= t('Notifcation Name') %>:
+              </label>
+              <div class="">
+                <%= form.text_field :name, class: "form-control" %>
+              </div>
+            </div>
+
+          </div>
+
+          <ul class="nav nav-tabs" id="process-link-tab" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" id="en-tab" data-toggle="pill"
+                    href="#en" role="tab" aria-controls="en"
+                    aria-selected="true">English</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="korea-tab" data-toggle="pill"
+                    href="#korea" role="tab" aria-controls="korea"
+                    aria-selected="false">Korean</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="china-tab" data-toggle="pill"
+                    href="#china" role="tab" aria-controls="china"
+                    aria-selected="false">Chinese</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" id="japan-tab" data-toggle="pill"
+                    href="#japan" role="tab" aria-controls="japan"
+                    aria-selected="false">Japanese</a>
+              </li>
+          </ul>
+          <div class="tab-content" id="process-link-tabContent" style="padding: 10px; display: flex;">
+              <div class="tab-pane fade active show" id="en" role="tabpanel" style="width: 100%;">
+                <div class="form-row">
+                  <div class="form-group col-sm-12">
+                    <label>
+                      <%= t('header') %>: 
+                        <span><i><b>Max length 30 </b></i></span>
+                        (<span id="count_title" class="btn-success">0</span>)
+                    </label>
+                    <%= form.text_field :title, class: "form-control", required: true, maxlength: 30, placeholder: "Header will be display in app notification" %>
+                  </div>
+                </div>
+                
+                <div class="form-row">
+                  <div class="form-group col-sm-12">
+                    <label>
+                      <%= t('Sub-Header') %>: 
+                      <span><i><b>Max length 80 </b></i></span>
+                      (<span id="count_short_description" class="btn-success">0</span>)
+                    </label>
+                    <%= form.text_field :short_description, class: "form-control", required: true, maxlength: 80, placeholder: "Sub-Header will be below header in app notification" %>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-sm-12">
+                    <label>
+                      <%= t('Full content') %>: (Support params <i>#title, #name, #amount, #amount2, #date_month_year, #time, #host_phone</i>)
+                    </label> 
+                 <%# <p><i>Input full Content Support : <b>#name</b> is forename customer, <b>#title</b> is Ms/Mrs/Mr</i></p>
+                    <p>Example customer number 1: "Dear #title #name" sent to customers is "Dear Mr Vegas Tech"</p>
+                    <p>If you add an icon image file, please add in this content too</p> %>
+                    <%= form.text_area :content, class: "form-control ckeditor", rows:"6" %>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="korea" role="tabpanel" style="width: 100%;">
+                <div class="form-row">
+                  <div class="form-group col-sm-12">
+                    <label>
+                      Header Korean: 
+                    (<span><i><b>Suggest length 15 </b></i></span><span id="count_title_kr" class="btn-success">0</span>)
+                    </label>
+                    <%= form.text_field :title_kr, maxlength: 40, class: "form-control", placeholder: "Header will be display in app notification" %>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-sm-12">
+                    <label>
+                      Sub-Header Korean: 
+                <span><i><b>Max length 60 </b></i></span>
+                (<span id="count_short_description_kr" class="btn-success">0</span>)
+                    </label>
+                    <%= form.text_field :short_description_kr, maxlength: 60, class: "form-control", placeholder: "Sub-Header will be below header in app notification" %>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-sm-12">
+                    <label>
+                      Full Content Korean: (Support params <i>#title, #name, #amount, #amount2, #date_month_year, #time, #host_phone</i>)
+                    </label>
+                 <%# <p><i>Input full Content Support : <b>#name</b> is forename customer, <b>#title</b> is Ms/Mrs/Mr</i></p>
+                    <p>Example customer number 1: "Dear #title #name" sent to customers is "Dear Mr Vegas Tech"</p>
+                    <p>If you add an icon image file, please add in this content too</p> %>
+                    <%= form.text_area :content_kr, class: "form-control ckeditor", rows:"6" %>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="china" role="tabpanel" style="width: 100%;">
+              <div class="form-row">
+                <div class="form-group col-sm-12">
+                  <label>
+                    Header Chinese: 
+                    <span><i><b>Suggest length 15 </b></i></span>
+                    (<span id="count_title_cn" class="btn-success">0</span>)
+                  </label>
+                  <%= form.text_field :title_cn, maxlength: 40, class: "form-control", placeholder: "Header will be display in app notification" %>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-sm-12">
+                  <label>
+                    Sub-Header Chinese: 
+                <span><i><b>Max length 60 </b></i></span>
+                (<span id="count_short_description_cn" class="btn-success">0</span>)
+                  </label>
+                  <%= form.text_field :short_description_cn, maxlength: 60, class: "form-control", placeholder: "Sub-Header will be below header in app notification" %>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-sm-12">
+                  <label>
+                    Full Content Chinese: (Support params <i>#title, #name, #amount, #amount2s, #date_month_year, #time, #host_phone</i>)
+                  </label>
+                 <%# <p><i>Input full Content Support : <b>#name</b> is forename customer, <b>#title</b> is Ms/Mrs/Mr</i></p>
+                    <p>Example customer number 1: "Dear #title #name" sent to customers is "Dear Mr Vegas Tech"</p>
+                    <p>If you add an icon image file, please add in this content too</p> %>
+                  <%= form.text_area :content_cn, class: "form-control ckeditor", rows:"6" %>
+                </div>
+              </div>
+              </div>
+              <div class="tab-pane fade" id="japan" role="tabpanel" style="width: 100%;">
+              <div class="form-row">
+                <div class="form-group col-sm-12">
+                  <label>
+                    Header Japanese: 
+                    <span><i><b>Suggest length 15 </b></i></span>
+                    (<span id="count_title_ja" class="btn-success">0</span>)
+                  </label>
+                  <%= form.text_field :title_ja, maxlength: 40, class: "form-control", placeholder: "Header will be display in app notification" %>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-sm-12">
+                  <label>
+                    Sub-Header Japanese: 
+                <span><i><b>Max length 60 </b></i></span>
+                (<span id="count_short_description_ja" class="btn-success">0</span>)
+                  </label>
+                  <%= form.text_field :short_description_ja, maxlength: 60, class: "form-control", placeholder: "Sub-Header will be below header in app notification" %>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-sm-12">
+                  <label>
+                    Full Content Japanese: (Support params <i>#title, #name, #amount, #amount2, #date_month_year, #time, #host_phone</i>)
+                  </label>
+                 <%# <p><i>Input full Content Support : <b>#name</b> is forename customer, <b>#title</b> is Ms/Mrs/Mr</i></p>
+                    <p>Example customer number 1: "Dear #title #name" sent to customers is "Dear Mr Vegas Tech"</p>
+                    <p>If you add an icon image file, please add in this content too</p> %>
+                  <%= form.text_area :content_ja, class: "form-control ckeditor", rows:"6" %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+          </div>
+        
+          <div class="row">
+            <div class="col-12">
+              <a href="/messages" class="btn btn-secondary" data-turbolinks="false">Back</a>
+              <% if current_user.role? "update_send_all_messages" %>
+                <button type="button" class="btn btn-danger float-right" style="margin-left: 10px" data-disable-with="Processing..." id="approvedSaveAll">Send All</button> &nbsp;
+              <% end %>
+              <% if current_user.role? "update_messages" %>
+                <%# <button type="button" class="btn btn-danger float-right" style="margin-left: 10px" data-disable-with="Processing..." id="saveAll">Save Send All</button> %>
+              <% end %> &nbsp;
+              <button type="button" class="btn btn-warning float-right" style="margin-left: 10px" data-disable-with="Processing..." id="saveDraft">Save Draft</button> &nbsp;
+              <button type="button" class="btn btn-success float-right" style="margin-left: 10px" data-disable-with="Processing..." id="sendCustomer">Save & Send</button> &nbsp;
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% end %>
+<script>
+  selected_customer = [];
+  $( document ).ready(function() {
+    // reloadPageWindowsBack();
+    replaceCKEDITOR("message_content");
+    replaceCKEDITOR("message_content_kr");
+    replaceCKEDITOR("message_content_cn");
+    replaceCKEDITOR("message_content_ja");
+     $("#saveAll").click(function() {
+        if (checkError() == 1){
+          return;
+        };
+        if(!checkFileSize()){
+          return;
+        }
+        if(!requiredIfHasValue()){
+          return;
+        }
+        if ($('#message_time_send').val() == ''){
+          alert('Sending time is empty!');
+          return;
+        }
+        $("#message_is_draft").val("true");
+        $('#user_ids').val('0');
+        $("#message_status_send").val("2");
+        if (confirm('Are you sure you want to send all the notifications to customers?')) {
+            $("#message_form").submit();
+          } 
+    });
+     $("#saveDraft").click(function() {
+        if (checkError() == 1){
+          return;
+        };
+        if(!checkFileSize()){
+          return;
+        }
+        if(!requiredIfHasValue()){
+          return;
+        }
+        $("#message_status_send").val("0");
+        $("#message_is_draft").val("true");
+        $("#message_form").submit();
+    });
+     $("#sendCustomer").click(function() {
+        if (checkError() == 1){
+          return;
+        };
+        if(!checkFileSize()){
+          return;
+        }
+        if(!requiredIfHasValue()){
+          return;
+        }
+        if ($('#message_time_send').val() == ''){
+          alert('Sending time is empty!');
+          return;
+        }
+        $("#message_status_send").val("1");
+        $("#message_is_draft").val("false");
+        if ($('#user_ids').val() != '' && $('#user_ids').val() !== '0'){
+          if (confirm('Are you sure you want to Save & Send the notifications to customers?')) {
+            $("#message_form").submit();
+          } 
+        }else{
+          alert('The customer received a notification is empty!');
+        }
+    });
+    
+    $("#approvedSaveAll").click(function() {
+      if (checkError() == 1){
+        return;
+      };
+      if(!checkFileSize()){
+        return;
+      }
+      if(!requiredIfHasValue()){
+        return;
+      }
+      if ($('#message_time_send').val() == ''){
+        alert('Sending time is empty!');
+        return;
+      }
+      $("#message_status_send").val("3");
+      $("#message_is_draft").val("false");
+      $('#user_ids').val('0');
+      if (confirm('Are you sure you want to send all the notifications to customers?')) {
+          $("#message_form").submit();
+        } 
+    });
+    let mes_category = $('#message_category').val();
+    if (mes_category !== '' && mes_category != undefined){
+      $("#messageTypes").val(mes_category);
+      $('#messageTypes').trigger('change');
+    }
+
+    let users = $('#user_ids').val();
+    searchListUserSelected(users, 0);
+    // onChangeSelected();
+    count("","");
+    count("_kr", "_kr");
+    count("_cn", "_cn");
+    count("_ja", "_ja");
+    $('#message_user_ids').select2({closeOnSelect: false}).on("change", function(e) {
+      var counter = $(".select2-selection__choice").length;
+      $('#count_number').text(counter);
+    });
+  });
+
+  var _changeInterval = null;
+
+  function searchUsers(othis){
+      var keyword = $('#search').val();
+      var search = $(othis).val();
+      if(search != null && search != ''){
+          clearInterval(_changeInterval);
+          _changeInterval = setInterval(function() {
+              clearInterval(_changeInterval);
+              $("#list-result").empty();
+              Search(keyword);
+          }, 500);
+      }else{
+          $("#list-result").empty();
+      }
+  }
+
+  function FocusSearch(othis){
+      var search = $(othis).val();
+      if(search == null || search == ''){
+          $("#list-result").empty();
+      }
+  }
+
+  function UnFocusSearch(othis){
+      var search = $(othis).val();
+      // $('#search').val('');
+      // $("#list-result").empty();
+  }
+
+  function Search(keyword){
+      $.ajax({
+          "url": `/notifications/get_users?search=${keyword}`,
+          "method": "GET",
+          success: function (result) {
+              if(result != null && result.length > 0){
+                  var html = '';
+                  $.each(result, function(index, item){
+                      html += RenderHtmlItem(item);
+                  })
+                  $('#list-result').append(html);
+              }else{
+                $('#list-result').append('<div>Not Found</div>');
+              }
+          },
+          error: function (result) {
+            $('#list-result').append('<div>Not Found</div>');
+          }
+      })
+  }
+
+  function RenderHtmlItem(item){
+    let name = (item.surname == null ? "" : item.surname) + " " + (item.middle_name == null ? "" : item.middle_name) + " " + (item.forename == null ? "" : item.forename);
+    return `<div class="lc-item" onclick="selectCustomer(${item.user_id}, ${item.number}, '${name}')">
+        <div class="lc-content">
+            <div type="hidden" class="temp-object hide">${JSON.stringify(item)}</div>
+            <div class="result-name">${item.number} - ${name}</div>
+        </div>
+    </div>`;
+  }
+  
+  function selectCustomer(user_id, number, name){
+    if(selected_customer.length > 0){
+      let isExited = checkItemNotList(selected_customer, user_id.toString());
+      if(!isExited){
+        selected_customer.push(user_id.toString());
+        $("#message_user_ids").val();
+        $('#message_user_ids').append(`<option value="${user_id}" selected>${number} - ${name}</option>`);
+        $('#message_user_ids').trigger('change');
+        $('#user_ids').val(selected_customer);
+      }
+      // else{
+      //   $("#message_user_ids").val();
+      //   $('#message_user_ids').append(`<option value="${user_id}" selected>${number} - ${name}</option>`);
+      //   $('#message_user_ids').trigger('change');
+      //   $('#user_ids').val(selected_customer);
+      // }
+    }else{
+      selected_customer.push(user_id.toString());
+      $("#message_user_ids").val();
+      $('#message_user_ids').append(`<option value="${user_id}" selected>${number} - ${name}</option>`);
+      $('#message_user_ids').trigger('change');
+      $('#user_ids').val(selected_customer);
+    }
+  }
+
+  function checkItemNotList(listUsers, number){
+    return listUsers.includes(number);
+  }
+
+  function onChangeIds(){
+    let userids = $("#message_user_ids").val();
+    let selected_customer_tmp = selected_customer;
+    if (userids.length < selected_customer_tmp.length){
+      selected_customer_tmp.forEach(element => {
+          let isExited = checkItemNotList(userids, element);
+          if(!isExited){
+            const index = selected_customer.indexOf(element);
+            if (index > -1) {
+              selected_customer.splice(index, 1);
+            }
+          }
+      });
+    }else if(userids.length > selected_customer_tmp.length){
+      userids.forEach(element => {
+          let isExited = checkItemNotList(selected_customer_tmp, element);
+          if(!isExited){
+            selected_customer.push(element);
+          }
+      });
+    }
+    $('#user_ids').val(selected_customer);
+  }
+  
+  function onChangeIconImage(input){
+    const label = input.nextElementSibling; // Get the label element next to the input
+    const files = input.files;
+
+    if (files.length > 0) {
+        label.textContent = files[0].name; // Change the label text to the selected file's name
+    } else {
+        label.textContent = "Add your image"; // Reset the label text if no file is chosen
+    }
+  }
+
+  function getUsersByCustomer(input){
+    const label = input.nextElementSibling; // Get the label element next to the input
+    const files = input.files;
+    if (files.length > 0) {
+        label.textContent = files[0].name; // Change the label text to the selected file's name
+    } else {
+        label.textContent = "Add your excel file"; // Reset the label text if no file is chosen
+        return;
+    }
+    selected_customer = [];
+    $("#message_user_ids").empty().trigger('change');
+    var file = document.getElementById("message_customer_attachment_file").files[0];
+    var form = new FormData();
+    form.append("file", file);
+    $.ajax({
+      "url": `/messages/get_data_customers`,
+      "method": "POST",
+      "processData": false,
+      "mimeType": "multipart/form-data",
+      "contentType": false,
+      "data": form,
+      success: function (result) {
+        if(result !== undefined){
+          let data = JSON.parse(result);
+          $("#saveAll").prop('disabled', true);
+          $("#approvedSaveAll").prop('disabled', true);
+          if (data[0].number === undefined){
+            $("#file_import").text("File is in wrong format");
+            $("#sendCustomer").prop('disabled', true);
+          }else{
+            $("#file_import").text("");
+            $("#sendCustomer").prop('disabled', false);
+          }
+
+          let numbers = data.filter(item => item && typeof item.number !== 'undefined').map(item => item.number).join(',');
+          if (numbers[0] !== ',') {
+            searchListUserSelected(numbers, 1);
+          }else{
+            $("#file_import").text("File not found customer");
+            $("#sendCustomer").prop('disabled', true);
+          }
+        }else{
+          $("#file_import").text("File not found customer");
+          $("#sendCustomer").prop('disabled', true);
+        }
+      },
+      error: function (result) {
+          alert(JSON.parse(result.responseText).error)
+          $("#sendCustomer").prop('disabled', true);
+          $("#saveAll").prop('disabled', true);
+          $("#approvedSaveAll").prop('disabled', true);
+          const fileInput = document.getElementById('message_customer_attachment_file'); // Replace with your file input's ID
+          clearFileInput(fileInput);
+      }
+    });
+  }
+
+  function searchListUserSelected(numbers, is_number){
+    if(numbers.length <= 0){
+      return;
+    }
+    let data_process = {
+      numbers: numbers,
+      is_number: is_number
+    };
+    $.ajax({
+      "url": `/notifications/user_by_list_number`,
+      "method": "POST",
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "data": JSON.stringify(data_process),
+      success: function (result) {
+        if(result !== undefined && result.length > 0){
+          $.each(result, function(index, item){
+            let name = (item.surname == null ? "" : item.surname) + " " + (item.middle_name == null ? "" : item.middle_name) + " " + (item.forename == null ? "" : item.forename);
+            selectCustomer(item.user_id, item.number, name);
+            // onChangeSelected();
+          });
+        }
+      },
+      error: function (result) {
+          console.log('Error');
+      }
+    });
+  }
+  
+  function onChangeCategory(){
+    let mess_cate = $('#messageTypes').val(); 
+    if (mess_cate.length > 0){     
+      $('#message_category').val(mess_cate);
+    }else{
+      $('#message_category').val("");
+    }
+  }
+
+  function removeFile(){
+    $("#message_customer_attachment_file").val("");
+    $("#name_file").text("");
+    $("#name_file").append("<i class='fas fa-file-excel' aria-hidden='true'></i> Add your excel file");
+  }
+
+  function checkError(){
+    var error = 0;
+    var msg = 'An Error Has Occured.\n\nRequired Fields missed are :\n';
+    $(':input[required]', '#message_form').each(function(){
+        $(this).css('border','2px solid green');
+        if($(this).val() == ''){
+            msg += '\n' + $(this).attr('id') + ' Is A Required Field..';
+            $(this).css('border','2px solid red');
+            if(error == 0){ $(this).focus(); }
+            error = 1;
+        }
+    });
+    if(error == 0){ 
+            $(this).focus();
+            var tab = $(this).closest('.tab-pane').attr('id');
+            $('#message_form a[href="#' + tab + '"]').tab('show');
+    }
+    return error;
+  }
+
+  function checkFileSize() {
+    let message_content = new XMLSerializer().serializeToString($("#cke_message_content").find("iframe")[0].contentDocument.documentElement);
+    var base64Images =  message_content.match(/src="data:image\/[a-zA-Z]+;base64,[^"]+"/g);
+    if (base64Images) {
+      // Extracting the Base64 string
+        var base64StringSize = base64Images[0];
+
+        // Estimating the size of the original file
+        var estimatedSize = 3 * base64StringSize.length / 4; // Subtracting about 33% for Base64 overhead
+
+        if (estimatedSize > 1024 * 1024) { // Checking if the estimated size is larger than 2MB
+            alert('An image in the full content is too large. Please use images smaller than 1MB.');
+            // Additional logic to handle the oversized image
+            // ...
+          return false;
+        }
+    }
+    let cke_message_content_kr = new XMLSerializer().serializeToString($("#cke_message_content_kr").find("iframe")[0].contentDocument.documentElement);
+    var base64Images_kr =  cke_message_content_kr.match(/src="data:image\/[a-zA-Z]+;base64,[^"]+"/g);
+    if (base64Images_kr) {
+      // Extracting the Base64 string
+        var base64StringSize = base64Images_kr[0];
+
+        // Estimating the size of the original file
+        var estimatedSize = 3 * base64StringSize.length / 4; // Subtracting about 33% for Base64 overhead
+
+        if (estimatedSize > 1024 * 1024) { // Checking if the estimated size is larger than 2MB
+            alert('An image in the full content Korean is too large. Please use images smaller than 1MB.');
+            // Additional logic to handle the oversized image
+            // ...
+          return false;
+        }
+    }
+    
+    let cke_message_content_cn = new XMLSerializer().serializeToString($("#cke_message_content_cn").find("iframe")[0].contentDocument.documentElement);
+    var base64Images_cn =  cke_message_content_cn.match(/src="data:image\/[a-zA-Z]+;base64,[^"]+"/g);
+    if (base64Images_cn) {
+      // Extracting the Base64 string
+        var base64StringSize = base64Images_cn[0];
+
+        // Estimating the size of the original file
+        var estimatedSize = 3 * base64StringSize.length / 4; // Subtracting about 33% for Base64 overhead
+
+        if (estimatedSize > 1024 * 1024) { // Checking if the estimated size is larger than 2MB
+            alert('An image in the full content Chinese is too large. Please use images smaller than 1MB.');
+            // Additional logic to handle the oversized image
+            // ...
+          return false;
+        }
+    }
+    
+    
+    let cke_message_content_ja = new XMLSerializer().serializeToString($("#cke_message_content_ja").find("iframe")[0].contentDocument.documentElement);
+    var base64Images_ja =  cke_message_content_ja.match(/src="data:image\/[a-zA-Z]+;base64,[^"]+"/g);
+    if (base64Images_ja) {
+      // Extracting the Base64 string
+        var base64StringSize = base64Images_ja[0];
+
+        // Estimating the size of the original file
+        var estimatedSize = 3 * base64StringSize.length / 4; // Subtracting about 33% for Base64 overhead
+
+        if (estimatedSize > 1024 * 1024) { // Checking if the estimated size is larger than 2MB
+            alert('An image in the full content japanese is too large. Please use images smaller than 1MB.');
+            // Additional logic to handle the oversized image
+            // ...
+          return false;
+        }
+    }
+
+    return true;
+  }
+
+  function requiredIfHasValue(){
+    if(!checkEmptyValueActiveTab('kr')){
+      return false;
+    }
+    if(!checkEmptyValueActiveTab('cn')){
+      return false;
+    }
+    if(!checkEmptyValueActiveTab('ja')){
+      return false;
+    }
+    return true;
+  }
+
+  function checkEmptyValueActiveTab(en){
+    let language = en == 'kr' ? 'Korean' : (en == 'cn' ? 'Chinese' : 'Japanese')
+    let title_kr = $("#message_title_" + en).val();
+    let content_tmp = 'message_content_' + en;
+    let des_kr = $("#message_short_description_" + en).val();
+    let content_kr = CKEDITOR.instances[content_tmp];
+    let content_data_tmp = ''
+    if (content_kr != undefined){
+      content_data_tmp = CKEDITOR.instances[content_tmp].getData();
+    }
+    if (title_kr != '' || des_kr != '' || content_data_tmp != ''){
+      if (title_kr == ''){
+        alert('Please input Header ' + language);
+        return false;
+      }
+      if (des_kr == ''){
+        alert('Please input Sub-Header ' + language);
+        return false;
+      }
+       if (content_data_tmp == ''){
+          alert('Please input full content ' + language);
+          return false;
+        }
+    }
+    return true;
+  }
+
+  function count(_id_title, _id_short){
+    // var input = document.getElementById("message_title" + _id_title);
+
+    (() => {
+      const counter = (() => {
+      var input = document.getElementById("message_title" + _id_title),
+        display = document.getElementById('count_title' + _id_title),
+        changeEvent = (evt) => display.innerHTML = evt.target.value.length,
+        getInput = () => input.value,
+        countEvent = () => input.addEventListener('keyup', changeEvent),
+        init = () => countEvent();
+
+        return {
+          init: init
+        }
+
+      })();
+
+      counter.init();
+    })();
+    
+    (() => {
+      const counter2 = (() => {
+      const input2 = document.getElementById("message_short_description" + _id_short),
+        display = document.getElementById('count_short_description' + _id_short),
+        changeEvent = (evt) => display.innerHTML = evt.target.value.length,
+        getInput = () => input2.value,
+        countEvent = () => input2.addEventListener('keyup', changeEvent),
+        init = () => countEvent();
+
+        return {
+          init: init
+        }
+
+      })();
+
+      counter2.init();
+    })();
+  }
+
+  function clearFileInput(input) {
+    input.value = ''; // Reset the value of the input to clear the selected file
+    const label = input.nextElementSibling; // Get the label element next to the input
+    label.textContent = "Add your excel file"; // Reset the label text
+  }
+
+</script>

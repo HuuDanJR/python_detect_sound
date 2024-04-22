@@ -1,0 +1,613 @@
+<aside class="main-sidebar sidebar-dark-primary elevation-4 sidebar-no-expand" data-scrollbarAutoHide="0">
+  <!-- Brand Logo -->
+  <a href="/" class="brand-link nav-logo-admin logo-link">
+    <img src="<%= image_path('logo.png') %>" alt="E-Vegas" class="brand-image logo-image">
+    <span class="brand-text text-logo-admin">&nbsp;</span>
+  </a>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex" id="info-user" style="">
+      <div class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="image">
+          <img src="<%= image_path('user.png') %>" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <% if current_user %>
+            <%= current_user.name == "" ? current_user.email : current_user.name %>
+          <% else %>
+            <p class="d-block"> User</p>
+          <% end %>
+        </div>
+      </div>
+      
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="info-show">
+      
+          <a href="/user/edit" class="dropdown-item">
+            <div class="media">
+            <i class="fas fa-user-edit img-size-50 img-circle mr-3"></i> &nbsp;
+              <div class="media-body">
+                <h3 class="dropdown-item-title">
+                  Update Information
+                </h3>
+              </div>
+            </div>
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="/user/sign_out" class="dropdown-item" data-method="delete">
+            <div class="media">
+            <i class="fas fa-sign-out-alt img-size-50 img-circle mr-3"></i> &nbsp;
+              <div class="media-body">
+                <h3 class="dropdown-item-title">
+                  Sign out
+                </h3>
+              </div>
+            </div>
+          </a>
+
+        </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="true">
+        <% if current_user.role? "index_dashboard" %>
+          <li class="nav-item" data-toggle="tooltip" title="Overview">
+            <a href="/dashboard" class="nav-link" data-turbolinks="false">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>Overview</p>
+            </a>
+          </li>
+        <% end %>
+        
+        
+        <% if current_user.role? "index_chat_rooms" %>
+          <li class="nav-item" data-toggle="tooltip" title="Chat Room" id="chat_room">
+            <a href="/chat_rooms" class="nav-link" data-turbolinks="false">
+              <i class="nav-icon far fa-comment"></i>
+              <p>Chat Room</p>
+              <span id="count_notification" class="right badge badge-danger">0</span>
+            </a>
+          </li>
+        <% end %>
+
+        <% if (current_user.role? "index_reservations") || (current_user.role? "index_spas") || (current_user.role? "index_accommodations") || (current_user.role? "index_machine_reservations") || (current_user.role? "index_gamethemes") %>
+          <li class="nav-item has-treeview menu" data-toggle="tooltip">
+            <a class="nav-link" data-turbolinks="false">
+              <i class="nav-icon fa fa-bars"></i>
+              <p>
+              Service Reservation
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <% if current_user.role? "index_reservations" %>
+                <li class="nav-item" data-toggle="tooltip" title="Car Booking">
+                  <a href="/reservations" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fas fa-car"></i>
+                    <p>Car Booking</p>
+                  </a>
+                </li>
+              <% end %>
+
+              <% if current_user.role? "index_spas" %>
+                <li class="nav-item" data-toggle="tooltip" title="Spa Booking">
+                  <a href="/spas" class="nav-link" data-turbolinks="false">
+                  <i class="nav-icon fas fa-cash-register"></i>
+                    <p>Spa Booking</p>
+                  </a>
+                </li>
+              <% end %>
+
+              <% if current_user.role? "index_accommodations" %>
+                <li class="nav-item" data-toggle="tooltip" title="Room Booking">
+                  <a href="/accommodations" class="nav-link" data-turbolinks="false">
+                  <i class="nav-icon fas fa-cash-register"></i>
+                    <p>Room Booking</p>
+                  </a>
+                </li>
+              <% end %>
+                      
+              <% if current_user.role? "index_machine_reservations" %>
+                <li class="nav-item" data-toggle="tooltip" title="Machine Reservation">
+                  <a href="/machine_reservations" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fas fa-desktop"></i>
+                    <p>MC Reservation</p>
+                  </a>
+                </li>
+              <% end %>
+          
+              <% if current_user.role? "index_gamethemes" %>
+                <li class="nav-item" data-toggle="tooltip" title="Gamethemes">
+                  <a href="/gamethemes" class="nav-link" data-turbolinks="false">
+                  <i class="nav-icon fas fa-cash-register"></i>
+                    <p>Game Theme</p>
+                  </a>
+                </li>
+              <% end %>
+
+            </ul>
+          </li>
+        <% end %>
+
+        <% if (current_user.role? "index_orders") || (current_user.role? "index_products") || (current_user.role? "index_product_categories") %>
+          <li class="nav-item has-treeview menu" data-toggle="tooltip" title="Food & Beverage">
+            <a class="nav-link" data-turbolinks="false">
+              <i class="nav-icon fa fa-cube"></i>
+              <p>
+                Food & Beverage
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <% if current_user.role? "index_orders" %>
+                <li class="nav-item" data-toggle="tooltip" title="Food & Drink">
+                  <a href="/orders" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fas fa-concierge-bell"></i>
+                    <p>Food & Drink</p>
+                  </a>
+                </li>
+              <% end %>
+
+              <% if current_user.role? "index_products" %>
+                <li class="nav-item" data-toggle="tooltip" title="Product">
+                  <a href="/products" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fas fa-box-open"></i>
+                    <p>Product</p>
+                  </a>
+                </li>
+              <% end %>
+
+              <% if current_user.role? "index_product_categories" %>
+                <li class="nav-item" data-toggle="tooltip" title="Product Category">
+                  <a href="/product_categories" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fas fa-boxes"></i>
+                    <p>Product Category</p>
+                  </a>
+                </li>
+              <% end %>
+            </ul>
+          </li>
+        <% end %>
+
+        <% if (current_user.role? "index_messages") || (current_user.role? "index_notifications") %>
+          <li class="nav-item has-treeview menu" data-toggle="tooltip" title="Notification">
+            <a class="nav-link" data-turbolinks="false">
+              <i class="nav-icon fa fa-exclamation"></i>
+              <p>
+                Notification
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <% if current_user.role? "index_messages" %>
+                <li class="nav-item" data-toggle="tooltip" title="Notification List">
+                  <a href="/messages" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fas fa-bell"></i>
+                    <p>Notification List</p>
+                  </a>
+                </li>
+              <% end %>
+              <% if current_user.role? "index_notifications" %>
+                <li class="nav-item" data-toggle="tooltip" title="Notification History">
+                  <a href="/notifications" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fas fa-bell"></i>
+                    <p>Notification History</p>
+                  </a>
+                </li>
+              <% end %>
+            </ul>
+          </li>
+        <% end %>
+
+        <% if (current_user.role? "index_pyramid_points") || (current_user.role? "index_coupon_templates")|| (current_user.role? "index_benefits")|| (current_user.role? "index_coupons") || (current_user.role? "index_offers") || (current_user.role? "index_slides") %>
+          <li class="nav-item has-treeview menu" data-toggle="tooltip" title="Promotions">
+            <a class="nav-link" data-turbolinks="false">
+              <i class="nav-icon fa fa-list-alt"></i>
+              <p>
+                Promotions
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              
+              <% if current_user.role? "index_slides" %>
+                <li class="nav-item" data-toggle="tooltip" title="Slides">
+                  <a href="/slides" class="nav-link" data-turbolinks="false">
+                    <i class="fas fa-image nav-icon"></i>
+                    <p>Home Banners</p>
+                  </a>
+                </li>
+              <% end %>
+              
+              <% if current_user.role? "index_offers" %>
+                <li class="nav-item" data-toggle="tooltip" title="Offer & Event">
+                  <a href="/offers" class="nav-link" data-turbolinks="false">
+                  <i class="nav-icon fas fa-gift"></i>
+                    <p>Offer & Event</p>
+                  </a>
+                </li>
+              <% end %> 
+
+              <%# if current_user.role? "index_promotions" %>
+                <%# <li class="nav-item" data-toggle="tooltip" title="Promotion">
+                  <a href="/promotions" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fas fa-gift"></i>
+                    <p>Promotion</p>
+                  </a>
+                </li> %>
+              <%# end %>
+
+              <% if current_user.role? "index_coupons" %>
+              <li class="nav-item" data-toggle="tooltip" title="Coupons">
+                  <a href="/coupons" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fa fa-tag"></i>
+                    <p>Coupons</p>
+                  </a>
+                </li>
+              <% end %>
+
+              <% if current_user.role? "index_benefits" %>
+              <li class="nav-item" data-toggle="tooltip" title="Coupon Benefit">
+                  <a href="/benefits" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fas fa-dot-circle"></i>
+                    <p>Coupon Benefit</p>
+                  </a>
+                </li>
+              <% end %>
+              
+              <% if current_user.role? "index_coupon_templates" %>
+              <li class="nav-item" data-toggle="tooltip" title="Coupon Templates">
+                  <a href="/coupon_templates" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fa fa-tag"></i>
+                    <p>Coupon Templates</p>
+                  </a>
+                </li>
+              <% end %>
+          
+              <% if current_user.role? "index_pyramid_points" %>
+                <li class="nav-item" data-toggle="tooltip" title="Point Pyramid">
+                  <a href="/pyramid_points" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fas fa-caret-square-up"></i>
+                    <p>Point Pyramid</p>
+                  </a>
+                </li>
+              <% end %>
+              <%# if current_user.role? "index_promotion_categories" %>
+                <%# <li class="nav-item" data-toggle="tooltip" title="Promotion Category">
+                  <a href="/promotion_categories" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fas fa-asterisk"></i>
+                    <p>Promotion Category</p>
+                  </a>
+                </li> %>
+              <%# end %>
+            </ul>
+          </li>
+        <% end %>
+        
+        <% if (current_user.role? "index_customers") || (current_user.role? "index_memberships") || (current_user.role? "new_customer_imports") || (current_user.role? "new_customer_frame_date_imports") %>
+          <li class="nav-item has-treeview menu" data-toggle="tooltip" title="Customer Details">
+            <a class="nav-link" data-turbolinks="false">
+              <i class="nav-icon fa fa-user"></i>
+              <p>
+              Customer Details
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <% if current_user.role? "index_customers" %>
+                <li class="nav-item" data-toggle="tooltip" title="Customer">
+                  <a href="/customers" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fas fa-user-tie"></i>
+                    <p>Customer</p>
+                  </a>
+                </li>
+              <% end %>
+              <% if current_user.role? "index_memberships" %>
+                <li class="nav-item" data-toggle="tooltip" title="Membership">
+                  <a href="/memberships" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fas fa-address-card"></i>
+                    <p>Membership</p>
+                  </a>
+                </li>
+              <% end %>
+              <% if current_user.role? "new_customer_imports" %>
+                <li class="nav-item" data-toggle="tooltip" title="Customer Import">
+                  <a href="/customer_imports/new" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fas fa-file-import"></i>
+                    <p>Customer Import</p>
+                  </a>
+                </li>
+              <% end %>
+              
+              <% if current_user.role? "new_customer_frame_date_imports" %>
+                <li class="nav-item" data-toggle="tooltip" title="Frame Date Import">
+                  <a href="/customer_frame_date_imports/new" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fas fa-file-import"></i>
+                    <p>Frame Date Import</p>
+                  </a>
+                </li>
+              <% end %>
+            </ul>
+          </li>
+        <% end %>
+        
+        <% if (current_user.role? "index_jackpot_machines") || (current_user.role? "index_jackpot_game_types") || (current_user.role? "index_jackpot_game_types") %>
+          <li class="nav-item has-treeview menu" data-toggle="tooltip" title="Jackpot">
+            <a class="nav-link" data-turbolinks="false">
+              <i class="nav-icon fas fa-database"></i>
+              <p>
+                Jackpot
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <% if current_user.role? "index_jackpot_machines" %>
+                <li class="nav-item" data-toggle="tooltip" title="Jackpot Machine">
+                  <a href="/jackpot_machines" class="nav-link" data-turbolinks="false">
+                  <i class="nav-icon fas fa-cash-register"></i>
+                    <p>Jackpot Machine</p>
+                  </a>
+                </li>
+              <% end %>
+              
+              <% if current_user.role? "index_jackpot_game_types" %>
+                <li class="nav-item" data-toggle="tooltip" title="Jackpot Game Type">
+                  <a href="/jackpot_game_types" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fas fa-dice"></i>
+                    <p>Jackpot Game Type</p>
+                  </a>
+                </li>
+              <% end %>
+              </tr>
+            </ul>
+          </li>
+        <% end %>
+        <% if (current_user.role? "index_officers") || (current_user.role? "index_drivers") || (current_user.role? "index_officer_customers") || (current_user.role? "index_staffs") || (current_user.role? "index_staff_introduces") %>
+          <li class="nav-item has-treeview menu" data-toggle="tooltip" title="Team">
+            <a class="nav-link" data-turbolinks="false">
+              <i class="nav-icon fas fa-database"></i>
+              <p>
+                Team
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+            
+              <% if current_user.role? "index_officers" %>
+                <li class="nav-item" data-toggle="tooltip" title="Host Team">
+                  <a href="/officers" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fas fa-user-tag"></i>
+                    <p>Host Team</p>
+                  </a>
+                </li>
+              <% end %>
+
+              <% if current_user.role? "index_drivers" %>
+                <li class="nav-item" data-toggle="tooltip" title="Driver Team">
+                  <a href="/drivers" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fa fa-car"></i>
+                    <p>Driver Team</p>
+                  </a>
+                </li>
+              <% end %>
+              <% if current_user.role? "index_officer_customers" %>
+                <li class="nav-item" data-toggle="tooltip" title="Customer Call History">
+                  <a href="/officer_customers" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fas fa-headset"></i>
+                    <p>Customer Call History</p>
+                  </a>
+                </li>
+              <% end %>
+              <% if current_user.role? "index_staffs" %>
+                <li class="nav-item" data-toggle="tooltip" title="Staff">
+                  <a href="/staffs" class="nav-link" data-turbolinks="false">
+                    <i class="nav-icon fas fa-user-tag"></i>
+                    <p>Staff</p>
+                  </a>
+                </li>
+              <% end %>
+              <% if current_user.role? "index_staff_introduces" %>
+                <li class="nav-item" data-toggle="tooltip" title="Slides Introduces">
+                  <a href="/staff_introduces" class="nav-link" data-turbolinks="false">
+                    <i class="fas fa-user-tag nav-icon"></i>
+                    <p>Staff Introduces</p>
+                  </a>
+                </li>
+              <% end %>
+              </tr>
+            </ul>
+          </li>
+        <% end %>
+
+        <% if current_user.role? "index_term_services" %>
+            <li class="nav-item" data-toggle="tooltip" title="Term Of Service">
+              <a href="/term_services" class="nav-link" data-turbolinks="false">
+                <i class="nav-icon fas fa-dice"></i>
+                <p>Term Of Service</p>
+              </a>
+            </li>
+        <% end %>
+        
+        <% if (current_user.role? "index_users") || (current_user.role? "index_groups") || (current_user.role? "index_roles") || (current_user.role? "index_user_first_logins") || (current_user.role? "latest_login_users") %>
+          <li class="nav-item has-treeview menu" data-toggle="tooltip" title="Manage System">
+            <a class="nav-link" data-turbolinks="false">
+              <i class="nav-icon fas fa-cogs"></i>
+              <p>
+                Users
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <% if current_user.role? "index_users" %>
+                <li class="nav-item" data-toggle="tooltip" title="Users">
+                  <a href="/users" class="nav-link" data-turbolinks="false">
+                    <i class="fas fa-user nav-icon"></i>
+                    <p>Users</p>
+                  </a>
+                </li>
+              <% end %>
+              <% if current_user.role? "index_groups" %>
+                <li class="nav-item" data-toggle="tooltip" title="User Group">
+                  <a href="/groups" class="nav-link" data-turbolinks="false">
+                    <i class="fas fa-users nav-icon"></i>
+                    <p>User Group</p>
+                  </a>
+                </li>
+              <% end %>
+              <% if current_user.role? "index_roles" %>
+                <li class="nav-item" data-toggle="tooltip" title="User Roles">
+                  <a href="/roles" class="nav-link" data-turbolinks="false">
+                    <i class="fas fa-user-shield nav-icon"></i>
+                    <p>User Roles</p>
+                  </a>
+                </li>
+              <% end %>
+              <% if current_user.role? "index_user_first_logins" %>
+                <li class="nav-item" data-toggle="tooltip" title="First Sign In">
+                  <a href="/user_first_logins" class="nav-link" data-turbolinks="false">
+                    <i class="fas fa-download nav-icon"></i>
+                    <p>First Sign In</p>
+                  </a>
+                </li>
+              <% end %>
+              <% if current_user.role? "latest_login_users" %>
+                <li class="nav-item" data-toggle="tooltip" title="Latest Sign In">
+                  <a href="/users/latest_login" class="nav-link" data-turbolinks="false">
+                    <i class="fas fa-download nav-icon"></i>
+                    <p>Latest Sign In</p>
+                  </a>
+                </li>
+              <% end %>
+              </tr>
+            </ul>
+          </li>
+        <% end %>
+
+        <% if (current_user.role? "index_settings") || (current_user.role? "index_logs") || (current_user.role? "index_applications") %>
+          <li class="nav-item has-treeview menu" data-toggle="tooltip" title="Settings">
+            <a class="nav-link" data-turbolinks="false">
+              <i class="nav-icon fas fa-cogs"></i>
+              <p>
+                Settings
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <% if current_user.role? "index_settings" %>
+                <li class="nav-item" data-toggle="tooltip" title="Settings">
+                  <a href="/settings" class="nav-link" data-turbolinks="false">
+                    <i class="fas fa-tools nav-icon"></i>
+                    <p>Settings</p>
+                  </a>
+                </li>
+              <% end %>
+              <% if current_user.role? "index_logs" %>
+                <li class="nav-item" data-toggle="tooltip" title="Logs Data Sync">
+                  <a href="/logs" class="nav-link" data-turbolinks="false">
+                    <i class="fas fa-tools nav-icon"></i>
+                    <p>Logs Data Sync</p>
+                  </a>
+                </li>
+              <% end %>            
+              <% if current_user.role? "index_applications" %>
+                <li class="nav-item" data-toggle="tooltip" title="OAuth Applications" style="margin-bottom: 20px !important;">
+                  <a href="/oauth/applications" class="nav-link" data-turbolinks="false">
+                    <i class="fas fa-mobile nav-icon"></i>
+                    <p>OAuth Applications</p>
+                  </a>
+                </li>
+              <% end %>
+              </tr>
+            </ul>
+          </li>
+        <% end %>
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+    
+    <%# <div class="version-footer">
+      Vegas E-Gaming Club CMS
+      Version 1.0.0
+    </div> %>
+  </div>
+  <!-- /.sidebar -->
+</aside>
+<script>
+    $(document).on("turbolinks:load", function () {
+        var url = window.location;
+
+        $("ul.nav-sidebar a").filter(toggleNavSidebar);
+        $("ul.nav-treeview a").filter(toggleNavTreeview);
+
+        function toggleNavSidebar() {
+            if (this.href != url) return;
+
+            $(this).addClass("active")
+        }
+
+        function toggleNavTreeview() {
+            if (this.href != url) return;
+
+            $(this).parentsUntil(".nav-sidebar > .nav-treeview")
+                .addClass("menu-open").prev("a").addClass("active");
+        }
+
+        // for treeview which is like a submenu
+        // $('ul.treeview-menu a').filter(function() {
+        //     return this.href == url;
+        // }).parentsUntil(".sidebar-menu > .treeview-menu").siblings().removeClass('active menu-open').end().addClass('active menu-open');
+
+        // for sidebar menu entirely but not cover treeview
+        $('ul.nav-sidebar a').filter(function() {
+            if (this.href) {
+                return this.href == url || url.href.indexOf(this.href) == 0;
+            }
+        }).addClass('active');
+
+        // for the treeview
+        $('ul.nav-treeview a').filter(function() {
+            if (this.href) {
+                return this.href == url || url.href.indexOf(this.href) == 0;
+            }
+        }).parentsUntil(".nav-sidebar > .nav-treeview").addClass('menu-open').prev('a').addClass('active');
+        
+    });
+
+    function replaceCKEDITOR(_id_replace){
+      if (CKEDITOR.instances[_id_replace]) {
+          CKEDITOR.instances[_id_replace].destroy();
+      }
+      if (typeof(CKEDITOR) != 'undefined' && document.getElementById(_id_replace)) {
+        // CKEDITOR.addCss('p { font-size: 20px; color: blue; }');
+        CKEDITOR.replace(_id_replace);
+        //  {
+        //   on: {
+        //       instanceReady: function() {
+        //         var editor = this;
+
+        //         editor.filter.allow('p{style}');
+
+        //           // Add a rule for the dataProcessor to add the style to 'p' elements
+        //           editor.dataProcessor.dataFilter.addRules({
+        //               elements: {
+        //                   p: function(element) {
+        //                       // Check if the 'style' attribute already exists
+        //                       var styleAttribute = element.attributes.style;
+        //                       if (!styleAttribute) {
+        //                           element.attributes.style = 'font-size: 20px;';
+        //                       } else if (styleAttribute.indexOf('font-size:') === -1) {
+        //                           // Append the font-size style if it's not already there
+        //                           element.attributes.style += '; font-size: 20px;';
+        //                       }
+        //                       return element;
+        //                   }
+        //               }
+        //           });
+        //       }
+        //     }
+        //   });
+      }
+    }
+</script>

@@ -1,0 +1,215 @@
+<%= form_with(model: accommodation, local: true, id: "accommodation_form") do |form| %>
+  <div class="row">
+    <% if accommodation.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(accommodation.errors.count, "error") %> prohibited this accommodation from being saved:</h2>
+
+        <ul>
+          <% accommodation.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="row">
+    <!-- left column -->
+    <div class="col-md-12">
+      <!-- general form elements -->
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Information</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <div class="form-row form-group">
+            <% if action_method != "update" %>
+              <div class="col-md-6 form-group" style="display: flow-root;">
+                <label>
+                  <%= t('search_customer_number') %>:
+                </label>
+                <input id="search" autocomplete="off" onfocus="FocusSearch(this)" onkeyup="searchUsers(this)" 
+                      onblur="UnFocusSearch(this)" class="form-control" placeholder="Search Customer Number">
+                <div id="list-result"></div>
+              </div>
+            <% end %>
+            <div class="form-group col-md-6">
+              <label>
+                <%= t('customer_id') %>:
+              </label>
+              <input class="form-control" value="<%= @customer_number %>" type="text" disabled id="cus_id">
+              <%= form.text_field :customer_id, class: "form-control", required: true, hidden: true %>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-sm-6">
+              <label><%= t('Start Date') %>:</label>
+              <% if action_method != "update" %>
+                <%= form.datetime_field :date_pick, class: "form-control", required: true %>
+              <% else %>
+                <%= form.datetime_field :date_pick, class: "form-control", :disabled => true %>
+              <% end %>
+            </div>
+            <div class="form-group col-sm-6">
+              <label><%= t('End Date') %>:</label>
+              <% if action_method != "update" %>
+                <%= form.datetime_field :time_end, class: "form-control", required: true %>
+                <%= form.datetime_field :time_end, class: "form-control", hidden: true %>
+              <% else %>
+                <%= form.datetime_field :time_end, class: "form-control", :disabled => true %>
+              <% end %>
+            </div>
+            
+            <div class="form-group col-sm-6">
+              <label>
+                <%= t('Send status notification to customer') %>:
+              </label>
+              <div class="gender-item" style="border: unset;">
+                  <%= form.radio_button :status, 2 %> <label for="accommodation_status_2">Confirm</label>
+                  <%= form.radio_button :status, 0, style: "margin-left: 20px" %> <label for="accommodation_status_0">Cancel</label>
+              </div>
+            </div>
+            
+            <div class="form-group col-sm-12" id="note_confirm_send">
+              <label><%= t('Send custom message confirm to customer (optional)') %>:</label>
+              <%= form.text_field :note_confirm, class: "form-control" %>
+            </div>
+            <div class="form-group col-sm-12"  id="note_confirm_cancel"> 
+              <label><%= t('Send custom message cancel to customer (optional)') %>:</label>
+              <%= form.text_field :note_cancel, class: "form-control" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="padding:10px">
+    <div class="col-12">
+      <%= link_to 'Back', 'javascript:history.back()', class: "btn btn-secondary", "data-turbolinks": "false" %>      
+      <%# <button type="button" class="btn btn-danger float-right" data-disable-with="Processing..." id="saveCancelAcc">Cancel</button> &nbsp;
+      <button type="button" class="btn btn-warning float-right" data-disable-with="Processing..." id="saveFisnishAcc">Finish</button> &nbsp;
+      <button type="button" class="btn btn-success float-right" data-disable-with="Processing..." id="saveAcc">Save</button> &nbsp; %>
+      <button type="submit" class="btn btn-success float-right" id="btnSubmit">Send</button>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  selected_customer = [];
+  $( document ).ready(function() {
+    
+    $("#btnSubmit").click(function() {
+      if ($('#accommodatio_customer_id').val() == ""){
+        alert('Customer Required!');
+        return;
+      }
+      $("#accommodation_form").submit();
+    });
+
+     $("#saveCancelAcc").click(function() {
+        $("#accommodation_status").val("0");
+        $("#accommodation_form").submit();
+    });
+     $("#saveFisnishAcc").click(function() {
+        $("#accommodation_status").val("3");
+        $("#accommodation_form").submit();
+    });
+     $("#sendAcc").click(function() {
+        $("#accommodation_form").submit();
+    });
+    
+    let value = $('input[type=radio][name="accommodation[status]"]:checked').val();
+    if (value == '2') {
+      $('#note_confirm_send').show();
+      $('#note_confirm_cancel').hide();
+    }
+    else if (this.value == '0') {
+      $('#note_confirm_send').hide();
+      $('#note_confirm_cancel').show();
+    }else{
+      $('#note_confirm_send').hide();
+      $('#note_confirm_cancel').hide();
+    }
+
+  });
+
+  var _changeInterval = null;
+  function searchUsers(othis){
+      var keyword = $('#search').val();
+      var search = $(othis).val();
+      if(search != null && search != ''){
+          clearInterval(_changeInterval);
+          _changeInterval = setInterval(function() {
+              clearInterval(_changeInterval);
+              $("#list-result").empty();
+              Search(keyword);
+          }, 500);
+      }else{
+          $("#list-result").empty();
+      }
+  }
+
+  function FocusSearch(othis){
+      var search = $(othis).val();
+      if(search == null || search == ''){
+          $("#list-result").empty();
+      }
+  }
+  function UnFocusSearch(othis){
+      var search = $(othis).val();
+  }
+
+  function Search(keyword){
+      $.ajax({
+          "url": `/notifications/get_users?search=${keyword}`,
+          "method": "GET",
+          success: function (result) {
+              if(result != null && result.length > 0){
+                  var html = '';
+                  $.each(result, function(index, item){
+                      html += RenderHtmlItem(item);
+                  })
+                  $('#list-result').append(html);
+              }else{
+                $('#list-result').append('<div>Not Found</div>');
+              }
+          },
+          error: function (result) {
+            $('#list-result').append('<div>Not Found</div>');
+          }
+      })
+  }
+
+  function RenderHtmlItem(item){
+    let name = (item.surname == null ? "" : item.surname) + " " + (item.middle_name == null ? "" : item.middle_name) + " " + (item.forename == null ? "" : item.forename);
+    return `<div class="lc-item" onclick="selectCustomer(${item.cus_id}, '${name} - ${item.number}')">
+        <div class="lc-content">
+            <div type="hidden" class="temp-object hide">${JSON.stringify(item)}</div>
+            <div class="result-name">${item.number} - ${name}</div>
+        </div>
+    </div>`;
+  }
+
+  function selectCustomer(cus_id, name){
+    $("#cus_id").val(name);
+    $("#accommodation_customer_id").val(cus_id);
+  }
+  
+  $('input[type=radio][name="accommodation[status]"]').change(function () {   
+    if (this.value == '2') {
+      $('#note_confirm_send').show();
+      $('#note_confirm_cancel').hide();
+    }
+    else if (this.value == '0') {
+      $('#note_confirm_send').hide();
+      $('#note_confirm_cancel').show();
+    }else{
+      $('#note_confirm_send').hide();
+      $('#note_confirm_cancel').hide();
+    }
+ });
+
+</script>

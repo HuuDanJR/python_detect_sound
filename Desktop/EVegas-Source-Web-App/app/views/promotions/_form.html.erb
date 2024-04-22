@@ -1,0 +1,323 @@
+<%= form_with(model: promotion, local: true) do |form| %>
+  <div class="row">
+    <% if promotion.errors.any? %>
+      <div class="col-md-12" id="error_explanation">
+        <h4>Có <%= pluralize(promotion.errors.count, "error" ) %> errors:</h4>
+
+        <ul>
+          <% promotion.errors.full_messages.each do |message| %>
+            <li>
+              <%= message %>
+            </li>
+            <% end %>
+        </ul>
+      </div>
+      <% end %>
+  </div>
+
+  <div class="row" data-turbolinks="false">
+    <div class="col-md-12">
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Information</h3>
+        </div>
+        <div class="card-body">
+
+          <div class="form-row">
+            <div class="col-sm-3 form-group">
+              <label>
+                <%= t('promotion_category') %>:
+              </label>
+              <%= form.hidden_field :promotion_category_id, id: "promotion_category_id" , name: "promotion_category_id" %>
+                <%= form.select :promotion_category_id, options_from_collection_for_select(@promotion_categories, :id, :name, @promotion.promotion_category_id), 
+                {required: true}, {class: "form-control select2"} %>
+            </div>
+
+            <div class="form-group col-sm-3">
+              <label>
+                <%= t('name') %>:
+              </label>
+              <%= form.text_field :name, class: "form-control", required: true %>
+            </div>
+            <div class="form-group col-sm-2">
+              <label>
+                Time:
+              </label>
+              <%= form.text_field :time, class: "form-control" %>
+            </div>
+
+            <div class="form-group col-sm-2">
+              <label>
+                Color:
+              </label>
+              <%= form.text_field :color, class: "form-control", type: "color" %>
+            </div>
+
+            <div class="form-group col-sm-2">
+              <label><%= t('is_highlight') %>:</label>
+              <div class="gender-item">
+                <%= form.radio_button :is_highlight, false %> <label for="promotion_is_highlight_false">No</label>
+                <%= form.radio_button :is_highlight, true %> <label for="promotion_is_highlight_true">Yes</label>
+              </div>
+            </div>
+
+          </div>
+          <div class="form-row">
+
+           <div class="form-group col-sm-3">
+              <label>
+                <%= t('issue_date') %>:
+              </label>
+              <%= form.text_field :issue_date, class: "form-control" %>
+            </div>
+
+            <div class="form-group col-sm-3">
+              <label>
+                <%= t('game_type') %>:
+              </label>
+              <%= form.text_field :game_type, class: "form-control" %>
+            </div>
+            <div class="form-group col-sm-3">
+              <label>
+                <%= t('remark') %>:
+              </label>
+              <%= form.text_field :remark, class: "form-control" %>
+            </div>
+            <div class="col-sm-3">
+              <label><%= t('status') %>:</label>
+              <div class="gender-item">
+                <%= form.radio_button :status, 1, checked: true %> Show
+                <%= form.radio_button :status, 0 %> Hide
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+             <div class="form-group col-sm-6">
+                <label>Date type:</label>
+                <select class="form-control select2" name="promtion_type_select" id="promtion_type_select" onchange="onChangeType()">              
+                  <% @promotion_types.each do |item| %>
+                    <option value="<%= item['id'] %>"><%= item['value'] %></option>
+                  <% end %>
+                </select>
+                
+                <%= form.text_field :promotion_type, class: "form-control" , hidden: true %>
+            </div>
+
+            <div class="form-group col-sm-6" id="dayweeks">
+              <label>
+                <%= t('day_of_week') %>:
+              </label>
+              <%= form.text_field :day_of_week, hidden: true %>
+              <select class="form-control select2" name="promotion[day_of_weeks][]" id="promotion_day_of_weeks" multiple="multiple">
+                <% @day_of_weeks.each do |item| %>
+                  <option value="<%= item %>"><%= item %></option>
+                <% end %>
+              </select>
+            </div>
+            <div class="form-group col-sm-6" id="daymonths">
+              <label>
+                <%= t('day_of_month') %>:
+              </label>
+              <%= form.text_field :day_of_month, class: "form-control" , hidden: true %>
+              <select class="form-control select2" name="promotion[day_of_months][]" id="promotion_day_of_months" multiple="multiple">
+                <% @day_of_months.each do |item| %>
+                  <option value="<%= item %>"><%= item %></option>
+                <% end %>
+              </select>
+            </div>
+            <div class="form-group col-sm-6" id="dayseasons">
+              <label>
+                <%= t('day_of_season') %>:
+              </label>
+              <div style="display:flex">
+
+                <select class="form-control select2 " name="select_day" id="select_day" multiple="multiple" placeholder="day" onchange="onChangeSeason()">
+                  <% @day_of_months.each do |item| %>
+                    <option value="<%= item %>"><%= item %></option>
+                  <% end %>
+                </select>
+
+                <select class="form-control select2" name="select_month" id="select_month" placeholder="month" onchange="onChangeSeason()">
+                  <option value="">-- Month --</option>
+                  <% @month_of_year.each do |item| %>
+                    <option value="<%= item %>"><%= item %></option>
+                  <% end %>
+                </select>
+              </div>
+
+              <%= form.text_field :day_of_season, class: "form-control" , hidden: true %>
+
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-sm-12">
+              <label>
+                <%= t('description') %>:
+              </label>
+              <%= form.text_area :description, class: "form-control", rows:"4" %>
+            </div>
+            <div class="form-group col-sm-6">
+              <label>
+                <%= t('terms') %>:
+              </label>
+              <%= form.text_area :terms, class: "form-control", rows:"6" %>
+            </div>
+            <div class="form-group col-sm-6">
+              <label>
+                <%= t('prize') %>:
+              </label>
+              <%= form.text_area :prize, class: "form-control", rows:"6" %>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-sm-6">
+              <div class="field">
+                <label>Icon:</label>
+                <div class="list-img">
+                  <% if @promotion.attachment_id? %>
+                    <div>
+                      <img id="drag1" src="/attachments/download/<%= @promotion.attachment_id %>?version=medium" width="360" height="360">
+                    </div>
+                  <% end %>
+                </div>
+                
+                  <% if @promotion.attachment_id? %>
+                    <%= form.file_field :attachment, :multiple => false, accept: 'image/*', class: "form-control" %>
+                  <% else %>
+                    <%= form.file_field :attachment, :multiple => false, accept: 'image/*', class: "form-control", required: true %>
+                  <% end %>
+
+                
+                <%= form.number_field :attachment_id, class: "form-control", hidden: true %>
+              </div>
+            </div>
+
+            <div class="form-group col-sm-6">
+              <div class="field">
+                <label>Banner:</label>
+                <div class="list-img">
+                  <% if @promotion.banner_id? %>
+                    <div>
+                      <img id="drag1" src="/attachments/download/<%= @promotion.banner_id %>?version=medium" width="360" height="360">
+                    </div>
+                  <% end %>
+                </div>
+                
+                  <% if @promotion.banner_id? %>
+                    <%= form.file_field :attachment_banner, :multiple => false, accept: 'image/*', class: "form-control" %>
+                  <% else %>
+                    <%= form.file_field :attachment_banner, :multiple => false, accept: 'image/*', class: "form-control", required: true %>
+                  <% end %>
+
+                
+                <%= form.number_field :banner_id, class: "form-control", hidden: true %>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <%= link_to 'Back', 'javascript:void(0);', onclick: "window.history.back(); setTimeout(function(){window.location.reload();}, 100);", class: "btn btn-secondary" %>      <input class="btn btn-success float-right" name="btnSubmit" data-disable-with="Processing..." type="submit" value="Save" />
+        <%# <button type="submit" class="btn btn-success float-right" id="btnSubmit" data-disable-with="Processing...">Save</button> %>
+    </div>
+  </div>
+  <% end %>
+
+<script>
+    $(document).on("turbolinks:load", function () {
+        replaceCKEDITOR("promotion_prize");
+        replaceCKEDITOR("promotion_terms");
+    });
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+       $('#promtion_type_select').val($('#promotion_promotion_type').val());
+       $('#promtion_type_select').trigger('change');
+        onChangeType();
+        $("#select_day").select2({
+            placeholder: "Day",
+            allowClear: true
+        });
+        let valDayOfWeek = $('#promotion_day_of_week').val();
+        if (valDayOfWeek !== '' && valDayOfWeek != undefined){
+          valDayOfWeek = JSON.parse(valDayOfWeek);
+          $("#promotion_day_of_weeks").val(valDayOfWeek);
+          $('#promotion_day_of_weeks').trigger('change');
+        }
+
+
+        let valDayOfMonth = $('#promotion_day_of_month').val();
+        if (valDayOfMonth !== '' && valDayOfMonth != undefined){
+          valDayOfMonth = JSON.parse(valDayOfMonth);
+          $("#promotion_day_of_months").val(valDayOfMonth);
+          $('#promotion_day_of_months').trigger('change');
+        }
+
+        let valDayOfSeason = $('#promotion_day_of_season').val();
+        if (valDayOfSeason !== '' && valDayOfSeason != undefined){
+          valDayOfSeason = JSON.parse(valDayOfSeason);
+          $("#select_day").val(valDayOfSeason[0].day);
+          $('#select_day').trigger('change');
+
+          $("#select_month").val(valDayOfSeason[0].month);
+          $('#select_month').trigger('change');
+        }
+    });
+
+    function onChangeSeason(){
+      let selectDays = $('#select_day').val();
+      let selectMonth = $('#select_month').val();
+
+      if (selectDays !== '' && selectDays != undefined && selectMonth !== '' && selectMonth != undefined){          
+        let dayOfSeason = [];
+        let days = [];
+        for(let i = 0; i < selectDays.length; i++){
+          days.push(parseInt(selectDays[i]))
+        }
+
+        let objectdata = {
+          month: parseInt(selectMonth),
+          day: days
+        };
+        dayOfSeason.push(objectdata);
+        $('#promotion_day_of_season').val(JSON.stringify(dayOfSeason));
+      }else{
+        $('#promotion_day_of_season').val("");
+      }
+    }
+
+    // function onChangeDayOfWeek(){
+    //   // var days = $('#day_of_week').val().toString();
+    //   $("#promotion_day_of_week").val('' + days); 
+    // }
+
+    function onChangeType(){
+      let select = $('#promtion_type_select option:selected').val();
+      $('#promotion_promotion_type').val(select);
+      $('#promotion_promation_select').val(select);
+      if(select == '1'){
+        $('#dayweeks').show();
+        $('#daymonths').hide();
+        $('#dayseasons').hide();
+      }else if(select == '2'){
+        $('#dayweeks').hide();
+        $('#daymonths').show();
+        $('#dayseasons').hide();
+      }else{
+        $('#dayweeks').hide();
+        $('#daymonths').hide();
+        $('#dayseasons').show();
+      }
+    }
+</script>

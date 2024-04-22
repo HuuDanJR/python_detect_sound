@@ -1,0 +1,124 @@
+<style>
+.main-staff{
+    display: grid;
+    justify-content: center;
+    background: white;
+}
+
+.main-staff .video-yt{
+    width: 900px; 
+    height: 600px; 
+    top: 0; 
+    left: 0;
+    flex: 1;
+}
+
+.main-staff .slide{
+    margin-top: 5px;
+    display: grid;
+}
+.img1{
+    width: 960.229356px;
+    height: 964.070274px;
+}
+.intro-1{
+    flex: 1;
+    background-image: url("https://w.ladicdn.com/s1300x1300/5e8839a0ca05130779a4d5da/app-intro-01-20230217085650-35kfb.jpg");
+}
+.ladi-element{
+    margin: 10px;
+}
+
+.app-download{
+    display: flex; justify-content: center
+}
+
+@media (max-width: 767px){
+    .img1{    
+        width: 420px;
+        height: 421.68px;
+    }
+    .video-yt{
+        width: 420px !important;
+        height: 421.68px !important;
+    }
+    .app-download{
+        display: grid !important;
+    }
+}
+</style>
+<div class="main-staff">
+    <div class="video-yt">
+        <iframe style="width: 100%; height: 100%" src="https://www.youtube.com/embed/Ml_dI1-Dqj4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    </div>
+    <div>
+        <img class="img1" src="<%= image_path('app_intro.jpg') %>" />
+        <div class="app-download">
+            <a href="https://apps.apple.com/vn/app/e-vegas/id6443826209" target="_blank" id="IMAGE41" class="ladi-element" rel="noopener noreferrer" data-replace-href="https://apps.apple.com/vn/app/e-vegas/id6443826209">
+                <img style="width: 220px;height: 80px;" src="<%= image_path('app_store.jpg') %>"/>
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.trivietjsc.vcms" target="_blank" id="IMAGE42" class="ladi-element" rel="noopener noreferrer" data-replace-href="https://play.google.com/store/apps/details?id=com.trivietjsc.vcms">
+                <img style="width: 220px;height: 80px" src="<%= image_path('google_play.jpg') %>"/>
+            </a>
+            <a href="https://drive.google.com/u/0/uc?id=1xHY2fS-jshrQ1DePU4QQB9sYeDAXJRQQ&amp;export=download" target="_blank" id="IMAGE43" class="ladi-element" rel="noopener noreferrer" data-replace-href="https://drive.google.com/u/0/uc?id=1xHY2fS-jshrQ1DePU4QQB9sYeDAXJRQQ&amp;export=download">
+                <img style="width: 220px;height: 80px" src="<%= image_path('other_device.jpg') %>"/>
+            </a>
+        </div>
+    </div>
+    
+    <img class="img1" src="<%= image_path('app_intro_install.jpg') %>" />
+    <img class="img1" src="<%= image_path('artboard-1.jpg') %>" />
+    <img class="img1" src="<%= image_path('artboard-2.jpg') %>" />
+    
+</div>
+<div class="main-staff">
+    <div style="display: flex; justify-content: center">
+    
+        <a href="https://pf.kakao.com/_nTkxfK" id="IMAGE33" class="ladi-element" data-replace-href="https://pf.kakao.com/_nTkxfK">
+            <div class="ladi-image">
+            <img class="img1" style="width: 47.1905px;height: 47.1906px;" src="<%= image_path('kakaotalk_logo.png') %>" />
+            </div>
+        </a>
+        <a href="https://zalo.me/956484748384109417" id="IMAGE34" class="ladi-element" data-replace-href="https://zalo.me/956484748384109417">
+            <div class="ladi-image">
+            <img class="img1" style="width: 47.1905px;height: 47.1906px;" src="<%= image_path('zalo_logo.png') %>" />
+            </div>
+        </a>
+        <a href="tel:0908200945" id="IMAGE35" class="ladi-element">
+            <div class="ladi-image">
+            <img class="img1" style="width: 47.1905px;height: 47.1906px;" src="<%= image_path('phone_logo.png') %>" />
+            </div>
+        </a>
+    </div>
+
+    <div style="display: flex">
+        <div id="PARAGRAPH31" class="ladi-element">
+            <div class="ladi-paragraph">1F, 2F CARAVELLE SAIGON <br>19-23 LAM SON SQUARE, DIST 1, HCMC <br>
+            </div>
+        </div>
+        <a href="tel:02838247146" id="PARAGRAPH32" class="ladi-element">
+            <div class="ladi-paragraph">TEL: +84 283 824 7146 <br>HOTLINE: + 84 908 200 945 <br>
+            </div>
+        </a>
+    </div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+      var selected = new URLSearchParams(window.location.search);
+      let code = selected.get('code');
+
+      if (code) {
+        $.ajax({
+            "url": `/home/staff_introduce?code=${code}`,
+            "method": "GET",
+            success: function (result) {
+                console.log(result);
+            },
+            error: function (result) {
+                console.log('Error');
+            }
+        });
+      }
+  });
+</script>

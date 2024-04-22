@@ -1,0 +1,192 @@
+<%= form_with(model: spa, local: true) do |form| %>
+  <div class="row">
+    <% if spa.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(spa.errors.count, "error") %> prohibited this spa from being saved:</h2>
+
+        <ul>
+          <% spa.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="row">
+    <!-- left column -->
+    <div class="col-md-12">
+      <!-- general form elements -->
+      <div class="card card-secondary">
+        <div class="card-header">
+          <h3 class="card-title">Information</h3>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body">
+          <div class="form-row form-group">
+            
+            <% if action_method != "update" %>
+            <div class="col-md-6 form-group" style="display: flow-root;">
+              <label>
+                <%= t('search_customer_number') %>:
+              </label>
+              <input id="search" autocomplete="off" onfocus="FocusSearch(this)" onkeyup="searchUsers(this)" 
+                    onblur="UnFocusSearch(this)" class="form-control" placeholder="Search Customer Number">
+              <div id="list-result"></div>
+            </div>
+            <% end %>
+            
+            <div class="form-group col-md-6">
+              <label>
+                <%= t('customer_id') %>:
+              </label>
+              <input class="form-control" value="<%= @customer_number %>" type="text" disabled id="cus_id">
+              <%= form.text_field :customer_id, class: "form-control", required: true, hidden: true %>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-sm-6">
+              <label><%= t('Booking Date') %>:</label>
+              <% if action_method != "update" %>
+                <%= form.date_field :date_pick, class: "form-control", required: true %>
+              <% else %>
+                <%= form.date_field :date_pick, class: "form-control", :disabled => true %>
+              <% end %>
+            </div>
+
+            <div class="form-group col-sm-6">
+              <label><%= t('Booking Time') %>:</label>
+              
+              <% if action_method != "update" %>
+                <%= form.time_field :time_pick, class: "form-control", required: true %>
+              <% else %>
+                <%= form.time_field :time_pick, class: "form-control", :disabled => true %>
+              <% end %>
+            </div>
+            <div class="form-group col-sm-6">
+              <label>
+                <%= t('Send status notification to customer') %>:
+              </label>
+              <div class="gender-item" style="border: unset;">
+                  <%= form.radio_button :status, 2 %> <label for="spa_status_2">Confirm</label>
+                  <%= form.radio_button :status, 0, style: "margin-left: 20px" %> <label for="spa_status_0">Cancel</label>
+              </div>
+            </div>
+            
+            <div class="form-group col-sm-12" id="note_confirm_send">
+              <label><%= t('Send custom message confirm to customer (optional)') %>:</label>
+              <%= form.text_field :note_confirm, class: "form-control" %>
+            </div>
+            <div class="form-group col-sm-12"  id="note_confirm_cancel"> 
+              <label><%= t('Send custom message cancel to customer (optional)') %>:</label>
+              <%= form.text_field :note_cancel, class: "form-control" %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="padding:10px">
+    <div class="col-12">
+      <%= link_to 'Back', 'javascript:void(0);', onclick: "window.history.back(); setTimeout(function(){window.location.reload();}, 100);", class: "btn btn-secondary" %>      <input class="btn btn-success float-right" name="btnSubmit" data-disable-with="Processing..." type="submit" value="Send" />
+      <%# <button type="submit" class="btn btn-success float-right" id="btnSubmit">Save</button> %>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  selected_customer = [];
+  $( document ).ready(function() {
+    let value = $('input[type=radio][name="spa[status]"]:checked').val();
+    if (value == '2') {
+      $('#note_confirm_send').show();
+      $('#note_confirm_cancel').hide();
+    }
+    else if (this.value == '0') {
+      $('#note_confirm_send').hide();
+      $('#note_confirm_cancel').show();
+    }else{
+      $('#note_confirm_send').hide();
+      $('#note_confirm_cancel').hide();
+    }
+  });
+
+  var _changeInterval = null;
+  function searchUsers(othis){
+      var keyword = $('#search').val();
+      var search = $(othis).val();
+      if(search != null && search != ''){
+          clearInterval(_changeInterval);
+          _changeInterval = setInterval(function() {
+              clearInterval(_changeInterval);
+              $("#list-result").empty();
+              Search(keyword);
+          }, 500);
+      }else{
+          $("#list-result").empty();
+      }
+  }
+
+  function FocusSearch(othis){
+      var search = $(othis).val();
+      if(search == null || search == ''){
+          $("#list-result").empty();
+      }
+  }
+  function UnFocusSearch(othis){
+      var search = $(othis).val();
+  }
+
+  function Search(keyword){
+      $.ajax({
+          "url": `/notifications/get_users?search=${keyword}`,
+          "method": "GET",
+          success: function (result) {
+              if(result != null && result.length > 0){
+                  var html = '';
+                  $.each(result, function(index, item){
+                      html += RenderHtmlItem(item);
+                  })
+                  $('#list-result').append(html);
+              }else{
+                $('#list-result').append('<div>Not Found</div>');
+              }
+          },
+          error: function (result) {
+            $('#list-result').append('<div>Not Found</div>');
+          }
+      })
+  }
+
+  function RenderHtmlItem(item){
+    let name = (item.surname == null ? "" : item.surname) + " " + (item.middle_name == null ? "" : item.middle_name) + " " + (item.forename == null ? "" : item.forename);
+    return `<div class="lc-item" onclick="selectCustomer(${item.cus_id}, '${name} - ${item.number}')">
+        <div class="lc-content">
+            <div type="hidden" class="temp-object hide">${JSON.stringify(item)}</div>
+            <div class="result-name">${item.number} - ${name}</div>
+        </div>
+    </div>`;
+  }
+
+  function selectCustomer(cus_id, name){
+    $("#cus_id").val(name);
+    $("#spa_customer_id").val(cus_id);
+  }
+
+  $('input[type=radio][name="spa[status]"]').change(function () {   
+    if (this.value == '2') {
+      $('#note_confirm_send').show();
+      $('#note_confirm_cancel').hide();
+    }
+    else if (this.value == '0') {
+      $('#note_confirm_send').hide();
+      $('#note_confirm_cancel').show();
+    }else{
+      $('#note_confirm_send').hide();
+      $('#note_confirm_cancel').hide();
+    }
+ });
+
+</script>

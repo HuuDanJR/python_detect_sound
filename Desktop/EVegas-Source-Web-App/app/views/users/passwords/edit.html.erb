@@ -1,0 +1,50 @@
+<div class="row" style="margin: unset">
+  <!-- <div class="col-md-4 d-flex container-login-left" style="padding-left: 0px; padding-right: 0px">
+    <img src="<%= image_path('logo.png') %>" alt="User Avatar" class="logo-login mr-3 img-circle">
+  </div> -->
+  <div class="col-md-12" style="padding-left: 0px; padding-right: 0px">
+    <!-- <div class="back-home">
+      <a href="/" class="btn-backhome">Home</a>
+    </div> -->
+    <div class="register-page">
+      <div class="register-box">
+        <div class="login-logo">
+          <img src="<%= image_path('logo.png') %>" alt="User Avatar" class="logo-login mr-3">
+      </div>
+        <div class="card">
+          <div class="card-body register-card-body">
+            <p class="login-box-msg title-forn-login-register">Change Password</p>
+
+            <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: {method: :put}) do |f| %>
+              <%= render "users/shared/error_messages", resource: resource %>
+              <%= f.hidden_field :reset_password_token %>
+
+              <div class="input-group mb-3">
+                <%= f.password_field :password, autofocus: true, autocomplete: "new-password", placeholder: "Password New", class: 'form-control' %>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-lock"></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="input-group mb-3">
+                <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm Password", class: 'form-control' %>
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-lock"></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="input-group mb-3">
+                <%= f.submit "Change Password", class: 'btn button-register btn-block' %>
+              </div>
+            <% end %>
+            <hr>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

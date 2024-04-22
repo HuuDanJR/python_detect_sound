@@ -1,0 +1,86 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-12" id="content-header">
+      <span class="col-md-3">
+      </span>
+        <h1 class="m-0 text-dark col-md-6">
+          <%= t('coupon_template') %>
+        </h1>
+        <ol class="breadcrumb float-sm-right col-md-3">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">
+            <%= t('coupon_template') %>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class=row>
+            <div class="col-md-6">
+              <%= form_with(url: "/coupon_templates", method: "get", local: true) do |f| %>
+                <%= f.hidden_field :page, :value => 1 %>
+                <div class="form-row">
+                  <div class="form-group col-sm-4">
+                    <%= f.text_field(:search, value: @search_query, placeholder: "Search", class: "form-control") %>
+                  </div>
+                  <div class="form-group col-sm-2">
+                    <%= f.submit "Search", class: "btn btn-search btn-smr" %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+            <div class="col-md-6">
+              <%= link_to 'New', new_coupon_template_path, class: "btn btn-primary btn-smr float-sm-right", 'data-turbolinks' => "false" %>
+            </div>
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive">
+          <table id="place_list" class="table table-striped projects">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+
+            <% index = 0 %>
+            <tbody>
+              <% index = 0 %>
+              <% @coupon_templates.each do |coupon_template| %>
+                <tr>
+                  <% index = index + 1 %>
+                  <td><%= index %></td>
+                  <td><%= coupon_template.name %></td>
+                  <td class="project-actions text-center">
+                    <a class="btn-action" href="/coupon_templates/<%= coupon_template.id %>" data-toggle="tooltip" title="View"><i class="fa fa-eye"></i></a>
+                    <a class="btn-action edit" href="/coupon_templates/<%= coupon_template.id %>/edit" data-toggle="tooltip" title="Edit" data-turbolinks="false"><i class="fa fa-pencil-alt"></i></a>
+                    <a class="btn-action delete" data-confirm="Deleting a coupon template will delete all coupons given to customers, do you really want to delete them?" rel="nofollow" data-method="delete" data-toggle="tooltip" title="Delete" href="/coupon_templates/<%= coupon_template.id %>"><i class="fa fa-trash"></i></a>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <div class="p-2 digg_pagination">
+            <%= will_paginate @coupon_templates %>
+          </div>
+          <%# <div class=row>
+            <div class="col-md-12">
+              <a class="btn btn-search btn-smr float-sm-right" href="/coupon_templates/export" target="_blank">Export</a>
+            </div>
+          </div> %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

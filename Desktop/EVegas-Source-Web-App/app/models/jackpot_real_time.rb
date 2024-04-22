@@ -1,0 +1,2 @@
+class JackpotRealTime < ApplicationRecord
+end
