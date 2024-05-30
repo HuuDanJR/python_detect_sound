@@ -1,0 +1,9 @@
+flutter_animate //animation text
+
+
+flutter pub get 
+flutter run -d chrome 
+flutter devices
+flutter build ios --release
+flutter build ios --debug
+flutter build apk --release
