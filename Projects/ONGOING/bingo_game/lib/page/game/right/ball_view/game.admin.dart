@@ -90,12 +90,7 @@ class BallRecentPageView extends StatelessWidget {
                   builder: (context, state) {
                     if (state is BallLoading) {
                       return const Center(child: CircularProgressIndicator());
-                    } else if (state is BallLoaded) {
-                      return ListTile(
-                        title: Text('ball id: ${state.ball.id} | number ${state.ball.number}'),
-                        subtitle: Text('Status: ${state.ball.status} : tag: ${state.ball.tag}'),
-                      );
-                    } else if (state is BallsLoaded) {
+                    }  else if (state is BallsLoaded) {
                       return ListView.builder(
                         itemCount: state.balls.length,
                         itemBuilder: (context, index) {

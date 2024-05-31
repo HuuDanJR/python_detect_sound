@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:bingo_game/page/game/utils.dart';
+import 'package:bingo_game/public/config.dart';
 import 'package:bingo_game/widget/snackbar.custom.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -11,8 +12,8 @@ part 'timer_state.dart';
 part 'timer_event.dart';
 
 class TimerBloc extends Bloc<TimerEvent, TimerState> {
-  static const int _initialDuration = 7; // Initial duration in seconds
-  static const int _maxTickCount = 20; // Maximum number of times the timer can restart
+  static const int _initialDuration = ConfigFactory.timer_duration_time; // Initial duration in seconds
+  static const int _maxTickCount = ConfigFactory.timer_max_round; // Maximum number of times the timer can restart
   Timer? _timer;
 
   TimerBloc() : super(TimerState.initial()) {
@@ -33,15 +34,15 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
          emit(state.copyWith(duration: event.duration,status: TimerStatus.ticking,));
       } else {
         _timer?.cancel();
-        final newNumber = generateUniqueNumber({}); // Pass an empty set as existingNumbers
+        final newNumber = generateUniqueNumber([],initial: true); // Pass an empty set as existingNumbers
         debugPrint('times: ${state.tickCount} generated number $newNumber');
-        mysnackbarWithContext(context: event.context, message: "Timer completed, Generated a number $newNumber, times: ${state.tickCount}",hasIcon: false);
+        mysnackbarWithContext(context: event.context, message: "Timer completed, Generated a number $newNumber, times: ${state.tickCount+1}",hasIcon: false);
         //emit ball 
         emit(state.copyWith(duration: 0,status: TimerStatus.finish,number: newNumber));
         add(const TickFinished()); // Emit TickFinished event
         if (state.tickCount == _maxTickCount) {
           debugPrint('stop timer,end game');
-          mysnackbarWithContext(context: event.context, message: "Game completed ! total times: ${state.tickCount}",hasIcon: true);
+          mysnackbarWithContext(context: event.context, message: "Game completed ! total times: ${state.tickCount+1}",hasIcon: true);
           _timer!.cancel();
         }else {
           add(RestartTimer(event.context));

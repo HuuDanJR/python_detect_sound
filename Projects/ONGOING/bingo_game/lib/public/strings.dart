@@ -16,6 +16,7 @@ class StringFactory {
   static const double padding18 = 18.0;
   static const double padding12 = 12.0;
   static const double padding24 = 24.0;
+  static const double padding26 = 26.0;
   static const double padding22 = 22.0;
   static const double padding28 = 28.0;
   static const double padding20 = 20.0;
@@ -24,6 +25,8 @@ class StringFactory {
   static const double padding32 = 32.0;
   static const double padding42 = 42.0;
   static const double padding48 = 48.0;
+  static const double padding56 = 56.0;
+  static const double padding64 = 64.0;
   static const String rateme = 'How did you feel today ?';
   
 

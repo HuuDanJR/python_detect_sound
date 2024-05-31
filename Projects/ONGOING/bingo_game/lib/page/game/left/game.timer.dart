@@ -28,7 +28,6 @@ class _GameTimerViewState extends State<GameTimerView> {
   @override
   void initState() {
     print('initstate');
-    context.read<BallBloc>().add(const RetrieveLatestBall());
     super.initState();
   }
 
@@ -87,6 +86,7 @@ class _GameTimerViewState extends State<GameTimerView> {
       status: 'created',
     );
     context.read<BallBloc>().add(AddBall(ball: ball));
+    
   }
 }
 

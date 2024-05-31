@@ -1,6 +1,14 @@
 class ConfigFactory {
   static const int TIME_CALL = 300; //5 min
-  static const int LIST_LENGTH = 75; //total length of list generate
+  static const int LIST_LENGTH = 77; //total length of list generate
+  static const int LIST_ITEM_CROSS_COUNT = 15; //total length of list generate
+
+  static const int timer_duration_time = 5; //tootal time
+  static const int timer_max_round = 77 - (1); //tiotal round
+  static const int delay_animation = 2; //delay animation should < timer duration timer
+
+
+
 
   static double ratio_width_parent({required double width}) {
     //width parent
@@ -22,11 +30,15 @@ class ConfigFactory {
     return height * .25;
   }
 
-  static List<double> area_ball_gen(
-      {required double width, required double height}) {
-    //are of image container in ball generate child
+  static List<double> area_ball_gen({required double width, required double height}) {
     return [width * .75, height * .55];
   }
+
+
+    static List<double> area_ball_gen_small({required double width, required double height}) {
+      return [width * 0.475, height * 0.475];
+    }
+
 
   static double borderRadiusCard = 45.0;
 
@@ -41,4 +53,7 @@ class ConfigFactory {
   static const String tag_green = 'green';
   static const String tag_purple = 'purple';
   static const String tag_yellow = 'yellow';
+  static const String tag_grey = 'grey';
+
+
 }

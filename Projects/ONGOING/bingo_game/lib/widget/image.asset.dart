@@ -4,7 +4,7 @@ import 'package:bingo_game/widget/text.custom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-Widget imageAsset({required double width, required double height,required String tag,required String text}
+Widget imageAsset({required double width, required double height,required String tag,required String text,required bool isSmall }
 ) {
   String assetPath;
   // Switch case to select assetPath based on tag
@@ -35,7 +35,7 @@ Widget imageAsset({required double width, required double height,required String
         width: width,
         height: height,
       ),
-      textCustomStyle(text: text, size: StringFactory.padding48, fontWeight: FontWeight.bold)
+      textCustomStyle(text: text, size:isSmall==true ? StringFactory.padding28 : StringFactory.padding64, fontWeight: FontWeight.bold)
     ],
   );
 }

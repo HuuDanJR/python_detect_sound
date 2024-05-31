@@ -38,7 +38,7 @@ class MyColor {
   static const Color yellow_accent = Color(0xFFc09935);
   static const Color blacklight = Color(0xFF424242);
   static const Color orange = Color(0xFFFE9433);
-  static const Color pink = Color(0xFFFFC0CB);
+  static const Color purple = Color(0xFFC51162);
   static const Color orange_accent = Color(0xFFA87954);
   static final Color red_bg = const Color(0xFFFEF6F8).withOpacity(0.75);
   static const Color grey_tab = Color(0xFFE0E0E0);

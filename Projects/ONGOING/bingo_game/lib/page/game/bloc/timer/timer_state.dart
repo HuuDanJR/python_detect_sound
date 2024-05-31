@@ -14,7 +14,7 @@ class TimerState extends Equatable {
 
   factory TimerState.initial({number}) {
     final generatedNumber = number ??
-        generateUniqueNumber({}) ??
+        generateUniqueNumber([],initial: true) ??
         0; // Use the provided number or generate a default one, fallback to 0 if null
     return TimerState(
       TimerBloc._initialDuration,

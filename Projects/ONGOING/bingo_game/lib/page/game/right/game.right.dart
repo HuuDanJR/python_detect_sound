@@ -1,6 +1,5 @@
-import 'package:bingo_game/page/game/right/game.banner.dart';
-import 'package:bingo_game/page/game/right/game.display.dart';
-import 'package:bingo_game/public/colors.dart';
+import 'package:bingo_game/page/game/right/banner/game.banner.dart';
+import 'package:bingo_game/page/game/right/ball_view/game.display.dart';
 import 'package:bingo_game/public/config.dart';
 import 'package:flutter/material.dart';
 
@@ -15,10 +14,6 @@ class GameRightPage extends StatelessWidget {
       height: height,
       width: ConfigFactory.ratio_width_parent(width: width),
       decoration: const BoxDecoration(
-        color: MyColor.white,
-        border: Border(
-          right: BorderSide(width: 1, color: MyColor.grey_tab),
-        ),
       ),
       child: Column(
         children: [

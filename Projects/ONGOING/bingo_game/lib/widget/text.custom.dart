@@ -72,7 +72,7 @@ Widget textCustomNormal({
 }
 
 Widget textCustomNormalColor(
-    {text, double? size, color, fontWeight = FontWeight.normal}) {
+    {text, double? size, color, fontWeight = FontWeight.normal, }) {
   return Text(text,
       overflow: TextOverflow.ellipsis,
       style: TextStyle(color: color, fontSize: size, fontWeight: fontWeight));
