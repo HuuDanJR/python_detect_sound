@@ -12,12 +12,12 @@ class ConfigFactory {
 
   static double ratio_width_parent({required double width}) {
     //width parent
-    return width * .7;
+    return width * .65;
   }
 
   static double ratio_width_child({required double width}) {
     //width child
-    return width * .3;
+    return width * .35;
   }
 
   static double ratio_height_parent({required double height}) {

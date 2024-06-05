@@ -1,9 +1,4 @@
-import 'package:bingo_game/page/game/bloc/ball/ball_bloc.dart';
 import 'package:bingo_game/page/game/left/export.dart';
-import 'package:bingo_game/public/config.dart';
-import 'package:bingo_game/widget/image.asset.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RecentBallBody extends StatefulWidget {
   final double itemWidth;
@@ -25,7 +20,7 @@ class _RecentBallBodyState extends State<RecentBallBody> with SingleTickerProvid
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration:   Duration(seconds: ConfigFactory.delay_animation),
+      duration:   const Duration(seconds: ConfigFactory.delay_animation),
       vsync: this,
     );
 
@@ -37,7 +32,7 @@ class _RecentBallBodyState extends State<RecentBallBody> with SingleTickerProvid
       CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn),
     );
      _translationAnimation = Tween<Offset>(
-      begin: const Offset(-100.0, 100.0), // Start from left
+      begin: const Offset(-50.0, 100.0), // Start from left
       end: const Offset(0.0, 0.0), // End at original position
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
@@ -67,47 +62,52 @@ class _RecentBallBodyState extends State<RecentBallBody> with SingleTickerProvid
             return const Center(child: CircularProgressIndicator());
           } else if (state is BallsLoaded) {
             final reversedBalls = state.ballsRecent.reversed.toList();
-            return GridView.builder(
-              reverse: true,
-              shrinkWrap: true,
-              itemCount: reversedBalls.length,
-              itemBuilder: (context, index) {
-                final ball = reversedBalls[index];
-                if (index == 0) {
-                  // Apply animation for the first item only
-                return 
-                  AnimatedBuilder(
-                  animation: _controller,
-                  builder: (context, child) {
-                    return Transform.translate(
-                      offset: _translationAnimation.value,
-                      child: Opacity(
-                        opacity: _fadeAnimation.value,
-                        child: Transform.scale(
-                          scale: _scaleAnimation.value,
-                          child: imageAsset(
-                            isSmall: true,
-                            tag: ball.tag,
-                            text: '${ball.number}',
-                            width: ConfigFactory.area_ball_gen_small(width: widget.itemWidth, height: widget.itemHeight).first,
-                            height: ConfigFactory.area_ball_gen_small(width: widget.itemWidth, height: widget.itemHeight).last,
+            return Center(
+              child: GridView.builder(
+                reverse: true,
+                shrinkWrap: true,
+                itemCount: reversedBalls.length,
+                itemBuilder: (context, index) {
+                  final ball = reversedBalls[index];
+                  if (index == 0) {
+                    // Apply animation for the first item only
+                  return 
+                    AnimatedBuilder(
+                    animation: _controller,
+                    builder: (context, child) {
+                      return Transform.translate(
+                        offset: _translationAnimation.value,
+                        child: Opacity(
+                          opacity: _fadeAnimation.value,
+                          child: Transform.scale(
+                            scale: _scaleAnimation.value,
+                            child: imageAsset(
+                              isSmall: true,
+                              tag: ball.tag,
+                              text: '${ball.number}',
+                              width: ConfigFactory.area_ball_gen_small(width: widget.itemWidth, height: widget.itemHeight).first,
+                              height: ConfigFactory.area_ball_gen_small(width: widget.itemWidth, height: widget.itemHeight).last,
+                            ),
                           ),
                         ),
-                      ),
+                      );
+                    });
+                  } else {
+                    return imageAsset(
+                      tag: ball.tag,
+                      isSmall: true,
+                      text: '${ball.number}',
+                      width: ConfigFactory.area_ball_gen_small(width: widget.itemWidth, height: widget.itemHeight).first,
+                      height: ConfigFactory.area_ball_gen_small(width: widget.itemWidth, height: widget.itemHeight).last,
                     );
-                  });
-                } else {
-                  return imageAsset(
-                    tag: ball.tag,
-                    isSmall: true,
-                    text: '${ball.number}',
-                    width: ConfigFactory.area_ball_gen_small(width: widget.itemWidth, height: widget.itemHeight).first,
-                    height: ConfigFactory.area_ball_gen_small(width: widget.itemWidth, height: widget.itemHeight).last,
-                  );
-                }
-              },
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 5,
+                  }
+                },
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 5,
+                  childAspectRatio: 1.15,
+                  crossAxisSpacing: StringFactory.padding,
+                  mainAxisSpacing: StringFactory.padding
+                ),
               ),
             );
           } else if (state is BallError) {

@@ -1,6 +1,9 @@
-import 'package:bingo_game/function/generate.number.dart';
-import 'package:bingo_game/widget/text.animate.dart';
-import 'package:flutter/material.dart';
+import 'package:bingo_game/page/game/left/export.dart';
+import 'package:bingo_game/page/game/right/export.dart';
+import 'package:bingo_game/page/home/banner.dart';
+import 'package:bingo_game/page/home/slide.dart';
+import 'package:bingo_game/socket/socket_manager.dart';
+import 'package:bingo_game/widget/text_field.dart';
 
 import '../../widget/text.custom.dart';
 
@@ -12,96 +15,99 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int generate_number = 0;
-  List<List<int>> grid = [];
+  final TextEditingController controllerTotalRound = TextEditingController();
+  final TextEditingController controllerTimeRound = TextEditingController();
+  final socket_manager = SocketManager();
 
-  void generateGrid() {
-    setState(() {
-      grid =
-          generateUniqueRandomGrid(50); // You can set the maxNumber as needed
-    });
+  @override
+  void initState() {
+    socket_manager.initSocket();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    socket_manager.disposeSocket();
   }
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = const TextTheme().bodyMedium;
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+    final textTheme = const TextTheme().titleMedium;
     return Scaffold(
-      body: SafeArea(
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            TextButton(
-                onPressed: () {
-                  print('generate number');
-                  setState(() {
-                    generate_number = generateRandomNumber(1, 100);
-                  });
-                },
-                child: const Text('generate number')),
-            NumberWidget(
-              n: generate_number,
-            ),
-
-            
-            // grid.isNotEmpty
-            //     ? SizedBox(
-            //         width: MediaQuery.of(context).size.width,
-            //         height: MediaQuery.of(context).size.height / 2,
-            //         child: ListView.builder(
-            //           itemCount: grid.length,
-            //           itemBuilder: (context, index) {
-            //             return Padding(
-            //               padding: const EdgeInsets.all(8.0),
-            //               child: Row(
-            //                 mainAxisAlignment: MainAxisAlignment.center,
-            //                 children: grid[index].map((e) => Container(
-            //                           width: 50.0,
-            //                           alignment: Alignment.center,
-            //                           margin: const EdgeInsets.all(4.0),
-            //                           padding: const EdgeInsets.all(8.0),
-            //                           decoration: BoxDecoration(
-            //                             border: Border.all(),
-            //                             borderRadius: BorderRadius.circular(8.0),
-            //                           ),
-            //                           child: Text(
-            //                             e.toString(),
-            //                             style: TextStyle(fontSize: 16.0),
-            //                           ),
-            //                         ))
-            //                     .toList(),
-            //               ),
-            //             );
-            //           },
-            //         ),
-            //       )
-            // : const SizedBox(height: 0.0,width: 0.0,),
+        appBar: AppBar(
+          actions: [
             Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextButton.icon(
-                    icon: const Icon(Icons.gamepad),
-                    onPressed: () {
-                      debugPrint('start game');
-                      generateGrid();
-                    },
-                    label: textcustom('START GAME', textTheme)),
-                TextButton.icon(
+                
+                ElevatedButton.icon(
                     icon: const Icon(Icons.settings),
                     onPressed: () {
                       debugPrint('reset game');
                     },
                     label: textcustom('RESET GAME', textTheme)),
+                const SizedBox(
+                  width: StringFactory.padding,
+                ),
+                ElevatedButton.icon(
+                    icon: const Icon(Icons.gamepad),
+                    onPressed: () {
+                      debugPrint('start game');
+                    },
+                    label: textcustom('START GAME', textTheme)),
               ],
             ),
           ],
+          centerTitle: false,
+          backgroundColor: Colors.blue,
+          title: textCustomNormalColor(
+              text: 'Bingo Game Settings', color: MyColor.white),
         ),
-      ),
-    ));
+        body: SafeArea(
+          child: Container(
+            padding: const EdgeInsets.all(StringFactory.padding18),
+            height: height,
+            width: width,
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: width,
+                    height: StringFactory.padding42,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        mytextfield(width:width/3,height:StringFactory.padding42,controller: controllerTimeRound , hint: "Round Time",textInit: '${ConfigFactory.timer_duration_time} seconds'),
+                        mytextfield(width:width/3,height:StringFactory.padding42,controller: controllerTotalRound, hint: "Total Round",textInit: '${ConfigFactory.LIST_LENGTH} rounds'),
+                      ],
+                    ),
+                  ),
+                  textCustom(
+                          text: "Image Slide",
+                          color: MyColor.black_text,
+                  ),
+                  SlidePage(
+                    socketManager: socket_manager,
+                  ),
+                  textCustom(text: "Image Banner", color: MyColor.black_text),
+                  BannerPage(
+                    socketManager: socket_manager,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ));
   }
 }

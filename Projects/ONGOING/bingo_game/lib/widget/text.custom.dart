@@ -2,7 +2,7 @@ import 'package:bingo_game/public/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-Widget textcustom(text, style) {
+Widget textcustom(text, style, ) {
   return Text(text, style: style);
 }
 
@@ -19,7 +19,7 @@ Widget textCustomGrey({
 
 
 Widget textCustom(
-    {String? text, double? size, fontWeight = FontWeight.normal}) {
+    {String? text, double? size, fontWeight = FontWeight.normal, required color}) {
   return Text(text!,
       overflow: TextOverflow.ellipsis,
       style: TextStyle(

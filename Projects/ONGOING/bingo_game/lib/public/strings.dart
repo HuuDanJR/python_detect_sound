@@ -7,6 +7,7 @@ class StringFactory {
   static const String mainFont = 'Quicksand';
   static const String titleFont = 'Quantum_Lemon';
   static const String subtitleFont = 'Cinzel';
+  static const double padding0 = 0.0;
   static const double padding = 8.0;
   static const double padding4 = 4.0;
   static const double padding6 = 6.0;
@@ -27,6 +28,8 @@ class StringFactory {
   static const double padding48 = 48.0;
   static const double padding56 = 56.0;
   static const double padding64 = 64.0;
+  static const double padding72= 72.0;
+  static const double padding84= 84.0;
   static const String rateme = 'How did you feel today ?';
   
 
@@ -60,6 +63,13 @@ class StringFactory {
 	static const String COMPUTERNAME = 'win10-tech';
 	static const double aspectRatio = 0.7;
 	static const int crossAxis = 8;
+
+
+	static const String URL_SOCKET = "http://localhost:8099/";
+	static const String URL_BASE = "http://localhost:8099/";
+
+
+  
 
 
 

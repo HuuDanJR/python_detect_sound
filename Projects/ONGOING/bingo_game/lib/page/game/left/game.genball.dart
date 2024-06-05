@@ -1,10 +1,10 @@
 import 'package:bingo_game/page/game/bloc/ball/ball_bloc.dart';
-import 'package:bingo_game/public/colors.dart';
 import 'package:bingo_game/public/config.dart';
 import 'package:bingo_game/public/strings.dart';
 import 'package:bingo_game/widget/image.asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rive/rive.dart';
 
 class GameGenBall extends StatefulWidget {
   final double width;
@@ -57,51 +57,66 @@ class _GameGenBallState extends State<GameGenBall>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(StringFactory.padding24),
-      width: ConfigFactory.area_ball_gen(width: widget.width, height: widget.height).first,
-      height: ConfigFactory.area_ball_gen(width: widget.width, height: widget.height) .last,
-      decoration: BoxDecoration(
-          color: MyColor.black_absulute,
-          borderRadius: BorderRadius.circular(ConfigFactory.borderRadiusCard)),
-      child: BlocListener<BallBloc, BallState>(
-        listener: (context, state) {
-          if (state is BallsLoaded) {
-            _triggerAnimation();
-          }
-        },
-        child: BlocBuilder<BallBloc, BallState>(builder: (context, state) {
-          if (state is BallLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is BallsLoaded) {
-            return AnimatedBuilder(
-                animation: _controller,
-                builder: (context, child) {
-                  return Opacity(
-                    opacity: _fadeAnimation.value,
-                    child: Transform.scale(
-                      scale: _scaleAnimation.value,
-                      child: imageAsset(
-                        isSmall: false,
-                        tag: state.latestBall.tag,
-                        text: '${state.latestBall.number}',
-                        width: ConfigFactory.area_ball_gen(
-                                width: widget.width, height: widget.height)
-                            .first,
-                        height: ConfigFactory.area_ball_gen(
-                                width: widget.width, height: widget.height)
-                            .last,
-                      ),
-                    ),
-                  );
-                });
-          } else if (state is BallError) {
-            return Center(child: Text(state.message));
-          } else {
-            return const Center(child: Text('No balls'));
-          }
-        }),
-      ),
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        SizedBox(
+           width: ConfigFactory.area_ball_gen(width: widget.width, height: widget.height).first,
+          height: ConfigFactory.area_ball_gen(width: widget.width, height: widget.height) .last,
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(56.0),
+              child: const RiveAnimation.asset("assets/animation.riv",fit: BoxFit.cover,)),
+        ),
+        Container(
+          padding: const EdgeInsets.all(StringFactory.padding24),
+          width: ConfigFactory.area_ball_gen(width: widget.width, height: widget.height).first,
+          height: ConfigFactory.area_ball_gen(width: widget.width, height: widget.height) .last,
+          decoration: BoxDecoration(
+              // color: MyColor.black_absulute,
+              borderRadius: BorderRadius.circular(ConfigFactory.borderRadiusCard)),
+          child: 
+          
+          BlocListener<BallBloc, BallState>(
+            listener: (context, state) {
+              if (state is BallsLoaded) {
+                _triggerAnimation();
+              }
+            },
+            child: BlocBuilder<BallBloc, BallState>(builder: (context, state) {
+              if (state is BallLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is BallsLoaded) {
+                return AnimatedBuilder(
+                    animation: _controller,
+                    builder: (context, child) {
+                      return Opacity(
+                        opacity: _fadeAnimation.value,
+                        child: Transform.scale(
+                          scale: _scaleAnimation.value,
+                          child: imageAsset(
+                            isSmall: false,
+                            tag: state.latestBall.tag,
+                            text: '${state.latestBall.number}',
+                            width: ConfigFactory.area_ball_gen(
+                                    width: widget.width, height: widget.height)
+                                .first,
+                            height: ConfigFactory.area_ball_gen(
+                                    width: widget.width, height: widget.height)
+                                .last,
+                          ),
+                        ),
+                      );
+                    });
+              } else if (state is BallError) {
+                return Center(child: Text(state.message));
+              } else {
+                return const Center(child: Text('No balls'));
+              }
+            }),
+          ),
+        ),
+        
+      ],
     );
   }
 }

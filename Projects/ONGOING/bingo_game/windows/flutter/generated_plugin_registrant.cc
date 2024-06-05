@@ -6,6 +6,15 @@
 
 #include "generated_plugin_registrant.h"
 
+#include <media_kit_video/media_kit_video_plugin_c_api.h>
+#include <rive_common/rive_plugin.h>
+#include <screen_brightness_windows/screen_brightness_windows_plugin.h>
 
 void RegisterPlugins(flutter::PluginRegistry* registry) {
+  MediaKitVideoPluginCApiRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("MediaKitVideoPluginCApi"));
+  RivePluginRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("RivePlugin"));
+  ScreenBrightnessWindowsPluginRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("ScreenBrightnessWindowsPlugin"));
 }

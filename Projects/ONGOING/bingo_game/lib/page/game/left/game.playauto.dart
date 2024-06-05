@@ -35,7 +35,7 @@ class GamePlayAuto extends StatelessWidget {
             ),
             textCustomStyle(
                 text: 'NEXT CALL',
-                size: StringFactory.padding20,
+                size: StringFactory.padding24,
                 fontWeight: FontWeight.w500),
             // textCustomStyle(text: '04:35',size: StringFactory.padding20,fontWeight: FontWeight.bold),
             const GameTimerPage()

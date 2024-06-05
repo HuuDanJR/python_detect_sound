@@ -1,8 +1,5 @@
-import 'package:bingo_game/public/colors.dart';
-import 'package:bingo_game/public/strings.dart';
-import 'package:bingo_game/widget/image.asset.dart';
+import 'package:bingo_game/page/game/right/export.dart';
 import 'package:bingo_game/widget/text.custom.dart';
-import 'package:flutter/material.dart';
 
 
 Widget myprogress_circular(){
@@ -14,6 +11,18 @@ Widget myprogress_circular(){
                   ));
 }
 
+
+Widget myprogress_circular_size(){
+	return const Center(
+                    child: SizedBox(
+                      height: StringFactory.padding24,
+                      width: StringFactory.padding24,
+                      child: CircularProgressIndicator(
+                      color: MyColor.grey,
+                      strokeWidth: 1,
+                      backgroundColor: MyColor.grey_tab, ),
+                    ));
+}
 
 
 Widget myprogress_circular_icon() {

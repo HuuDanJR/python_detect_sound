@@ -27,7 +27,6 @@ class GameTimerView extends StatefulWidget {
 class _GameTimerViewState extends State<GameTimerView> {
   @override
   void initState() {
-    print('initstate');
     super.initState();
   }
 
@@ -40,17 +39,17 @@ class _GameTimerViewState extends State<GameTimerView> {
         switch (state.status) {
           case TimerStatus.initial:
             if (state.isFirstRun) {
-              debugPrint('first run');
+              // debugPrint('first run');
               addBallNew(id: state.tickCount, number: state.number, tag: '');
             } else {
-              debugPrint('not first run');
+              // debugPrint('not first run');
             }
             break;
           case TimerStatus.ticking:
-            debugPrint('ticking state');
+            // debugPrint('ticking state');
             break;
           case TimerStatus.finish:
-            debugPrint('finish state');
+            // debugPrint('finish state');
             addBallNew(id: state.tickCount, number: state.number, tag: '');
             break;
           case TimerStatus.failure:
@@ -62,7 +61,7 @@ class _GameTimerViewState extends State<GameTimerView> {
           children: [
             textCustomStyle(
               text: '$minutes:$seconds',
-              size: StringFactory.padding20,
+              size: StringFactory.padding24,
               fontWeight: FontWeight.bold,
             ),
             // Text(

@@ -1,15 +1,11 @@
 import 'package:bingo_game/model/ball.dart';
-import 'package:bingo_game/page/game/bloc/ball/ball_bloc.dart';
 import 'package:bingo_game/page/game/left/export.dart';
-import 'package:bingo_game/public/colors.dart';
-import 'package:bingo_game/public/config.dart';
-import 'package:bingo_game/public/strings.dart';
 import 'package:bingo_game/widget/text.custom.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BallCreatedPage extends StatefulWidget {
-  const BallCreatedPage({super.key});
+  final double padding;
+  final double margin;
+  const BallCreatedPage({super.key,required this.padding,required this.margin});
 
   @override
   State<BallCreatedPage> createState() => _BallCreatedPageState();
@@ -62,13 +58,14 @@ class _BallCreatedPageState extends State<BallCreatedPage>
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Container(
-      padding: const EdgeInsets.symmetric(
-          horizontal: StringFactory.padding24,
-          vertical: StringFactory.padding24),
-      margin: const EdgeInsets.symmetric(horizontal: StringFactory.padding24),
+      padding:  EdgeInsets.symmetric(
+          horizontal: widget.padding,
+          vertical: widget.padding
+      ),
+      margin:  EdgeInsets.symmetric(horizontal: widget.margin),
       alignment: Alignment.topCenter,
       width: ConfigFactory.ratio_width_parent(width: width),
-      height: ConfigFactory.ratio_height_parent(height: height) * 6.5 / 10,
+      height: ((ConfigFactory.ratio_height_parent(height: height) * 6.85) / 10) - StringFactory.padding56,
       // color: MyColor.grey_tab,
       child: BlocListener<BallBloc, BallState>(
         listener: (context, state) {
@@ -88,10 +85,12 @@ class _BallCreatedPageState extends State<BallCreatedPage>
                 ),
                 itemBuilder: (context, index) {
                   final ball = ballsGenerate[index];
-                  final isBallPresent = state.balls.any((b) => b.number == ball.number);
+                  final isBallPresent =
+                      state.balls.any((b) => b.number == ball.number);
                   Color color;
                   if (isBallPresent) {
-                    final matchingBall = state.balls.firstWhere((b) => b.number == ball.number);
+                    final matchingBall =
+                        state.balls.firstWhere((b) => b.number == ball.number);
                     switch (matchingBall.tag) {
                       case ConfigFactory.tag_green:
                         color = MyColor.green;
@@ -115,7 +114,7 @@ class _BallCreatedPageState extends State<BallCreatedPage>
                   } else {
                     color = MyColor.grey;
                   }
-                  
+
                   return textCustomNormalColor(
                     color: color,
                     text: ball.number.toString(),
