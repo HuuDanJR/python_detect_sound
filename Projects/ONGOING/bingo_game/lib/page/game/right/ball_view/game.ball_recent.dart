@@ -26,7 +26,7 @@ class RecentBallPage extends StatelessWidget {
         // margin:  EdgeInsets.symmetric(horizontal: margin),
         decoration: BoxDecoration(
             color: MyColor.black_absulute,
-            borderRadius: BorderRadius.circular(StringFactory.padding72)),
+            borderRadius: BorderRadius.circular(StringFactory.padding64)),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,

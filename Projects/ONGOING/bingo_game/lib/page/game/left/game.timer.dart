@@ -1,10 +1,10 @@
-
 import 'package:bingo_game/model/ball.dart';
 import 'package:bingo_game/page/game/bloc/timer/timer_bloc.dart';
 import 'package:bingo_game/public/strings.dart';
 import 'package:bingo_game/widget/text.custom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uuid/uuid.dart';
 
 import '../bloc/ball/ball_bloc.dart';
 
@@ -19,15 +19,18 @@ class GameTimerPage extends StatelessWidget {
 
 class GameTimerView extends StatefulWidget {
   const GameTimerView({super.key});
+ 
 
   @override
   State<GameTimerView> createState() => _GameTimerViewState();
 }
 
 class _GameTimerViewState extends State<GameTimerView> {
+   late Uuid genId = const Uuid();
   @override
   void initState() {
     super.initState();
+    // context.read<TimerBloc>().add(const SkipTicks(20)); // Skip 2 ticks
   }
 
   @override
@@ -41,6 +44,7 @@ class _GameTimerViewState extends State<GameTimerView> {
             if (state.isFirstRun) {
               // debugPrint('first run');
               addBallNew(id: state.tickCount, number: state.number, tag: '');
+              
             } else {
               // debugPrint('not first run');
             }
@@ -49,7 +53,7 @@ class _GameTimerViewState extends State<GameTimerView> {
             // debugPrint('ticking state');
             break;
           case TimerStatus.finish:
-            // debugPrint('finish state');
+            // debugPrint('TimerStatus.finish: ${state.tickCount} : ${state.number} ');
             addBallNew(id: state.tickCount, number: state.number, tag: '');
             break;
           case TimerStatus.failure:
@@ -85,7 +89,6 @@ class _GameTimerViewState extends State<GameTimerView> {
       status: 'created',
     );
     context.read<BallBloc>().add(AddBall(ball: ball));
-    
   }
 }
 

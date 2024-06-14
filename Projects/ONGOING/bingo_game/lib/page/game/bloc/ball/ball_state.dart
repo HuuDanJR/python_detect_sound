@@ -16,14 +16,14 @@ class BallInitial extends BallState {
 
 class BallLoading extends BallState {}
 
-//state all balls
+//state all balls 
 class BallsLoaded extends BallState {
   final List<Ball> balls;
   final List<Ball> ballsRecent;
   final Ball latestBall;
   const BallsLoaded({required this.balls, required this.latestBall,required this.ballsRecent});
   @override
-  List<Object> get props => [balls, latestBall,ballsRecent];
+  List<Object> get props => [balls, latestBall, ballsRecent];
 }
 
 class BallError extends BallState {
@@ -31,4 +31,13 @@ class BallError extends BallState {
   const BallError({required this.message});
   @override
   List<Object> get props => [message];
+}
+
+
+class BallsInitialized extends BallState {
+  final List<Ball> initialBalls;
+  const BallsInitialized({required this.initialBalls});
+
+  @override
+  List<Object> get props => [initialBalls];
 }

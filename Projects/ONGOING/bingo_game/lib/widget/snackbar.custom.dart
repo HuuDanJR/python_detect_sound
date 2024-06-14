@@ -36,7 +36,7 @@ mysnackBar(message) {
 mysnackbarWithContext(
     {required BuildContext context, required String message,required bool hasIcon}) {
   return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    duration: const Duration(milliseconds: 400),
+    duration: const Duration(milliseconds: 1000),
     content: Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,

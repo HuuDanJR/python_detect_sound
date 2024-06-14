@@ -61,7 +61,7 @@ class _RecentBallBodyState extends State<RecentBallBody> with SingleTickerProvid
           if (state is BallLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is BallsLoaded) {
-            final reversedBalls = state.ballsRecent.reversed.toList();
+            final reversedBalls = state.balls.reversed.take(5).toList();
             return Center(
               child: GridView.builder(
                 reverse: true,

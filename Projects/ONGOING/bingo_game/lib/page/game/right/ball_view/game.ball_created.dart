@@ -15,6 +15,29 @@ class _BallCreatedPageState extends State<BallCreatedPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
+  List<Ball> ballsGenerate = [
+    // Ball(id: 1, number: 1, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+    // Ball(id: 2, number: 2, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+    // Ball(id: 3, number: 3, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+    // Ball(id: 4, number: 4, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+    // Ball(id: 5, number: 5, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+    // Ball(id: 6, number: 6, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+    // Ball(id: 7, number: 7, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+    // Ball(id: 8, number: 8, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+    // Ball(id: 9, number: 9, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+    // Ball(id: 10, number: 10, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+    // Ball(id: 11, number: 11, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+    // Ball(id: 12, number: 12, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+    // Ball(id: 13, number: 13, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+    // Ball(id: 10, number: 10, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+    // Ball(id: 14, number: 14, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+    // Ball(id: 15, number: 15, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+    // Ball(id: 16, number: 16, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+    // Ball(id: 17, number: 17, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+    // Ball(id: 18, number: 18, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+    // Ball(id: 19, number: 19, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+    // Ball(id: 20, number: 20, tag: ConfigFactory.tag_yellow, isCreated: true, status: 'added'),
+  ];
 
   @override
   void initState() {
@@ -29,6 +52,8 @@ class _BallCreatedPageState extends State<BallCreatedPage>
     );
 
     _controller.forward();
+    // Trigger the InitializeBalls event
+    context.read<BallBloc>().add(InitializeBalls(initialBalls: ballsGenerate));
   }
 
   void _triggerAnimation() {
@@ -85,12 +110,10 @@ class _BallCreatedPageState extends State<BallCreatedPage>
                 ),
                 itemBuilder: (context, index) {
                   final ball = ballsGenerate[index];
-                  final isBallPresent =
-                      state.balls.any((b) => b.number == ball.number);
+                  final isBallPresent = state.balls.any((b) => b.number == ball.number);
                   Color color;
                   if (isBallPresent) {
-                    final matchingBall =
-                        state.balls.firstWhere((b) => b.number == ball.number);
+                    final matchingBall =  state.balls.firstWhere((b) => b.number == ball.number);
                     switch (matchingBall.tag) {
                       case ConfigFactory.tag_green:
                         color = MyColor.green;

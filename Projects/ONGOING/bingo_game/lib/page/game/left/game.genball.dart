@@ -1,10 +1,10 @@
 import 'package:bingo_game/page/game/bloc/ball/ball_bloc.dart';
+import 'package:bingo_game/public/colors.dart';
 import 'package:bingo_game/public/config.dart';
 import 'package:bingo_game/public/strings.dart';
 import 'package:bingo_game/widget/image.asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rive/rive.dart';
 
 class GameGenBall extends StatefulWidget {
   final double width;
@@ -25,6 +25,7 @@ class _GameGenBallState extends State<GameGenBall>
   @override
   void initState() {
     super.initState();
+
     _controller = AnimationController(
       duration: const Duration(seconds: ConfigFactory.delay_animation),
       vsync: this,
@@ -42,6 +43,8 @@ class _GameGenBallState extends State<GameGenBall>
       end: const Offset(0.0, 0.0), // End at original position
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
     _controller.forward();
+
+    
   }
 
   void _triggerAnimation() {
@@ -60,19 +63,19 @@ class _GameGenBallState extends State<GameGenBall>
     return Stack(
       alignment: Alignment.center,
       children: [
-        SizedBox(
-           width: ConfigFactory.area_ball_gen(width: widget.width, height: widget.height).first,
-          height: ConfigFactory.area_ball_gen(width: widget.width, height: widget.height) .last,
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(56.0),
-              child: const RiveAnimation.asset("assets/animation.riv",fit: BoxFit.cover,)),
-        ),
+        // SizedBox(
+        //    width: ConfigFactory.area_ball_gen(width: widget.width, height: widget.height).first,
+        //   height: ConfigFactory.area_ball_gen(width: widget.width, height: widget.height) .last,
+        //   child: ClipRRect(
+        //       borderRadius: BorderRadius.circular(56.0),
+        //       child: const RiveAnimation.asset("assets/animation.riv",fit: BoxFit.cover,)),
+        // ),
         Container(
           padding: const EdgeInsets.all(StringFactory.padding24),
           width: ConfigFactory.area_ball_gen(width: widget.width, height: widget.height).first,
           height: ConfigFactory.area_ball_gen(width: widget.width, height: widget.height) .last,
           decoration: BoxDecoration(
-              // color: MyColor.black_absulute,
+              color: MyColor.black_absulute,
               borderRadius: BorderRadius.circular(ConfigFactory.borderRadiusCard)),
           child: 
           
@@ -98,11 +101,9 @@ class _GameGenBallState extends State<GameGenBall>
                             tag: state.latestBall.tag,
                             text: '${state.latestBall.number}',
                             width: ConfigFactory.area_ball_gen(
-                                    width: widget.width, height: widget.height)
-                                .first,
+                                    width: widget.width, height: widget.height).first,
                             height: ConfigFactory.area_ball_gen(
-                                    width: widget.width, height: widget.height)
-                                .last,
+                                    width: widget.width, height: widget.height).last,
                           ),
                         ),
                       );

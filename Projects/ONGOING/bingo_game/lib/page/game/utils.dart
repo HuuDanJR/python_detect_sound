@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:bingo_game/page/game/right/export.dart';
 import 'package:bingo_game/public/config.dart';
 
 // int generateUniqueNumber(Set<int> existingNumbers) {
@@ -27,7 +28,11 @@ int generateUniqueNumber(List<int> existingNumbers, {bool initial = false}) {
   } else {
     do {
       number = random.nextInt(ConfigFactory.LIST_LENGTH) + 1; // Generate a number between 1 and 75
+      if (existingNumbers.contains(number)) {
+        // debugPrint('Duplicate found: $number');
+      }
     } while (existingNumbers.contains(number)); // Ensure uniqueness
   }
+  // debugPrint('generateUniqueNumber: $number');
   return number;
 }

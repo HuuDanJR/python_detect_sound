@@ -1,8 +1,7 @@
-import 'package:bingo_game/public/colors.dart';
+import 'package:bingo_game/page/game/right/export.dart';
 import 'package:bingo_game/socket/socket_manager.dart';
 import 'package:bingo_game/widget/myprogress_circular.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
 
 class GameBanner extends StatelessWidget {
   final double width;
@@ -14,12 +13,13 @@ class GameBanner extends StatelessWidget {
     final SocketManager socketManager = SocketManager();
     return Container(
         width: width,
+        // padding: const EdgeInsets.symmetric(horizontal:StringFactory.padding24),
         height: height,
         alignment: Alignment.center,
         decoration: const BoxDecoration(
-          border: Border(
-            top: BorderSide(width: 1, color: MyColor.grey_tab),
-          ),
+          // border: Border(
+          //   top: BorderSide(width: 1, color: MyColor.grey_tab),
+          // ),
         ),
         child: StreamBuilder<List<Map<String, dynamic>>>(
           stream: socketManager.dataStreamBanner,
@@ -48,8 +48,8 @@ class GameBanner extends StatelessWidget {
                   itemCount: filteredData.length,
                   itemBuilder: (context, index) {
                     return
-                        // Text('${filteredData[index]['index']}  | ${filteredData[index]['status']}');
-                      Center(
+                      ClipRRect(
+                      borderRadius: BorderRadius.circular(StringFactory.padding42),
                       child: CachedNetworkImage(
                         width: width,
                         height: height,

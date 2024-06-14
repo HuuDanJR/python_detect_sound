@@ -8,11 +8,13 @@ class TimerState extends Equatable {
   final TimerStatus status;
   final int number;
   final bool isFirstRun;
+  final int skip;
 
-  const TimerState(
-      this.duration, this.tickCount, this.status, this.number, this.isFirstRun);
+      
 
-  factory TimerState.initial({number}) {
+  const TimerState(this.duration, this.tickCount, this.status, this.number, this.isFirstRun,this.skip);
+
+  factory TimerState.initial({number,int skip = 0}) {
     final generatedNumber = number ??
         generateUniqueNumber([],initial: true) ??
         0; // Use the provided number or generate a default one, fallback to 0 if null
@@ -22,6 +24,8 @@ class TimerState extends Equatable {
       TimerStatus.initial,
       generatedNumber,
       true,
+      // 0, // Initial skip value
+      skip
     );
   }
 
@@ -30,21 +34,23 @@ class TimerState extends Equatable {
       int? tickCount,
       TimerStatus? status,
       int? number,
-      bool? isFirstRun}) {
+      bool? isFirstRun,
+      int? skip}) {
     return TimerState(
       duration ?? this.duration,
       tickCount ?? this.tickCount,
       status ?? this.status,
       number ?? this.number,
       isFirstRun ?? this.isFirstRun,
+      skip ?? this.skip,
     );
   }
 
   @override
   String toString() {
-    return 'TimerState {duration: $duration, tickCount: $tickCount, status: $status, number: $number, isFirstRun: $isFirstRun}';
+    return 'TimerState {duration: $duration, tickCount: $tickCount, status: $status, number: $number, isFirstRun: $isFirstRun, skip: $skip}';
   }
 
   @override
-  List<Object?> get props => [duration, tickCount, status, number, isFirstRun];
+  List<Object?> get props => [duration, tickCount, status, number, isFirstRun,skip];
 }

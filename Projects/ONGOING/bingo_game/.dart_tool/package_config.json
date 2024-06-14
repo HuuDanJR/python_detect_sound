@@ -2,10 +2,22 @@
   "configVersion": 2,
   "packages": [
     {
-      "name": "archive",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/archive-3.6.1",
+      "name": "_fe_analyzer_shared",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/_fe_analyzer_shared-68.0.0",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "_macros",
+      "rootUri": "file:///opt/homebrew/Caskroom/flutter/3.10.6/flutter/bin/cache/dart-sdk/pkg/_macros",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "analyzer",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/analyzer-6.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
     },
     {
       "name": "args",
@@ -32,6 +44,54 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "build",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/build-2.4.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "build_config",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/build_config-1.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "build_daemon",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/build_daemon-4.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "build_resolvers",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/build_resolvers-2.4.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "build_runner",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/build_runner-2.4.11",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "build_runner_core",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/build_runner_core-7.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "built_collection",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/built_collection-5.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "built_value",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/built_value-8.9.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "cached_network_image",
       "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/cached_network_image-3.3.1",
       "packageUri": "lib/",
@@ -56,14 +116,32 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "checked_yaml",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/checked_yaml-2.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
       "name": "clock",
       "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/clock-1.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
+      "name": "code_builder",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/code_builder-4.10.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "collection",
       "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/collection-1.18.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "convert",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/convert-3.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -86,10 +164,16 @@
       "languageVersion": "3.1"
     },
     {
-      "name": "dbus",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/dbus-0.7.10",
+      "name": "dart_style",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/dart_style-2.3.6",
       "packageUri": "lib/",
-      "languageVersion": "2.17"
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "dio",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/dio-5.4.3+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
     },
     {
       "name": "equatable",
@@ -158,10 +242,22 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "frontend_server_client",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/frontend_server_client-4.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "get",
       "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/get-4.6.6",
       "packageUri": "lib/",
       "languageVersion": "2.15"
+    },
+    {
+      "name": "glob",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/glob-2.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
     },
     {
       "name": "graphs",
@@ -182,6 +278,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "hive_generator",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/hive_generator-2.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "html",
       "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/html-0.15.4",
       "packageUri": "lib/",
@@ -194,16 +296,16 @@
       "languageVersion": "3.3"
     },
     {
-      "name": "http_parser",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/http_parser-4.0.2",
+      "name": "http_multi_server",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/http_multi_server-3.2.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
-      "name": "image",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/image-4.2.0",
+      "name": "http_parser",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/http_parser-4.0.2",
       "packageUri": "lib/",
-      "languageVersion": "2.15"
+      "languageVersion": "2.12"
     },
     {
       "name": "intl",
@@ -212,10 +314,22 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "io",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/io-1.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "js",
       "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/js-0.6.7",
       "packageUri": "lib/",
       "languageVersion": "2.19"
+    },
+    {
+      "name": "json_annotation",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/json_annotation-4.9.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
     },
     {
       "name": "leak_tracker",
@@ -242,10 +356,22 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "localstorage",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/localstorage-5.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
       "name": "logging",
       "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/logging-1.2.0",
       "packageUri": "lib/",
       "languageVersion": "2.19"
+    },
+    {
+      "name": "macros",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/macros-0.1.0-main.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
     },
     {
       "name": "matcher",
@@ -260,22 +386,16 @@
       "languageVersion": "2.17"
     },
     {
-      "name": "media_kit",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/media_kit-1.1.10+1",
-      "packageUri": "lib/",
-      "languageVersion": "2.17"
-    },
-    {
-      "name": "media_kit_video",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/media_kit_video-1.2.4",
-      "packageUri": "lib/",
-      "languageVersion": "2.17"
-    },
-    {
       "name": "meta",
       "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/meta-1.14.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "mime",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/mime-1.0.5",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
     },
     {
       "name": "nested",
@@ -290,16 +410,10 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "package_info_plus",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/package_info_plus-8.0.0",
+      "name": "package_config",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/package_config-2.1.0",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
-    },
-    {
-      "name": "package_info_plus_platform_interface",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/package_info_plus_platform_interface-3.0.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "2.12"
     },
     {
       "name": "path",
@@ -344,12 +458,6 @@
       "languageVersion": "2.19"
     },
     {
-      "name": "petitparser",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/petitparser-6.0.2",
-      "packageUri": "lib/",
-      "languageVersion": "3.2"
-    },
-    {
       "name": "platform",
       "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/platform-3.1.4",
       "packageUri": "lib/",
@@ -362,10 +470,28 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "pool",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/pool-1.5.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "provider",
       "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/provider-6.1.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "pub_semver",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/pub_semver-2.1.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "pubspec_parse",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/pubspec_parse-1.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
     },
     {
       "name": "rive",
@@ -386,46 +512,16 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "safe_local_storage",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/safe_local_storage-1.0.2",
+      "name": "shelf",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/shelf-1.4.1",
       "packageUri": "lib/",
-      "languageVersion": "2.16"
+      "languageVersion": "2.17"
     },
     {
-      "name": "screen_brightness",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/screen_brightness-0.2.2+1",
+      "name": "shelf_web_socket",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/shelf_web_socket-2.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "screen_brightness_android",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/screen_brightness_android-0.1.0+2",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "screen_brightness_ios",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/screen_brightness_ios-0.1.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "screen_brightness_macos",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/screen_brightness_macos-0.1.0+1",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "screen_brightness_platform_interface",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/screen_brightness_platform_interface-0.1.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "screen_brightness_windows",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/screen_brightness_windows-0.1.3",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "3.0"
     },
     {
       "name": "sky_engine",
@@ -444,6 +540,18 @@
       "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/socket_io_common-2.0.3",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "source_gen",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/source_gen-1.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "source_helper",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/source_helper-1.3.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
     },
     {
       "name": "source_span",
@@ -482,6 +590,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "stream_transform",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/stream_transform-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
       "name": "string_scanner",
       "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/string_scanner-1.2.0",
       "packageUri": "lib/",
@@ -506,22 +620,16 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "timing",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/timing-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
       "name": "typed_data",
       "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/typed_data-1.3.2",
       "packageUri": "lib/",
       "languageVersion": "2.17"
-    },
-    {
-      "name": "universal_platform",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/universal_platform-1.1.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "uri_parser",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/uri_parser-2.0.2",
-      "packageUri": "lib/",
-      "languageVersion": "2.16"
     },
     {
       "name": "uuid",
@@ -566,38 +674,32 @@
       "languageVersion": "3.3"
     },
     {
-      "name": "video_player_web_hls",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/video_player_web_hls-1.2.1",
-      "packageUri": "lib/",
-      "languageVersion": "3.3"
-    },
-    {
       "name": "vm_service",
       "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/vm_service-14.2.1",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
-      "name": "volume_controller",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/volume_controller-2.0.7",
+      "name": "watcher",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/watcher-1.1.0",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "wakelock_plus",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/wakelock_plus-1.2.5",
-      "packageUri": "lib/",
-      "languageVersion": "3.3"
-    },
-    {
-      "name": "wakelock_plus_platform_interface",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/wakelock_plus_platform_interface-1.2.1",
-      "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.0"
     },
     {
       "name": "web",
       "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/web-0.5.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "web_socket",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/web_socket-0.1.5",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "web_socket_channel",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/web_socket_channel-3.0.0",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -614,10 +716,10 @@
       "languageVersion": "3.0"
     },
     {
-      "name": "xml",
-      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/xml-6.5.0",
+      "name": "yaml",
+      "rootUri": "file:///Users/thomas.dan/.pub-cache/hosted/pub.dev/yaml-3.1.2",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "2.19"
     },
     {
       "name": "bingo_game",
@@ -626,7 +728,7 @@
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2024-06-05T05:12:24.725639Z",
+  "generated": "2024-06-13T09:42:20.439180Z",
   "generator": "pub",
   "generatorVersion": "3.5.0-113.0.dev",
   "flutterRoot": "file:///opt/homebrew/Caskroom/flutter/3.10.6/flutter",

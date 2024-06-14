@@ -31,11 +31,20 @@ class RetrieveBall extends BallEvent {
 }
 class RetrieveLatestBall extends BallEvent {
   const RetrieveLatestBall();
-}
+} 
 class RetrieveRecentBalls extends BallEvent {
   const RetrieveRecentBalls();
 }
 
 class RetrieveAllBalls extends BallEvent {
   const RetrieveAllBalls();
+}
+
+
+class InitializeBalls extends BallEvent {
+  final List<Ball> initialBalls;
+  const InitializeBalls({required this.initialBalls});
+
+  @override
+  List<Object> get props => [initialBalls];
 }

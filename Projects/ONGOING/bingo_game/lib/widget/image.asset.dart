@@ -35,7 +35,7 @@ Widget imageAsset({required double width, required double height,required String
         width: width,
         height: height,
       ),
-      textCustomStyle(text: text, size:isSmall==true ? StringFactory.padding28 : StringFactory.padding64, fontWeight: FontWeight.bold)
+      textCustomStyle(text: text, size:isSmall==true ? StringFactory.padding28 : StringFactory.padding72, fontWeight: FontWeight.bold)
     ],
   );
 }

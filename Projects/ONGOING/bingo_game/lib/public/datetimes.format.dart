@@ -42,6 +42,10 @@ class StringFormat {
     String formattedDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(value);
     return formattedDate;
   }
+  String formatDateAndTimeCode(value) {
+    String formattedDate = DateFormat('HH:mm MM-dd').format(value);
+    return formattedDate;
+  }
   String formatTimeAndDate(value) {
     String formattedDate = DateFormat('HH:mm dd/MM/yyyy').format(value);
     return formattedDate;

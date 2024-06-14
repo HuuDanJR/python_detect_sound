@@ -27,6 +27,18 @@ class Tick extends TimerEvent {
 }
 
 
+
+//skip tick count when initialize a ball list
+class SkipTicks extends TimerEvent {
+  final int skip;
+
+  const SkipTicks(this.skip);
+
+  @override
+  List<Object> get props => [skip];
+}
+
+
 //check whether timer is finish
 class TickFinished extends TimerEvent {
   const TickFinished();

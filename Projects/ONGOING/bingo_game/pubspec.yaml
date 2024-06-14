@@ -31,6 +31,7 @@ dependencies:
   bloc: ^8.1.4
   cached_network_image: ^3.3.1
   cupertino_icons: ^1.0.6
+  dio: ^5.4.3+1
   equatable: ^2.0.5
   flutter:
     sdk: flutter
@@ -39,17 +40,18 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   intl: ^0.19.0
-  media_kit: ^1.1.10+1
-  media_kit_video: ^1.2.4
+  localstorage: ^5.0.0
   rive: ^0.13.5
   socket_io_client: ^2.0.3+1
+  uuid: ^4.4.0
   video_player: ^2.8.6
-  video_player_web_hls: ^1.2.1
 
 dev_dependencies:
+  build_runner: null
   flutter_lints: ^3.0.0
   flutter_test:
     sdk: flutter
+  hive_generator: null
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -77,6 +79,7 @@ flutter:
     - assets/icons/ball_green.png
     - assets/animation.riv
     - assets/videos/video.mov
+    - assets/videos/my_video.mov
   # - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -93,6 +96,13 @@ flutter:
       fonts:
         - asset: assets/fonts/Rubik-VariableFont_wght.ttf
         - asset: assets/fonts/Rubik-Italic-VariableFont_wght.ttf
+        - asset: assets/fonts/Raleway,Rubik/Rubik/Rubik-VariableFont_wght.ttf
+    - family: LibreBaskerville
+      fonts:
+        - asset: assets/fonts/LibreBaskerville-Regular.ttf
+        - asset: assets/fonts/LibreBaskerville-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/LibreBaskerville-Italic.ttf
           style: italic
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

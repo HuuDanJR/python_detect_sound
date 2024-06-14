@@ -1,8 +1,7 @@
-import 'package:bingo_game/public/colors.dart';
+import 'package:bingo_game/page/game/right/export.dart';
 import 'package:bingo_game/socket/socket_manager.dart';
 import 'package:bingo_game/widget/myprogress_circular.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
 
 class GameImagePage extends StatefulWidget {
   final double width;
@@ -32,10 +31,12 @@ class _GameImagePageState extends State<GameImagePage> {
         width: widget.width,
         height: widget.height,
         alignment: Alignment.center,
+        padding: const EdgeInsets.only(top: StringFactory.padding24),
         decoration: const BoxDecoration(
-          border: Border(
-            bottom: BorderSide(width: 1, color: MyColor.grey_tab),
-          ),
+          // border: Border(
+          //   bottom: BorderSide(width: 1, color: MyColor.grey_tab),
+          // ),
+          // color:MyColor.grey_tab,
         ),
         child: StreamBuilder<List<Map<String, dynamic>>>(
           stream: SocketManager().dataStream,
@@ -63,9 +64,10 @@ class _GameImagePageState extends State<GameImagePage> {
                   padding: const EdgeInsets.all(0),
                   itemCount: filteredData.length,
                   itemBuilder: (context, index) {
-                    return
+                    
                         // Text('${filteredData[index]['index']}  | ${filteredData[index]['status']}');
-                    Center(
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(StringFactory.padding24),
                       child: CachedNetworkImage(
                         width: widget.width,
                         height: widget.height,
