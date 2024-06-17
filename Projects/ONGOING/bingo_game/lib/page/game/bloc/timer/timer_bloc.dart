@@ -13,34 +13,136 @@ part 'timer_state.dart';
 part 'timer_event.dart';
 
 class TimerBloc extends Bloc<TimerEvent, TimerState> {
-  static const int _initialDuration =ConfigFactory.timer_duration_time; // Initial duration in seconds
-  static const int _maxTickCount = ConfigFactory.timer_max_round; // Maximum number of times the timer can restart
+  static late int _initialDuration  ; // Initial duration in seconds
+  static late int _maxTickCount ; // Maximum number of times the timer can restart
+  static late int _listLength ; // Maximum number of times the timer can restart
+  // static int _initialDuration = ConfigFactory.timer_duration_time; // Initial duration in seconds
+  // static int _maxTickCount = ConfigFactory.timer_max_round; // Maximum number of times the timer can restart
+  void getSetting()async{
+    await HiveController().getSetting().then((value){
+        if (value != null) {
+        _initialDuration = value.timeDuration;
+        _maxTickCount = value.totalRound-1; // Assuming roundInitial is List<int>
+        _listLength = value.totalRound; // Assuming roundInitial is List<int>
+      }});
+  }
+
+  final HiveController hiveController = HiveController();
   Timer? _timer;
-  final serviceApi = ServiceAPIs();
+  bool _isPaused = false; //detect pause game or not
+  final ServiceAPIs serviceApi = ServiceAPIs();
 
   TimerBloc({int skip = 0}) : super(TimerState.initial(skip: skip)) {
+    getSetting();
+    
+    on<InitializeSettings>((event, emit) async {
+      debugPrint('InitializeSettings run');
+    });
+
     on<StartTimer>((event, emit) {
       emit(state.copyWith(
-          tickCount: state.tickCount,
-          number: state.number,
-          isFirstRun: state.tickCount == 0 ? true : false));
+        tickCount: state.tickCount,
+        number: state.number,
+        isFirstRun: state.tickCount == 0  ? true : false,
+      ));
       _startTimer(event.context);
     });
+
     on<RestartTimer>((event, emit) {
       emit(
         state.copyWith(
-            duration: _initialDuration,
-            tickCount: state.tickCount + 1,
-            number: state.number,
-            isFirstRun: false),
+          duration: _initialDuration,
+          tickCount: state.tickCount + 1,
+          number: state.number,
+          isFirstRun: false,
+        ),
       );
       _startTimer(event.context); // Start the timer again
     });
+
     on<TickFinished>((event, emit) {});
 
     on<SkipTicks>((event, emit) {
-      //add ball here
-      emit(state.copyWith(tickCount: event.skip,duration: _initialDuration,number: state.number,isFirstRun: true));
+      emit(state.copyWith(
+        tickCount: event.skip,
+        duration: _initialDuration,
+        number: state.number,
+        isFirstRun: true,
+      ));
+    });
+
+    //pause
+    on<PauseTimer>((event, emit) {
+      _isPaused = true;
+      _timer?.cancel();
+    });
+    //resume
+    on<ResumeTimer>((event, emit) {
+      if (_isPaused) {
+        _isPaused = false;
+        _startTimer(event.context);
+      }
+    });
+    on<TogglePauseResume>((event, emit) {
+      if (state.status == TimerStatus.ticking) {
+        _timer?.cancel();
+        emit(state.copyWith(status: TimerStatus.paused));
+      } else if (state.status == TimerStatus.paused) {
+        _startTimer(event.context);
+        emit(state.copyWith(status: TimerStatus.ticking));
+      }
+    });
+    
+    on<StopTimer>((event, emit) {
+      _timer?.cancel();
+      emit(state.copyWith(status: TimerStatus.finish));
+
+      // Show dialog alert indicating the game has finished
+      showDialog(
+        context: event.context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: textcustom(
+              "Game Finish",
+              const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            content: textcustom(
+              "Bingo Game has been finished 🎉.\nAll numbers were called.\nTotal times: ${state.tickCount + 1}\nClick save button for history",
+              const TextStyle(fontWeight: FontWeight.w600),
+            ),
+            actions: <Widget>[
+              TextButton.icon(
+                icon: const Icon(Icons.check),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Dismiss the dialog
+                },
+                label: const Text("CANCEL"),
+              ),
+              TextButton.icon(
+                icon: const Icon(Icons.save_alt),
+                onPressed: () {
+                  HiveController().getLatestRound().then((value) {
+                    serviceApi.createNewGame(
+                      game_name: 'G.${format.formatDateAndTimeCode(DateTime.now())}',
+                      enable: false,
+                      round: value!.round,
+                    ).then((v) {
+                      if (v['status'] == true) {
+                        mysnackbarWithContext(
+                          context: context,
+                          hasIcon: false,
+                          message: v['message'],
+                        );
+                      }
+                    }).whenComplete(() => Navigator.of(context).pop());
+                  });
+                },
+                label: const Text("SAVE"),
+              ),
+            ],
+          );
+        },
+      );
     });
 
     on<Tick>((event, emit) {
@@ -51,30 +153,34 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
         ));
       } else {
         _timer?.cancel();
-        late final newNumber = generateUniqueNumber([],initial: false); // Pass an empty set as existingNumbers
-        // mysnackbarWithContext(
-        //     context: event.context,
-        //     message: "Timer completed, Generated a number $newNumber, times: ${state.tickCount + 1}",
-        //     hasIcon: false);
-        debugPrint('times: ${state.tickCount  +1 } ');
-        emit(state.copyWith(duration: 0, status: TimerStatus.finish, number: newNumber));
+        late final newNumber = generateUniqueNumber([], initial: false,); // Pass an empty set as existingNumbers
+        debugPrint('times: ${state.tickCount + 1} ');
+        emit(state.copyWith(
+          duration: 0,
+          status: TimerStatus.finish,
+          number: newNumber,
+        ));
         add(const TickFinished()); // Emit TickFinished event
         if (state.tickCount == _maxTickCount) {
-          debugPrint('stop timer,end game');
+          debugPrint('stop timer, end game');
           mysnackbarWithContext(
-              context: event.context,
-              message: "Game completed ! total times: ${state.tickCount + 1}",
-              hasIcon: true);
+            context: event.context,
+            message: "Game completed! Total times: ${state.tickCount + 1}",
+            hasIcon: true,
+          );
           // Show dialog
           showDialog(
             context: event.context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: textcustom("Game Finish",
-                    const TextStyle(fontWeight: FontWeight.bold)),
+                title: textcustom(
+                  "Game Finish",
+                  const TextStyle(fontWeight: FontWeight.bold),
+                ),
                 content: textcustom(
-                    "Bingo Game  has been finished 🎉.\nAll numbers was called.\nTotal times: ${state.tickCount + 1}",
-                    const TextStyle(fontWeight: FontWeight.w600)),
+                  "Bingo Game has been finished 🎉.\nAll numbers were called.\nTotal times: ${state.tickCount + 1}",
+                  const TextStyle(fontWeight: FontWeight.w600),
+                ),
                 actions: <Widget>[
                   TextButton.icon(
                     icon: const Icon(Icons.check),
@@ -87,17 +193,17 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
                     icon: const Icon(Icons.save_alt),
                     onPressed: () {
                       HiveController().getLatestRound().then((value) {
-                        serviceApi
-                            .createNewGame(
-                                game_name: 'G.${format.formatDateAndTimeCode(DateTime.now())}',
-                                enable: false,
-                                round: value!.round)
-                            .then((v) {
+                        serviceApi.createNewGame(
+                          game_name: 'G.${format.formatDateAndTimeCode(DateTime.now())}',
+                          enable: false,
+                          round: value!.round,
+                        ).then((v) {
                           if (v['status'] == true) {
                             mysnackbarWithContext(
-                                context: context,
-                                hasIcon: false,
-                                message: v['message']);
+                              context: context,
+                              hasIcon: false,
+                              message: v['message'],
+                            );
                           }
                         }).whenComplete(() => Navigator.of(context).pop());
                       });
@@ -116,6 +222,15 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     });
   }
 
+  // void _startTimer(BuildContext context) {
+  //   _timer?.cancel();
+  //   _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+  //     if (!_isPaused) {
+  //       final newDuration = state.duration - 1;
+  //       add(Tick(newDuration, context));
+  //     }
+  //   });
+  // }
   void _startTimer(BuildContext context) {
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -123,6 +238,8 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
       add(Tick(newDuration, context));
     });
   }
+
+  
 
   @override
   Future<void> close() {

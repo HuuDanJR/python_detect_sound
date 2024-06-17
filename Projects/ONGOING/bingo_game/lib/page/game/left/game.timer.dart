@@ -1,5 +1,7 @@
+import 'package:bingo_game/hive/hive_controller.dart';
 import 'package:bingo_game/model/ball.dart';
 import 'package:bingo_game/page/game/bloc/timer/timer_bloc.dart';
+import 'package:bingo_game/public/colors.dart';
 import 'package:bingo_game/public/strings.dart';
 import 'package:bingo_game/widget/text.custom.dart';
 import 'package:flutter/material.dart';
@@ -19,18 +21,19 @@ class GameTimerPage extends StatelessWidget {
 
 class GameTimerView extends StatefulWidget {
   const GameTimerView({super.key});
- 
 
   @override
   State<GameTimerView> createState() => _GameTimerViewState();
 }
 
 class _GameTimerViewState extends State<GameTimerView> {
-   late Uuid genId = const Uuid();
+  late Uuid genId = const Uuid();
   @override
   void initState() {
     super.initState();
-    // context.read<TimerBloc>().add(const SkipTicks(20)); // Skip 2 ticks
+    HiveController().getSetting().then((v) {
+       context.read<TimerBloc>().add( SkipTicks(v!.roundInitial.length)); // Skip 2 ticks
+    });
   }
 
   @override
@@ -44,10 +47,11 @@ class _GameTimerViewState extends State<GameTimerView> {
             if (state.isFirstRun) {
               // debugPrint('first run');
               addBallNew(id: state.tickCount, number: state.number, tag: '');
-              
             } else {
               // debugPrint('not first run');
             }
+            break;
+          case TimerStatus.paused:
             break;
           case TimerStatus.ticking:
             // debugPrint('ticking state');
@@ -68,11 +72,38 @@ class _GameTimerViewState extends State<GameTimerView> {
               size: StringFactory.padding24,
               fontWeight: FontWeight.bold,
             ),
-            // Text(
-            //   state.isFirstRun
-            //       ? 'This is the first run!'
-            //       : 'This is not the first run.',
-            // ),
+            const SizedBox(height: StringFactory.padding8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Tooltip(  
+                message:state.status == TimerStatus.paused? 'Resume Game' : 'Pause Game',
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    // Start the timer when the button is pressed
+                    debugPrint('toggle pause / resume ');
+                    context.read<TimerBloc>().add(TogglePauseResume(context));
+                  },
+                  icon:  Icon(state.status == TimerStatus.paused ? Icons.play_arrow : Icons.pause, color: MyColor.grey),
+                  label: textCustom(text:state.status == TimerStatus.paused ? 'Resume':"Pause",color: MyColor.black_absulute),
+                ),
+              ),
+              const SizedBox(width: StringFactory.padding8,),
+              Tooltip(
+                message: "Stop & Save Game",
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    // Start the timer when the button is pressed
+                    context.read<TimerBloc>().add(StopTimer(context));
+                  },
+                  icon: const Icon(Icons.stop, color: MyColor.grey),
+                  label: textCustom(text: 'stop',color: MyColor.black_absulute),
+                ),
+              ),
+            ],
+          ),
           ],
         );
       },
@@ -92,32 +123,4 @@ class _GameTimerViewState extends State<GameTimerView> {
   }
 }
 
-// const SizedBox(height: StringFactory.padding8),
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             crossAxisAlignment: CrossAxisAlignment.center,
-//             mainAxisSize: MainAxisSize.min,
-//             children: [
-//               ElevatedButton.icon(
-//                 onPressed: () {
-//                   // Start the timer when the button is pressed
-//                 },
-//                 icon: const Icon(Icons.pause, color: MyColor.grey),
-//                 label: textCustom(text: 'pause'),
-//               ),
-//               ElevatedButton.icon(
-//                 onPressed: () {
-//                   // Start the timer when the button is pressed
-//                 },
-//                 icon: const Icon(Icons.play_arrow, color: MyColor.grey),
-//                 label: textCustom(text: 'resume'),
-//               ),
-//               ElevatedButton.icon(
-//                 onPressed: () {
-//                   // Start the timer when the button is pressed
-//                 },
-//                 icon: const Icon(Icons.refresh, color: MyColor.grey),
-//                 label: textCustom(text: 'reset'),
-//               ),
-//             ],
-//           ),
+

@@ -31,7 +31,7 @@ class GamePlayAuto extends StatelessWidget {
                 size: StringFactory.padding32,
                 fontWeight: FontWeight.bold),
             const SizedBox(
-              height: StringFactory.padding32,
+              height: StringFactory.padding16,
             ),
             textCustomStyle(
                 text: 'NEXT CALL',

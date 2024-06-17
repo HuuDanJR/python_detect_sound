@@ -54,7 +54,7 @@ class HiveController {
     }
   }
 
-  Future<void> resetSetting(RoundModel round) async {
+  Future<void> resetSetting() async {
     try {
       await _settingBox.delete('settings'); // Delete settings with a fixed key
       debugPrint('Settings reset');

@@ -37,7 +37,7 @@ class GamePlayedPage extends StatelessWidget {
                         showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
-                                  title: textCustom(color: MyColor.black_absulute,text: "GAME PROGRESS"),
+                                  title: textCustom(color: MyColor.black_absulute,text: "GAME PLAYED PROGRESS"),
                                   backgroundColor: MyColor.grey_BG_main,
                                   content: SizedBox(
                                       width: width /2 ,

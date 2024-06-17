@@ -65,8 +65,10 @@ class StringFactory {
 	static const int crossAxis = 8;
 
 
-	static const String URL_SOCKET = "http://localhost:8099/";
-	static const String URL_BASE = "http://localhost:8099/";
+	static const String URL_SOCKET = "http://192.168.101.58:8099/";
+	// static const String URL_SOCKET = "http://localhost:8099/";
+	// static const String URL_BASE = "http://localhost:8099/";
+	// static const String URL_BASE = "http://localhost:8099/";
 
 
   

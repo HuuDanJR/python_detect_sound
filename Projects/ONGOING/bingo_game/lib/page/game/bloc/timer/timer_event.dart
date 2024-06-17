@@ -7,6 +7,15 @@ abstract class TimerEvent extends Equatable {
   List<Object> get props => [];
 }
 
+  class InitializeSettings extends TimerEvent {
+  const InitializeSettings();
+
+  @override
+  List<Object> get props => [];
+}
+
+
+
 class StartTimer extends TimerEvent {
   final BuildContext context;
 
@@ -66,22 +75,32 @@ class RestartTimer extends TimerEvent {
 
 
 
-// class PauseTimer extends TimerEvent {
-//   final BuildContext context;
-//   const PauseTimer(this.context);
-//   @override
-//   List<Object> get props => [context];
-// }
-// class ResumeTimer extends TimerEvent {
-//   final BuildContext context;
-//   const ResumeTimer(this.context);
-//   @override
-//   List<Object> get props => [context];
-// }
+class PauseTimer extends TimerEvent {
+  final BuildContext context;
+  const PauseTimer(this.context);
+  @override
+  List<Object> get props => [context];
+}
 
-// class ResetTimer extends TimerEvent {
-//   final BuildContext context;
-//   const ResetTimer(this.context);
-//   @override
-//   List<Object> get props => [context];
-// }
+class ResumeTimer extends TimerEvent {
+  final BuildContext context;
+  const ResumeTimer(this.context);
+  @override
+  List<Object> get props => [context];
+}
+
+class StopTimer extends TimerEvent {
+  final BuildContext context;
+  const StopTimer(this.context);
+  @override
+  List<Object> get props => [context];
+}
+
+class TogglePauseResume extends TimerEvent {
+  final BuildContext context;
+
+  const TogglePauseResume(this.context);
+
+  @override
+  List<Object> get props => [context];
+}

@@ -3,7 +3,6 @@ import 'package:bingo_game/hive/model/setting_model.dart';
 import 'package:bingo_game/page/game/left/export.dart';
 import 'package:bingo_game/page/game/right/export.dart';
 import 'package:bingo_game/page/pickup/bloc/pickup_bloc.dart';
-import 'package:bingo_game/public/config.dart';
 
 class PickUpPage extends StatelessWidget {
   const PickUpPage({

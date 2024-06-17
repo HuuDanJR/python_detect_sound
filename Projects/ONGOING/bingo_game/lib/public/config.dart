@@ -11,12 +11,11 @@ class ConfigFactory {
   }
 
   static const int TIME_CALL = 300; //5 min
-  static const int LIST_LENGTH = 35; //total length of list generate
+  static const int LIST_LENGTH = 77; //total length of list generate
   static const int LIST_ITEM_CROSS_COUNT = 15; //total length of list generate
 
-  static const int timer_duration_time = 2; //tootal time
-  // static const int timer_max_round = 35 ; //tiotal round
-  static const int timer_max_round = 35 - (1); //tiotal round
+  static const int timer_duration_time = 5; //tootal time
+  static const int timer_max_round = 77 - (1); //tiotal round
   static const int delay_animation = 1; //delay animation should < timer duration timer
 
   static double ratio_width_parent({required double width}) {

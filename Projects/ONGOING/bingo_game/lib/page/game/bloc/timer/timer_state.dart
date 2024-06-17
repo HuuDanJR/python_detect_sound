@@ -1,6 +1,6 @@
 part of 'timer_bloc.dart';
 
-enum TimerStatus { initial, ticking, finish, failure }
+enum TimerStatus { initial, ticking, finish, failure,paused }
 
 class TimerState extends Equatable {
   final int duration;
@@ -11,15 +11,14 @@ class TimerState extends Equatable {
   final int skip;
 
       
-
   const TimerState(this.duration, this.tickCount, this.status, this.number, this.isFirstRun,this.skip);
 
   factory TimerState.initial({number,int skip = 0}) {
     final generatedNumber = number ??
-        generateUniqueNumber([],initial: true) ??
+        generateUniqueNumber([],initial: true,) ??
         0; // Use the provided number or generate a default one, fallback to 0 if null
     return TimerState(
-      TimerBloc._initialDuration,
+      ConfigFactory.timer_duration_time,
       0,
       TimerStatus.initial,
       generatedNumber,
