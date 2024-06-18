@@ -23,3 +23,18 @@ generateUniqueNumber(List<int> existingNumbers, {bool initial = false}) {
   // debugPrint('generateUniqueNumber: $number');
   return number;
 }
+
+
+
+//generate random string 7 tota length
+
+String generateRandomString(int length) {
+  const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  Random random = Random();
+  return String.fromCharCodes(
+    Iterable.generate(
+      length,
+      (_) => characters.codeUnitAt(random.nextInt(characters.length)),
+    ),
+  );
+}

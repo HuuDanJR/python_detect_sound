@@ -52,15 +52,23 @@ class _SlidePageState extends State<SlidePage> {
                       onTap: () {
                         print('click index${data[index]['index']}');
                         widget.socketManager.eventChangeSlide(int.parse(data[index]['index'].toString()));
+                        
                       },
-                      child: CachedNetworkImage(
-                        filterQuality: FilterQuality.medium,
-                        fadeInCurve: Curves.bounceInOut,
-                        alignment: Alignment.center,
-                        height: height,
-                        imageUrl: "${data[index]['image_url']}",
-                        placeholder: (context, url) => myprogress_circular_size(),
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width:data[index]['status'] ==true? 4:0,color: data[index]['status'] ==true? MyColor.green : Colors.transparent
+                          )
+                        ),
+                        child: CachedNetworkImage(
+                          filterQuality: FilterQuality.medium,
+                          fadeInCurve: Curves.bounceInOut,
+                          alignment: Alignment.center,
+                          height: height,
+                          imageUrl: "${data[index]['image_url']}",
+                          placeholder: (context, url) => myprogress_circular_size(),
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                        ),
                       ),
                     );
                     // Text('${data[index]['index']}  | ${data[index]['status']}');

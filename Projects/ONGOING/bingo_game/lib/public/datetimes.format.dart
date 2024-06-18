@@ -55,6 +55,10 @@ class StringFormat {
     String formattedDate = DateFormat('yyyy/MM/dd HH:mm').format(value);
     return formattedDate;
   }
+  String formatDateAndTimeTimeFirst(value) {
+    String formattedDate = DateFormat('HH:mm dd/MM/yyyy').format(value);
+    return formattedDate;
+  }
 
   String FormatTime(value) {
     String formattedDate = DateFormat('HH:mm').format(value);

@@ -39,8 +39,9 @@ class RecentBallPage extends StatelessWidget {
             textCustomNormalColor(
                 text: 'PREVIOUS 5 CALLS',
                 color: MyColor.white,
-                size: StringFactory.padding20,
-                fontWeight: FontWeight.bold)
+                size: StringFactory.padding26,
+                fontWeight: FontWeight.bold),
+            SizedBox(height: StringFactory.padding,),
           ],
         ));
   }

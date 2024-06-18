@@ -8,8 +8,10 @@ import 'package:bingo_game/page/admin/banner.dart';
 import 'package:bingo_game/page/admin/slide.dart';
 import 'package:bingo_game/page/admin/switch/view/switch_view.dart';
 import 'package:bingo_game/page/pickup/pickup_page.dart';
+import 'package:bingo_game/page/play/bloc/game_bloc.dart';
 import 'package:bingo_game/page/play/game_played.dart';
 import 'package:bingo_game/public/config.dart';
+import 'package:bingo_game/public/strings.dart';
 import 'package:bingo_game/socket/socket_manager.dart';
 import 'package:bingo_game/widget/text_field.dart';
 
@@ -44,6 +46,7 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
     socket_manager.disposeSocket();
     HiveController().resetSetting();
+    HiveController().saveSetting(SettingModel(roundInitial: [], timeDuration: ConfigFactory.timer_duration_time, totalRound: ConfigFactory.LIST_LENGTH));
   }
 
   @override
@@ -120,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                                                           controllerTotalRound
                                                               .text)));
                                             });
-                                            Navigator.of(context).push(
+                                            Navigator.of(context).pushReplacement(
                                                 MaterialPageRoute(
                                                     builder: (_) =>
                                                         const GamePage()));
@@ -181,7 +184,7 @@ class _HomePageState extends State<HomePage> {
                                                         controllerTotalRound
                                                             .text)));
 
-                                            Navigator.of(context).push(
+                                            Navigator.of(context).pushReplacement(
                                                 MaterialPageRoute(
                                                     builder: (_) =>
                                                         const GamePage()));
@@ -211,12 +214,23 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      textCustom(
-                        text: "Games Played History",
-                        color: MyColor.black_text,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          textCustom(
+                            size: StringFactory.padding18,
+                            text: "Games Played History",
+                            color: MyColor.black_text,
+                          ),
+                          TextButton.icon(icon: Icon(Icons.refresh),onPressed: (){
+                            context.read<GameBloc>().add(FetchGames());
+                          }, label: textCustom(color: MyColor.black_absulute,text: "refresh"))
+                        ],
                       ),
                       const GamePlayedPage(),
                       textCustom(
+                        size: StringFactory.padding18,
                         text: "Game Settings",
                         color: MyColor.black_text,
                       ),
@@ -268,6 +282,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       textCustom(
+                        size: StringFactory.padding18,
                         text: "Image Slide",
                         color: MyColor.black_text,
                       ),
@@ -292,12 +307,14 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       textCustom(
-                          text: "Image Banner", color: MyColor.black_text),
+                      size: StringFactory.padding18,
+                      text: "Image Banner", color: MyColor.black_text),
                       BannerPage(
                         socketManager: socket_manager,
                       ),
                       textCustom(
-                          text: "Video Banner", color: MyColor.black_text),
+                      size: StringFactory.padding18,
+                      text: "Video Banner", color: MyColor.black_text),
                       VideoDisplayPage(
                         socketManager: socket_manager,
                       ),

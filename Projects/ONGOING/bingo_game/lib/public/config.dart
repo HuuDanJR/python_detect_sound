@@ -1,6 +1,6 @@
 class ConfigFactory {
-  static const String ADRESS_SERVER = "localhost";
-  // static const String ADRESS_SERVER = "192.168.101.58";
+  // static const String ADRESS_SERVER = "localhost";
+  static const String ADRESS_SERVER = "192.168.101.58";
   static const String BASE = 'http://$ADRESS_SERVER:8099/api/';
   static const String list_display = "${BASE}display/list_display"; //5 min
   static const String list_gamePlayed = "${BASE}game/list_game"; //5 min
@@ -45,7 +45,7 @@ class ConfigFactory {
 
   static List<double> area_ball_gen_small(
       {required double width, required double height}) {
-    return [width * 0.475, height * 0.475];
+    return [width * 0.545, height * 0.545];
   }
 
   static double borderRadiusCard = 45.0;

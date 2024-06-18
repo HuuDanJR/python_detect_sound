@@ -1,6 +1,9 @@
 import 'package:bingo_game/hive/hive_controller.dart';
 import 'package:bingo_game/page/admin/home.dart';
 import 'package:bingo_game/page/admin/switch/export.dart';
+import 'package:bingo_game/page/game/bloc/ball/ball_bloc.dart';
+import 'package:bingo_game/page/game/bloc/timer/timer_bloc.dart';
+import 'package:bingo_game/page/game/game.dart';
 import 'package:bingo_game/page/pickup/bloc/pickup_bloc.dart';
 import 'package:bingo_game/page/play/bloc/game_bloc.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +27,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Bingo Game',
+        // title: 'Bingo Game',
+        // initialRoute: '',
+        // routes: {
+        //   // When navigating to the "/" route, build the FirstScreen widget.
+        //   '': (context) => const HomePage(),
+        //   // When navigating to the "/second" route, build the SecondScreen widget.
+        //   'gamepage': (context) => const GamePage(),
+        // },
         theme: ThemeData(
           // fontFamily: 'LibreBaskerville',
           fontFamily: 'Rubik',

@@ -135,7 +135,5 @@ class SocketManager {
   Future<void> eventChangeDisplay() async {
     socket!.emit('eventChangeDisplay');
   }
-
-
   
 }

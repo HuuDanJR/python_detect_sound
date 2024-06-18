@@ -17,3 +17,6 @@ class UpdateGame extends GameEvent {
   @override
   List<Object> get props => [id, round];
 }
+
+
+class RefreshGames extends GameEvent {}

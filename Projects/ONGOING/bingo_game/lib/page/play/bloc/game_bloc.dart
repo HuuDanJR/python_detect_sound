@@ -10,10 +10,11 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   final service_api = ServiceAPIs();
   GameBloc() : super(const GameState.initial()) {
     on<FetchGames>(_onFetchGames);
-    // on<UpdateGame>(_onUpdateGame);
+     // Add this line to handle RefreshGames
   }
 
-  Future<void> _onFetchGames(FetchGames event, Emitter<GameState> emit) async {
+
+ Future<void> _onFetchGames(FetchGames event, Emitter<GameState> emit) async {
     emit(const GameState.initial());
     try {
       final GamePlay games = await service_api.listGamePlayed();
@@ -24,7 +25,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
         emit(const GameState.failure('Failed to fetch games'));
       }
     } catch (e) {
-      emit(GameState.failure('Failed to fetch games: ${e.toString()}'));
+      emit(GameState.failure('Failed to fetch history or no history found '));
     }
   }
 }

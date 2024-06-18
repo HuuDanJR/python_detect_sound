@@ -32,7 +32,9 @@ class _GameTimerViewState extends State<GameTimerView> {
   void initState() {
     super.initState();
     HiveController().getSetting().then((v) {
-       context.read<TimerBloc>().add( SkipTicks(v!.roundInitial.length)); // Skip 2 ticks
+      context
+          .read<TimerBloc>()
+          .add(SkipTicks(v!.roundInitial.length)); // Skip 2 ticks
     });
   }
 
@@ -73,37 +75,86 @@ class _GameTimerViewState extends State<GameTimerView> {
               fontWeight: FontWeight.bold,
             ),
             const SizedBox(height: StringFactory.padding8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Tooltip(  
-                message:state.status == TimerStatus.paused? 'Resume Game' : 'Pause Game',
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    // Start the timer when the button is pressed
-                    debugPrint('toggle pause / resume ');
-                    context.read<TimerBloc>().add(TogglePauseResume(context));
-                  },
-                  icon:  Icon(state.status == TimerStatus.paused ? Icons.play_arrow : Icons.pause, color: MyColor.grey),
-                  label: textCustom(text:state.status == TimerStatus.paused ? 'Resume':"Pause",color: MyColor.black_absulute),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Tooltip(
+                  message: state.status == TimerStatus.paused
+                      ? 'Resume Game'
+                      : 'Pause Game',
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      // Start the timer when the button is pressed
+                      debugPrint('toggle pause / resume ');
+                      context.read<TimerBloc>().add(TogglePauseResume(context));
+                    },
+                    icon: Icon(
+                        state.status == TimerStatus.paused
+                            ? Icons.play_arrow
+                            : Icons.pause,
+                        color: MyColor.grey),
+                    label: textCustom(
+                        text: state.status == TimerStatus.paused
+                            ? 'Resume'
+                            : "Pause",
+                        color: MyColor.black_absulute),
+                  ),
                 ),
-              ),
-              const SizedBox(width: StringFactory.padding8,),
-              Tooltip(
-                message: "Stop & Save Game",
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    // Start the timer when the button is pressed
-                    context.read<TimerBloc>().add(StopTimer(context));
-                  },
-                  icon: const Icon(Icons.stop, color: MyColor.grey),
-                  label: textCustom(text: 'stop',color: MyColor.black_absulute),
+                // ElevatedButton.icon(
+                //   onPressed: () {
+                //     // Start the timer when the button is pressed
+                //   },
+                //   icon: const Icon(Icons.play_arrow, color: MyColor.grey),
+                //   label:
+                //       textCustom(text: 'resume', color: MyColor.black_absulute),
+                // ),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     context.read<TimerBloc>().add(TogglePauseResume(context));
+                //   },
+                //   child: Text(state.status == TimerStatus.paused
+                //       ? 'Resume Timer'
+                //       : 'Pause Timer'),
+                // ),
+                const SizedBox(
+                  width: StringFactory.padding8,
                 ),
-              ),
-            ],
-          ),
+                Tooltip(
+                  message: "Stop & Save Game",
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (contextDialog) {
+                          return AlertDialog(
+                            icon: Icon(Icons.gamepad),
+                            title: textCustom( color: MyColor.black_text,text: "STOP GAME"),
+                            content: textCustomCenter( color: MyColor.black_text,text: "Do you want to stop game?\nClick confirm to stop game"),
+                            actions: [
+                              TextButton.icon(
+                                icon: Icon(Icons.cancel),
+                                onPressed: (){
+                                Navigator.of(context).pop();
+                              },label:Text( 'CANCEL')),
+                              TextButton.icon(
+                                icon: Icon(Icons.check),
+                                onPressed: (){
+                                Navigator.of(context).pop();
+                                context.read<TimerBloc>().add(StopTimer(context));
+                              },label:Text( 'CONFIRM'))
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    icon: const Icon(Icons.stop, color: MyColor.grey),
+                    label: textCustom(text: 'Stop', color: MyColor.black_absulute),
+                  ),
+                ),
+              ],
+            ),
           ],
         );
       },
@@ -122,5 +173,3 @@ class _GameTimerViewState extends State<GameTimerView> {
     context.read<BallBloc>().add(AddBall(ball: ball));
   }
 }
-
-

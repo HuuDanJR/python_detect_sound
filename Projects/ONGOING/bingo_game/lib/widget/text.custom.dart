@@ -27,6 +27,15 @@ Widget textCustom(
           color: MyColor.black_text,
           fontWeight: FontWeight.bold));
 }
+Widget textCustomCenter(
+    {String? text, double? size, fontWeight = FontWeight.normal, required color}) {
+  return Text(text!,textAlign: TextAlign.center,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(
+          fontSize: size,
+          color: MyColor.black_text,
+          fontWeight: FontWeight.bold));
+}
 Widget textCustomStyle(
     {required String? text,required double? size,required FontWeight fontWeight}) {
   return Text(text!,

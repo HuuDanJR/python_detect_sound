@@ -55,14 +55,21 @@ class _VideoDisplayPageState extends State<VideoDisplayPage> {
                       },
                       child: 
                       //  Text('${data[index]['index']}  ${data[index]['video_name']}  | ${data[index]['status']}')
-                      CachedNetworkImage(
-                        filterQuality: FilterQuality.medium,
-                        fadeInCurve: Curves.bounceInOut,
-                        alignment: Alignment.center,
-                        height: height,
-                        imageUrl: "${data[index]['video_thumnail']}",
-                        placeholder: (context, url) =>  myprogress_circular_size(),
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width:data[index]['status'] ==true? 4:0,color: data[index]['status'] ==true? MyColor.green : Colors.transparent
+                          )
+                        ),
+                        child: CachedNetworkImage(
+                          filterQuality: FilterQuality.medium,
+                          fadeInCurve: Curves.bounceInOut,
+                          alignment: Alignment.center,
+                          height: height,
+                          imageUrl: "${data[index]['video_thumnail']}",
+                          placeholder: (context, url) =>  myprogress_circular_size(),
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                        ),
                       ),
                     );
                    

@@ -16,18 +16,21 @@ class BallBloc extends Bloc<BallEvent, BallState> {
   final List<Ball> _recentBalls = [];
   final Uuid uuid = const Uuid();
   final format = StringFormat();
-  static late int _initialDuration  ; // Initial duration in seconds
-  static late int _maxTickCount ; // Maximum number of times the timer can restart
-  static late int _listLength ; // Maximum number of times the timer can restart
+  static late int _initialDuration; // Initial duration in seconds
+  static late int
+      _maxTickCount; // Maximum number of times the timer can restart
+  static late int _listLength; // Maximum number of times the timer can restart
   // static int _initialDuration = ConfigFactory.timer_duration_time; // Initial duration in seconds
   // static int _maxTickCount = ConfigFactory.timer_max_round; // Maximum number of times the timer can restart
-  void getSetting()async{
-    await HiveController().getSetting().then((value){
-        if (value != null) {
+  void getSetting() async {
+    await HiveController().getSetting().then((value) {
+      if (value != null) {
         _initialDuration = value.timeDuration;
-        _maxTickCount = value.totalRound-1; // Assuming roundInitial is List<int>
+        _maxTickCount =
+            value.totalRound - 1; // Assuming roundInitial is List<int>
         _listLength = value.totalRound; // Assuming roundInitial is List<int>
-      }});
+      }
+    });
   }
 
   BallBloc() : super(BallInitial(ball: _generateInitialBall())) {
@@ -54,7 +57,10 @@ class BallBloc extends Bloc<BallEvent, BallState> {
 
   void _onAddBall(AddBall event, Emitter<BallState> emit) {
     final existingNumbers = _balls.map((ball) => ball.number).toList();
-    final newNumber = generateUniqueNumber(existingNumbers, initial: false,);
+    final newNumber = generateUniqueNumber(
+      existingNumbers,
+      initial: false,
+    );
     final tag = determineTag(newNumber);
     final ballWithStatus = Ball(
       id: event.ball.id,
@@ -63,7 +69,8 @@ class BallBloc extends Bloc<BallEvent, BallState> {
       isCreated: event.ball.isCreated,
       status: "added",
     );
-    final existingBall = _balls.firstWhereOrNull((ball) => ball.id == event.ball.id);
+    final existingBall =
+        _balls.firstWhereOrNull((ball) => ball.id == event.ball.id);
     if (existingBall != null) {
       //emit( BallError(message: "Ball with id ${event.ball.id} already exists"));
       return;
@@ -138,10 +145,10 @@ class BallBloc extends Bloc<BallEvent, BallState> {
     _balls.clear();
     _recentBalls.clear();
     _balls.addAll(event.initialBalls);
-    final initialBall = _generateInitialBallUniqueFromList(event.initialBalls.map((ball) => ball.number).toList());
+    final initialBall = _generateInitialBallUniqueFromList(
+        event.initialBalls.map((ball) => ball.number).toList());
     _balls.add(initialBall);
     _recentBalls.addAll(event.initialBalls.take(5));
-
 
     emit(BallsLoaded(
       balls: List.from(_balls),
@@ -152,7 +159,10 @@ class BallBloc extends Bloc<BallEvent, BallState> {
 
   //generate  a init ball
   static Ball _generateInitialBall() {
-    final number = generateUniqueNumber([], initial: false,);
+    final number = generateUniqueNumber(
+      [],
+      initial: false,
+    );
     final tag = determineTag(number);
     return Ball(
       id: 0,
@@ -163,12 +173,13 @@ class BallBloc extends Bloc<BallEvent, BallState> {
     );
   }
 
-
-
   static Ball _generateInitialBallUniqueFromList(List<int> list) {
     int number;
     do {
-      number = generateUniqueNumber(list, initial: false,);
+      number = generateUniqueNumber(
+        list,
+        initial: false,
+      );
     } while (list.contains(number));
 
     final tag = determineTag(number);
@@ -181,8 +192,6 @@ class BallBloc extends Bloc<BallEvent, BallState> {
     );
   }
 }
-
-
 
 String determineTag(int number) {
   if (number >= 1 && number <= 15) {
@@ -197,3 +206,5 @@ String determineTag(int number) {
     return ConfigFactory.tag_green;
   }
 }
+
+

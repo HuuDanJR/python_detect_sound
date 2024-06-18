@@ -18,9 +18,9 @@ class GameDisplay extends StatelessWidget {
           margin: const EdgeInsets.all(StringFactory.padding24),
           decoration:  const BoxDecoration(
            border:  Border(
-            left: BorderSide(width: 2.0, color: MyColor.grey),
-            right: BorderSide(width: 2.0, color: MyColor.grey),
-            bottom: BorderSide(width: 2.0, color: MyColor.grey),
+            left: BorderSide(width: 2.0, color: MyColor.grey_tab),
+            right: BorderSide(width: 2.0, color: MyColor.grey_tab),
+            bottom: BorderSide(width: 2.0, color: MyColor.grey_tab),
            ),
            borderRadius: 
             BorderRadius.only(

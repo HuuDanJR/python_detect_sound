@@ -104,7 +104,7 @@ class _RecentBallBodyState extends State<RecentBallBody> with SingleTickerProvid
                 },
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 5,
-                  childAspectRatio: 1.15,
+                  childAspectRatio: 1.35,
                   crossAxisSpacing: StringFactory.padding,
                   mainAxisSpacing: StringFactory.padding
                 ),

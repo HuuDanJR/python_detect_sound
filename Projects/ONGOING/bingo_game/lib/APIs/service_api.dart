@@ -26,11 +26,12 @@ class ServiceAPIs {
   }
 
 
-  Future<dynamic> createNewGame({required String game_name,required bool enable,required List<int> round}) async {
+  Future<dynamic> createNewGame({required  createAt,required String game_name,required bool enable,required List<int> round}) async {
      Map<String, dynamic> body = {
       "game_name": game_name,
       "enable": enable,
       "round": round,
+      "createAt":createAt,
     };
     debugPrint('createNewGame ->');
     final response = await dio.post(
