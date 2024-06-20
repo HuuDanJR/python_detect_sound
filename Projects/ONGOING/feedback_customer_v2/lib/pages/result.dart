@@ -98,7 +98,7 @@ class _ResultPageState extends State<ResultPage> {
                   padding: 32.0,
                   onPress: () {
                     controllerGetx.cancelResetAllTimer();
-                    Navigator.of(context).popAndPushNamed('/home');
+                    Navigator.of(context).popAndPushNamed('/suggestion');
                   }),
               const SizedBox(
                 height: 24.0,
@@ -106,7 +106,7 @@ class _ResultPageState extends State<ResultPage> {
               Obx(
                 () => Text(
                   'Auto back home after ${controllerGetx.valueAwaitResult.value}s',
-                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w700),
+                  style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.w700),
                 ),
               )
             ],

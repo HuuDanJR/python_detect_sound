@@ -34,6 +34,7 @@ dependencies:
     sdk: flutter
   get: ^4.6.6
   google_fonts: ^6.2.1
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_lints: ^3.0.0
@@ -60,6 +61,8 @@ flutter:
     - asset/sacrify.png
     - asset/notbad.png
     - asset/angry.png
+    - asset/logo.png
+    - asset/logo2.png
     - asset/background.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -1,7 +1,7 @@
 import 'package:feedback_customer/util/color_custom.dart';
 import 'package:flutter/material.dart';
 
-Widget customPressButton({double? padding,onPress,double? width,required String? text,}){
+Widget customPressButton({double? padding,onPress,double? width,required String? text, haveArrow =true,isBoldColor = true}){
   return ClipRRect(
     borderRadius: BorderRadius.circular(padding!),
     child:  Material(
@@ -18,11 +18,11 @@ Widget customPressButton({double? padding,onPress,double? width,required String?
                                     gradient: LinearGradient(
                                       begin: Alignment.topLeft,
                                       end: Alignment.bottomRight,
-                                      stops: const [0.1, 0.45, 0.85],
+                                      stops: const [0.1, 0.65, 0.95],
                                       colors: [
-                                          MyColor.yellow.withOpacity(1),
-                                         MyColor.yellow.withOpacity(.55),
-                                        MyColor.yellow.withOpacity(.15),
+                                        isBoldColor==true ? MyColor.yellowAccent :  MyColor.yellow.withOpacity(.65),
+                                        isBoldColor==true ? MyColor.yellow3.withOpacity(.65):MyColor.yellow.withOpacity(.35),
+                                       isBoldColor==true ? MyColor.yellow2.withOpacity(.35) : MyColor.yellow.withOpacity(.25),
                                       ],
                                     ),
                                     borderRadius:
@@ -35,7 +35,7 @@ Widget customPressButton({double? padding,onPress,double? width,required String?
                                         text!,
                                         style: const TextStyle(fontSize: 32.0,fontWeight: FontWeight.bold),),
                                     const SizedBox(width: 4.0,),
-                                    const Icon(Icons.double_arrow_rounded,color:Colors.black,size: 36.0,)
+                                   haveArrow ==false ? Container() : const Icon(Icons.double_arrow_rounded,color:Colors.black,size: 36.0,)
                                   ],
                                 ),
                               )

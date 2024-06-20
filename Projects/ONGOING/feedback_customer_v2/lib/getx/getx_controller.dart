@@ -1,6 +1,5 @@
-import 'package:feedback_customer/home.dart';
 import 'package:feedback_customer/model/item_status.dart';
-import 'package:feedback_customer/result.dart';
+import 'package:feedback_customer/pages/suggestion/suggestion.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 
@@ -28,7 +27,7 @@ class MyGetXController extends GetxController {
         isSelected: false),
   ].obs;
   RxInt valueAwait = 10.obs;
-  RxInt valueAwaitResult = 5.obs;
+  RxInt valueAwaitResult = 3.obs;
   RxInt remainingTime = 0.obs;
   Timer? _countdownTimer, _countdownTimerResult;
 
@@ -108,9 +107,9 @@ class MyGetXController extends GetxController {
         print('startCountdownTimerResultPage = 0');
         // If valueAwait reaches 0, navigate to WelcomeScreen
         resetListStatus();
-        Get.offAll(const HomePage(), transition: Transition.fade);
+        Get.offAll( SuggestionPage(), transition: Transition.fade);
         _countdownTimerResult!.cancel();
-        valueAwaitResult = 5.obs;
+        valueAwaitResult = 3.obs;
       }
     });
   }

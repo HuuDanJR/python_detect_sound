@@ -6,10 +6,11 @@ class MyColor {
   static const Color red_japanguild = Color(0xFFf20000);
   static const Color green_araconda = Color(0xFF04CB49);
 
-
+  static const Color black_absulute = Color(0xFF000000);
   static const Color white = Color(0xFFFFFFFF);
-  static  Color yellow_gradient1 = const Color(0xFFFFFDE7).withOpacity(.5);
+  static   Color yellow_gradient1 = const Color(0xFFFFFDE7).withOpacity(.5);
   static const Color bedge = Color(0xFFDFCCBC);
+  static const Color background = Color(0xFFF9F4EE);
   static const Color bedgeLight = Color(0xFFF0E6DD);
   static const Color yellow_gradient2 = Color(0xFFFFF8E1);
   static const Color yellow_gradient3 = Color(0xFFFFE0B2);
@@ -28,6 +29,7 @@ class MyColor {
   static const Color green_accent = Color(0xFF598066);
   static const Color green2 = Color(0xFF1ECB59);
   static const Color white_text = Color(0xFFFFFFFF);
+  static  Color whiteopa = const Color(0xFFFFFFFF).withOpacity(.45);
   static const Color black_text = Color(0xFF2D2D2D);
   static const Color grey_text = Color(0xFF8F8F8F);
   static const Color red_text = Color(0xFFFD4A4E);
@@ -35,8 +37,9 @@ class MyColor {
   static const Color yellow_bg = Color(0xFFFFF9C4);
   static const Color yellow2 = Color(0xffFAD02C);
   static const Color yellow3 = Color(0xffFFC107);
-  static const Color yellowAccent = Color(0xffCCA75D);
+  static const Color yellowAccent = Color.fromARGB(255, 210, 166, 35);
   static const Color yellowMain = Color(0xffE2C18C);
+  static const Color yellowSelected = Color(0xffEFCA93);
 
 
   static const Color yellow_accent = Color(0xFFB2A76B);

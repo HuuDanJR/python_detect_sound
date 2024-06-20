@@ -1,0 +1,27 @@
+infor model 
+
+{
+    status : great | grr  String 
+    number: number        int 
+    good : array           Array<String>
+    seletedGood: bool 
+    isNote: bool 
+    Note : String 
+    bad: array  Array <String>
+    selectedBad: bool 
+
+    selectedImpression: bool 
+    StaffName: String 
+    StaffList: List<String> default 
+
+    isSlectedStaff : bool 
+    
+    isFinish : bool 
+    
+
+
+}
+
+
+
+

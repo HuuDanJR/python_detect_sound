@@ -1,6 +1,8 @@
-import 'package:feedback_customer/feedback.dart';
-import 'package:feedback_customer/home.dart';
-import 'package:feedback_customer/result.dart';
+import 'package:feedback_customer/pages/feedback/feedbackbad_page.dart';
+import 'package:feedback_customer/pages/home.dart';
+import 'package:feedback_customer/pages/member/member.dart';
+import 'package:feedback_customer/pages/result.dart';
+import 'package:feedback_customer/pages/suggestion/suggestion.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,9 +19,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Feedback Customer',
+      title: 'Feedback Customer V2',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
         fontFamily: GoogleFonts.nunito().fontFamily,
         textTheme: GoogleFonts.nunitoTextTheme(
@@ -29,10 +31,15 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: <String,WidgetBuilder>{
         '/home': (context) => const HomePage(),
-        '/feedback': (context) =>  FeedbackPage(),
+        '/feedback_bad': (context) =>  FeedbackBadPage(),
+        '/feedback_good': (context) =>  FeedbackBadPage(),
         '/result': (context) =>  const ResultPage(),
+        '/suggestion': (context) =>   SuggestionPage(),
+        '/member': (context) =>   const MemberPage(),
+        
       },
-      home: const HomePage()
+      home:  SuggestionPage()
+      // home:  StaffPage()
     );
   }
 }

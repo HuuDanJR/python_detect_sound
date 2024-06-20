@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 
-final String BASE_URL = 'http://localhost:8095';
+const String BASE_URL = 'http://localhost:8095';
 // final String BASE_URL = 'http://192.168.101.58:8095';
-final String CREATE_FEEDBACK = '$BASE_URL/feedback/create';
-final String TAG_PRODUCT = 'production';
-final String TAG_DEV = 'testing';
+const String CREATE_FEEDBACK = '$BASE_URL/feedback/create';
+const String TAG_PRODUCT = 'production';
+const String TAG_DEV = 'testing';
 
 class ServiceAPIs {
   Dio dio = Dio();
