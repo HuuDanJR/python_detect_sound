@@ -2,6 +2,7 @@ import 'package:feedback_customer/pages/feedback/feedbackbad_page.dart';
 import 'package:feedback_customer/pages/home.dart';
 import 'package:feedback_customer/pages/member/member.dart';
 import 'package:feedback_customer/pages/result.dart';
+import 'package:feedback_customer/pages/staff/staff.dart';
 import 'package:feedback_customer/pages/suggestion/suggestion.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -38,8 +39,8 @@ class MyApp extends StatelessWidget {
         '/member': (context) =>   const MemberPage(),
         
       },
-      home:  SuggestionPage()
-      // home:  StaffPage()
+      // home:  SuggestionPage()
+      home:  StaffPage()
     );
   }
 }

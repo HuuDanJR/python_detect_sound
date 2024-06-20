@@ -1,3 +1,4 @@
+import 'package:feedback_customer/api/api_service.dart';
 import 'package:feedback_customer/model/item.dart';
 import 'package:feedback_customer/pages/result.dart';
 import 'package:feedback_customer/pages/staff/staff_search.dart';
@@ -16,6 +17,8 @@ class StaffPage extends StatefulWidget {
 
 class _StaffPageState extends State<StaffPage> {
   final controllerNote = TextEditingController();
+  final serviceAPIs = ServiceAPIs();
+
   @override
   void dispose() {
     super.dispose();
@@ -24,6 +27,7 @@ class _StaffPageState extends State<StaffPage> {
   @override
   void initState() {
     super.initState();
+    serviceAPIs.getListAllStaff();
   }
 
   @override
@@ -37,7 +41,8 @@ class _StaffPageState extends State<StaffPage> {
       return Container(
           alignment: Alignment.center,
           height: height,
-          padding: const EdgeInsets.symmetric(horizontal: StringFactory.padding32),
+          padding:
+              const EdgeInsets.symmetric(horizontal: StringFactory.padding32),
           width: width,
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -60,18 +65,19 @@ class _StaffPageState extends State<StaffPage> {
               const SizedBox(
                 height: StringFactory.padding24,
               ),
-              Center(child: StaffSearch(
+              Center(
+                  child: StaffSearch(
                 widthArea: widthArea,
                 heightTextField: heightTextField,
               )),
               customPressButton(
-                              width: 225.0,
-                              text: 'Submit ',
-                              padding: StringFactory.padding32,
-                              onPress: () {  
-                                Navigator.of(context).push(MaterialPageRoute(builder: (_)=>const ResultPage()));
-                              }),   
-                  
+                  width: 225.0,
+                  text: 'Submit ',
+                  padding: StringFactory.padding32,
+                  onPress: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const ResultPage()));
+                  }),
             ],
           ));
     }));
