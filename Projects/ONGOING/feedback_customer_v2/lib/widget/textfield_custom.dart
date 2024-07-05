@@ -1,21 +1,34 @@
 import 'package:feedback_customer/util/color_custom.dart';
 import 'package:feedback_customer/util/string_factory.dart';
+import 'package:feedback_customer/widget/numberic_formater.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 Widget customTextField(
     {required double width,
     required double height,
     String? hint,
+    required Function onTap,
     required TextEditingController controller,
     required String text,
+    bool? hasHeight = true,
     required Function onSubmitted,
     Function? onChanged,
+    inputFormatters,
     required keyboarType}) {
   return SizedBox(
-    height: height,
+    height: hasHeight == true ? height : null,
     width: width,
     child: TextField(
-      maxLength: 350,
+      
+      inputFormatters: inputFormatters,
+      // onEditingComplete: () {
+      //   onSubmitted();
+      // },
+      onTap: () {
+        onTap();
+      },
+      maxLength: 100,
       onChanged: (value) {
         onChanged!(value);
       },

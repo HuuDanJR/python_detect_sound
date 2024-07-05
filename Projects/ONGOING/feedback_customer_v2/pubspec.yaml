@@ -1,8 +1,9 @@
+
 name: feedback_customer
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +20,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.5.0-72.0.dev <4.0.0'
+  sdk: ">=3.5.0-72.0.dev <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -28,13 +29,23 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  bloc: ^8.1.4
+  build_runner: ^2.4.11
+  cached_network_image: ^3.3.1
   cupertino_icons: ^1.0.6
   dio: ^5.4.3+1
+  equatable: ^2.0.5
   flutter:
+    sdk: flutter
+  flutter_bloc: ^8.1.6
+  flutter_localizations:
     sdk: flutter
   get: ^4.6.6
   google_fonts: ^6.2.1
   intl: ^0.19.0
+  path: ^1.9.0
+  shared_preferences: ^2.2.3
+  sqflite: ^2.3.3+1
 
 dev_dependencies:
   flutter_lints: ^3.0.0
@@ -45,25 +56,34 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
+  generate: true # Add this line
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
     - asset/gaming.png
+    - asset/gaming2.png
     - asset/food.png
+    - asset/food2.png
     - asset/clean.png
+    - asset/clean2.png
     - asset/staff.png
+    - asset/staff2.png
     - asset/heart.png
     - asset/sad.png
+    - asset/sad_fix.png
+    - asset/sad_perfect.png
     - asset/sacrify.png
     - asset/notbad.png
     - asset/angry.png
+    - asset/angry_fix.png
     - asset/logo.png
     - asset/logo2.png
     - asset/background.jpg
+    - asset/background.jpeg
+    - asset/background_staff.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see
@@ -73,12 +93,15 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+    - family: AvertaStd
+      fonts:
+        - asset: asset/AvertaStd-Regular.otf 
+        - asset: asset/AvertaStd-Black.otf
+        - asset: asset/AvertaStd-Bold.otf
+        - asset: asset/AvertaStd-Extrathin.otf
+        - asset: asset/AvertaStd-Light.otf
+        - asset: asset/AvertaStd-Semibold.otf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

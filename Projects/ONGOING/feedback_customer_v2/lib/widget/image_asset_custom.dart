@@ -36,18 +36,23 @@ Widget customImageAssetText(
 Widget customImageAsset({
   double? height,
   double? width,
+  double? scale,
   required String? image,
 }) {
-  return Container(
-    height: height,
-    width: width,
-    // color:MyColor.green,
-    padding: const EdgeInsets.symmetric(horizontal:StringFactory.padding38,vertical: StringFactory.padding16),
-    child: Image.asset(
-      image!,
-      filterQuality: FilterQuality.high,
-      alignment: Alignment.center,
-      fit: BoxFit.contain,
+  return Center(
+    // width: width,
+    // height:height,
+    child: Container(
+      height: height! * (scale ?? 1.0),
+      width: width! * (scale ?? 1.0),
+      padding: const EdgeInsets.symmetric(horizontal:StringFactory.padding38,vertical: StringFactory.padding16),
+      child: Image.asset(
+        image!,
+        
+        filterQuality: FilterQuality.high,
+        alignment: Alignment.center,
+        fit: BoxFit.contain,
+      ),
     ),
   );
 }

@@ -31,6 +31,37 @@ Widget textCustom({
           color: MyColor.black_absulute,
           fontWeight: FontWeight.normal));
 }
+Widget textCustomLines({
+  String? text,
+  double? size,
+  required int? lines,
+  fontWeight = FontWeight.normal,
+}) {
+  return Text(text!,
+      maxLines: lines,
+      textAlign: TextAlign.center,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(
+          fontSize: size,
+          color: MyColor.black_absulute,
+          fontWeight: FontWeight.normal));
+}
+Widget textCustomLinestextAlign({
+  String? text,
+  double? size,
+  required textalign,
+  required int? lines,
+  fontWeight = FontWeight.normal,
+}) {
+  return Text(text!,
+      maxLines: lines,
+      textAlign: textalign,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(
+          fontSize: size,
+          color: MyColor.black_absulute,
+          fontWeight: FontWeight.normal));
+}
 
 Widget textCustomBold({
   String? text,
@@ -44,7 +75,7 @@ Widget textCustomBold({
       style: TextStyle(
           fontSize: size,
           color: MyColor.black_absulute,
-          fontWeight: FontWeight.bold));
+          fontWeight: FontWeight.w600));
 }
 
 Widget textCustomMedium({

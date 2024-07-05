@@ -1,4 +1,4 @@
-import 'package:feedback_customer/pages/feedback/feedbackbad_page.dart';
+import 'package:feedback_customer/pages/feedback/feedback_page.dart';
 import 'package:feedback_customer/model/item.dart';
 import 'package:feedback_customer/util/color_custom.dart';
 import 'package:feedback_customer/widget/image_asset_custom.dart';
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
               decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage(
-                      'asset/background.jpg',
+                      'asset/background.jpeg',
                     ),
                     fit: BoxFit.cover,
                     filterQuality: FilterQuality.low),
@@ -84,8 +84,8 @@ class _HomePageState extends State<HomePage> {
                               splashColor: MyColor.yellow_gradient1,
                               onTap: () {
                                 // Navigator.of(context).pushNamed('/feedback');
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>FeedbackBadPage(
-                                  item: item[index],
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const FeedbackPage(
+                              
                                 )));
                               },
                               child: Container(

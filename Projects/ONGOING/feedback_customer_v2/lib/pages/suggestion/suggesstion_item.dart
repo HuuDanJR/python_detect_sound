@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 Widget suggestionItem(
     {required double width,
     required double height,
+    required double scale,
     required String text,
     required Function onPressed,
     required String assetPath}) {
@@ -22,7 +23,7 @@ Widget suggestionItem(
         child: Container(
             padding: const EdgeInsets.all(StringFactory.padding28),
             decoration: BoxDecoration(
-              // color: MyColor.background,
+              color: MyColor.background,
               borderRadius: BorderRadius.circular(StringFactory.padding56),
             ),
             child: Column(
@@ -30,10 +31,15 @@ Widget suggestionItem(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                customImageAsset(
-                  width: width,
-                  height: height,
-                  image: assetPath,
+                SizedBox(
+                  width:width,
+                  height:height,
+                  child: customImageAsset(
+                    scale: scale,
+                    width: width,
+                    height: height,
+                    image: assetPath,
+                  ),
                 ),
                 textCustomMedium(text: text, size: StringFactory.padding32)
               ],

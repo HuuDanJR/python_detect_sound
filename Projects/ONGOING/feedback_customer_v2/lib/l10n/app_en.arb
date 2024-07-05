@@ -1,0 +1,25 @@
+{
+  "service_title_":"Which service(s) did not meet your expectations?",
+  "service_title_a":"Which services ",
+  "service_title_b":"did not ",
+  "service_title_c":"meet your expectations",
+  "item_gaming_exp":"Gaming experience" ,
+  "item_staff":"Staff’s service performance" ,
+  "item_food":"Food & Beverage" ,
+  "item_clean":"Cleanliness & Hygiene",
+
+  "title_survey":"Is there anything you would like to convey\nto the management to enhance our service?",
+  "no":"No",
+  "yes":"Yes",
+  "write_down":"Please write it down here",
+  "submit":"Submit",
+  "service_title":"Which services left you satisfied? ",
+  "service_title_sub_a":"Which service(s) left you ",
+  "service_title_sub_b":"satisfied?",
+  "service_title_sub_c":"",
+  "leave_impression":"Did any staff members leave a memorable impression? ",
+  "thank_you":"Thank you for taking the time to provide us with your valuable feedback\nYour input is highly appreciated and plays a crucial role in helping us improve our services.",
+  "staff_hint":"PLease enter staff's name ",
+  "auto_back_home":"Auto back home after"
+
+}

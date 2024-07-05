@@ -59,6 +59,19 @@ class StaffModelData {
         required this.v,
     });
 
+    factory StaffModelData.defaultInstance() {
+    return StaffModelData(
+        id: 'default',
+        code: 'default',
+        usernameEn: 'default',
+        username: 'default',
+        imageUrl: 'https://t4.ftcdn.net/jpg/00/23/72/59/360_F_23725944_W2aSrg3Kqw3lOmU4IAn7iXV88Rnnfch1.jpg',
+        role: 'default',
+        createdAt: DateTime.now(),
+        isActive: false,
+        v:0,
+    );
+    }
     factory StaffModelData.fromJson(Map<String, dynamic> json) => StaffModelData(
         id: json["_id"],
         code: json["code"],

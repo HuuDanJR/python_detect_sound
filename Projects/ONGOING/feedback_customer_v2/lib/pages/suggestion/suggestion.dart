@@ -1,4 +1,5 @@
 import 'package:feedback_customer/api/api_service.dart';
+import 'package:feedback_customer/getx/getx_controller.dart';
 import 'package:feedback_customer/model/item.dart';
 import 'package:feedback_customer/pages/member/member.dart';
 import 'package:feedback_customer/pages/suggestion/suggesstion_item.dart';
@@ -6,6 +7,7 @@ import 'package:feedback_customer/util/string_factory.dart';
 import 'package:feedback_customer/widget/image_asset_custom.dart';
 import 'package:feedback_customer/widget/text_custom.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SuggestionPage extends StatefulWidget {
   SuggestionPage({super.key, this.item});
@@ -17,10 +19,7 @@ class SuggestionPage extends StatefulWidget {
 
 class _SuggestionPageState extends State<SuggestionPage> {
   final service_api = ServiceAPIs();
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  final controllerGetx = Get.put(MyGetXController());
 
   @override
   void initState() {
@@ -38,12 +37,13 @@ class _SuggestionPageState extends State<SuggestionPage> {
       return Container(
           alignment: Alignment.center,
           height: height,
-          padding: const EdgeInsets.symmetric(horizontal: StringFactory.padding32),
+          padding:
+              const EdgeInsets.symmetric(horizontal: StringFactory.padding32),
           width: width,
           decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage(
-                  'asset/background.jpg',
+                  'asset/background.jpeg',
                 ),
                 fit: BoxFit.cover,
                 filterQuality: FilterQuality.low),
@@ -65,16 +65,32 @@ class _SuggestionPageState extends State<SuggestionPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    suggestionItem(onPressed: (){
-                      print('onpress item suggestion');
-                       Navigator.push(context, MaterialPageRoute(builder: (_)=>const MemberPage(
-                        statusName: 'Great!!!',
-                       )));
-                    }, width: itemWidth,height: itemWidth,assetPath: 'asset/sad.png',text: "Great!!!"),
-                    const SizedBox(width: StringFactory.padding32,),
-                    suggestionItem(onPressed: (){
-                      print('onpress item suggestion');
-                    }, width: itemWidth,height: itemWidth,assetPath: 'asset/notbad.png',text: "Grrrrrrr!!!!"),
+                    suggestionItem(
+                        scale: 1.0,
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const MemberPage(
+                                        statusName: StringFactory.statusNamGood,
+                                      )));
+                        },
+                        width: itemWidth,
+                        height: itemWidth,
+                        assetPath: 'asset/sad_fix.png',
+                        text: StringFactory.statusNamGood),
+                    const SizedBox(
+                      width: StringFactory.padding32,
+                    ),
+                    suggestionItem(
+                        scale: .925,
+                        onPressed: () {
+                          navigation(StringFactory.statusNameBad);
+                        },
+                        width: itemWidth,
+                        height: itemWidth,
+                        assetPath: 'asset/angry_fix.png',
+                        text: StringFactory.statusNameBad),
                   ],
                 ),
               ),
@@ -88,5 +104,14 @@ class _SuggestionPageState extends State<SuggestionPage> {
             ],
           ));
     }));
+  }
+
+  void navigation(String message) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) => MemberPage(
+                  statusName: message,
+                )));
   }
 }

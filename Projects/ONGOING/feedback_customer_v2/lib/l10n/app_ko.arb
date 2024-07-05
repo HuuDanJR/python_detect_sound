@@ -1,0 +1,26 @@
+
+
+{
+  "service_title_":"플레이를 하시는 동안 어떤 부분에서 아쉬움을 느끼셨나요?",
+  "service_title_a":"플레이를 하시는 동안 어떤 부분에서 ",
+  "service_title_b":"아쉬움",
+  "service_title_c":"을 느끼셨나요?",
+  "item_gaming_exp":"게임 경험" ,
+  "item_staff":"직원들의 서비스" ,
+  "item_food":"식음" ,
+  "item_clean":"청결 및 위생 ",
+
+  "title_survey":"서비스 향상을 위해 운영 매니지먼트에 전달하시고 싶은 내용이 있나요?",
+  "no":"아니요",
+  "yes":"네",
+  "write_down":"아래에 작성 부탁드립니다",
+  "submit":"제출",
+  "service_title":"제공한 서비스 중 어떤 부분이 가장 만족스러우셨나요? ",
+  "service_title_sub_a":"제공한 서비스 중 어떤 부분이 가장",
+  "service_title_sub_b":" 만족스러우셨나요",
+  "service_title_sub_c":"",
+  "leave_impression":"특별히 기억에 남는 직원이 있으셨나요? ",
+  "thank_you":"소중한 시간을 내주셔서 진심으로 감사합니다. 고객님의 의견을 통해 베가스의 서비스 개선을 위해 더욱 노력하겠습니다. ",
+  "staff_hint":"직원 이름을 입력해주세요 ",
+  "auto_back_home":"다음 시간 이후 자동으로 집으로 돌아옴"
+}

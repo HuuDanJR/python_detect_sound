@@ -1,0 +1,27 @@
+
+
+{
+  "service_title_":"期待に添えなかったサービスは?",
+  "service_title_a":"期待に",
+  "service_title_b":"添えなかった",
+  "service_title_c":"サービスは?",
+  "item_gaming_exp":"ゲーム体験。" ,
+  "item_staff":"スタッフのサービスパフォーマンス。" ,
+  "item_food":"飲食" ,
+  "item_clean":"清潔さと衛生",
+
+  "title_survey":"サービス向上のために支配人に伝えたいことはありますか？",
+  "no":"いいえ",
+  "yes":"はい",
+  "write_down":"こちらにご記入ください。",
+  "submit":"提出",
+  "service_title":"どのサービスに満足されましたか？ ",
+  "service_title_sub_a":"どのサービスに ",
+  "service_title_sub_b":"満足",
+  "service_title_sub_c":"されましたか?",
+  "leave_impression":"印象に残ったスタッフはいますか？ ",
+  "thank_you":"ビス向上のために重要な役割を果たします。",
+  "staff_hint":"スタッフ名を入力してください",
+  "auto_back_home":"Auto back home after"
+
+}

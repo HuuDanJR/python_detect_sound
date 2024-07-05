@@ -37,6 +37,9 @@ class StringFactory {
   static const double padding88= 88.0;
   static const double padding94= 94.0;
   static const String rateme = 'How did you feel today ?';
+
+  static const String statusNameBad = 'Grrrrrrr!!!';
+  static const String statusNamGood = 'Great!!!';
   
 
   static const String label_cannotfinddata = 'Can not find data for this number';
@@ -69,6 +72,9 @@ class StringFactory {
 	static const String COMPUTERNAME = 'win10-tech';
 	static const double aspectRatio = 0.7;
 	static const int crossAxis = 8;
+  //Timer 
+	static const int awaitValue = 6;
+	static const int durationTimer = 60;
 
 
 	static const String URL_SOCKET = "http://192.168.101.58:8099/";
