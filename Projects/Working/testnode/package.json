@@ -1,0 +1,26 @@
+{
+  "name": "testnode",
+  "version": "1.0.0",
+  "description": "testnode ec2",
+  "main": "index.js",
+  "scripts": {
+    "test": "test command ",
+    "start":"node app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HuuDanJR/testnode.git"
+  },
+  "keywords": [
+    "testnode"
+  ],
+  "author": "lehuudan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HuuDanJR/testnode/issues"
+  },
+  "homepage": "https://github.com/HuuDanJR/testnode#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
